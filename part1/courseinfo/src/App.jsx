@@ -1,35 +1,31 @@
 import { useState } from "react";
-import Content from "./components/Content.component";
-import Header from "./components/Header.component";
-import Total from "./components/Total.component";
+import Display from "./components/Display.component";
+import Button  from "./components/Button.component";
 
 function App() {
-  const course = {
-  name: "Half Stack application development",
-  parts:  [
-  {
-    name: 'Fundamentals of React',
-    exercises:  10
-  },
-  {
-    name: 'Using props to pass data',
-    exercises: 7
-  },
-  {
-    name: 'State of a component',
-    exercises: 14 
-  }
-]
-}
+//   const course = {
+//   name: "Half Stack application development",
+//   parts:  [
+//   {
+//     name: 'Fundamentals of React',
+//     exercises:  10
+//   },
+//   {
+//     name: 'Using props to pass data',
+//     exercises: 7
+//   },
+//   {
+//     name: 'State of a component',
+//     exercises: 14 
+//   }
+// ]
+// }
 
   const [counter, setCounter] = useState(0);
-  const updateCounter = setTimeout(() => {
-    setCounter(counter + 1 ) 
-  }, 300);
-  console.log("rerendering... ", counter)
-  if (counter === 15) {
-   clearTimeout(updateCounter);
-  }
+  const increaseByOne = () => setCounter(counter + 1);
+  const decreaseByOne = () => setCounter(counter - 1);
+  const setToZero = () => setCounter(0);
+
 
   return (
   // <div>
@@ -37,7 +33,13 @@ function App() {
   //   <Content parts={parts}/>
   //   <Total parts={parts}/>
   // </div>
-  <h1>Counter {counter}</h1>
+    <>
+
+      <Display counter={counter} />
+      <Button onSmash={increaseByOne} text={'plus'}/>
+      <Button onSmash={setToZero} text={'zero'}/> 
+      <Button onSmash={decreaseByOne} text={'minus'}/>
+    </>
   )
 }
 
