@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Content from "./components/Content.component";
 import Header from "./components/Header.component";
 import Total from "./components/Total.component";
@@ -19,13 +20,25 @@ function App() {
     exercises: 14 
   }
 ]
+}
 
+  const [counter, setCounter] = useState(0);
+  const updateCounter = setTimeout(() => {
+    setCounter(counter + 1 ) 
+  }, 300);
+  console.log("rerendering... ", counter)
+  if (counter === 15) {
+   clearTimeout(updateCounter);
+  }
 
-  return (<div>
-    <Header title={course} />
-    <Content parts={parts}/>
-    <Total parts={parts}/>
-  </div>)
+  return (
+  // <div>
+  //   <Header title={course} />
+  //   <Content parts={parts}/>
+  //   <Total parts={parts}/>
+  // </div>
+  <h1>Counter {counter}</h1>
+  )
 }
 
 export default App
