@@ -4,6 +4,45 @@ function Button({ onSmash, text }) {
   return <button onClick={onSmash}>{text}</button>;
 }
 
+function Statistics(props) {
+  if (props.allPoints <= 0) {
+    return (
+      <div>
+        <h2>statistics</h2>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <h2>statistics</h2>
+      <p>
+        <span>good </span>
+        <span>{props.good}</span>
+      </p>
+      <p>
+        <span>neutral </span>
+        <span>{props.neutral}</span>
+      </p>
+      <p>
+        <span>bad </span>
+        <span>{props.bad}</span>
+      </p>
+      <p>
+        <span>all </span>
+        <span>{props.allPoints}</span>
+      </p>
+      <p>
+        <span>average </span>
+        <span>{props.average}</span>
+      </p>
+      <p>
+        <span>positive </span>
+        <span>{props.positive} %</span>
+      </p>
+    </div>
+  );
+}
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -53,34 +92,14 @@ const App = () => {
         <Button onSmash={increaseNeutral} text={"neutral"} />
         <Button onSmash={increaseBad} text={"bad"} />
       </div>
-
-      <div>
-        <h2>statistics</h2>
-        <p>
-          <span>good </span>
-          <span>{good}</span>
-        </p>
-        <p>
-          <span>neutral </span>
-          <span>{neutral}</span>
-        </p>
-        <p>
-          <span>bad </span>
-          <span>{bad}</span>
-        </p>
-        <p>
-          <span>all </span>
-          <span>{allPoints}</span>
-        </p>
-        <p>
-          <span>average </span>
-          <span>{average}</span>
-        </p>
-        <p>
-          <span>positive </span>
-          <span>{positive} %</span>
-        </p>
-      </div>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        allPoints={allPoints}
+        average={average}
+        positive={positive}
+      />
     </div>
   );
 };
