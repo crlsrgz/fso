@@ -4,6 +4,17 @@ function Button({ onSmash, text }) {
   return <button onClick={onSmash}>{text}</button>;
 }
 
+function StatisticLine(props) {
+  return (
+    <tr>
+      <td>{props.text} </td>
+      <td>
+        {props.value} <span>{props.symbol === true ? " %" : ""}</span>
+      </td>
+    </tr>
+  );
+}
+
 function Statistics(props) {
   if (props.allPoints <= 0) {
     return (
@@ -14,33 +25,23 @@ function Statistics(props) {
     );
   }
   return (
-    <div>
+    <>
       <h2>statistics</h2>
-      <p>
-        <span>good </span>
-        <span>{props.good}</span>
-      </p>
-      <p>
-        <span>neutral </span>
-        <span>{props.neutral}</span>
-      </p>
-      <p>
-        <span>bad </span>
-        <span>{props.bad}</span>
-      </p>
-      <p>
-        <span>all </span>
-        <span>{props.allPoints}</span>
-      </p>
-      <p>
-        <span>average </span>
-        <span>{props.average}</span>
-      </p>
-      <p>
-        <span>positive </span>
-        <span>{props.positive} %</span>
-      </p>
-    </div>
+      <table>
+        <tbody>
+          <StatisticLine text={"good"} value={props.good} />
+          <StatisticLine text={"neutral"} value={props.neutral} />
+          <StatisticLine text={"good"} value={props.bad} />
+          <StatisticLine text={"good"} value={props.allPoints} />
+          <StatisticLine text={"good"} value={props.average} />
+          <StatisticLine
+            text={"positive"}
+            value={props.positive}
+            symbol={true}
+          />
+        </tbody>
+      </table>
+    </>
   );
 }
 const App = () => {
