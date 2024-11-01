@@ -28,12 +28,10 @@ const App = () => {
 
   const randomNumber = Math.floor(Math.random() * lengthAnecdotes);
   function displayRandomAnecdote() {
-    // console.log("random", randomNumber);
     setSelected(randomNumber);
   }
 
   function getHighestVotedAnecdote() {
-    // const arrayKeysFromPoints = Object.values(pointsCopy);
     const pointsCopy = { ...points };
     const arrayValuesFromPoints = Object.values(pointsCopy);
     let valueKey = 0;
@@ -44,25 +42,21 @@ const App = () => {
         valueKey = index;
       }
     });
-    console.log(pointsCopy, valueKey, ":", max);
     return valueKey;
   }
 
   const highestScore = getHighestVotedAnecdote();
   const [highScoreSelected, setHighScoreSelected] = useState(highestScore);
-  // setHighScoreSelected(highestScore);
 
   function voteAnecdote() {
     const selectedCopy = selected;
     const anecdotePoints = points[selectedCopy] + 1;
     const pointsCopy = { ...points };
     pointsCopy[selected] = anecdotePoints;
-    // console.log("random", randomNumber, pointsCopy, anecdotePoints);
     setPoints(pointsCopy);
     const highestScore = getHighestVotedAnecdote();
     setHighScoreSelected(highestScore);
   }
-  // return <div>{anecdotes[selected]}</div>;
   return (
     <div>
       <h2>Anecdote of the day</h2>
@@ -70,11 +64,13 @@ const App = () => {
       <p>has {points[selected]} votes</p>
       <button onClick={voteAnecdote}>vote</button>
       <button onClick={displayRandomAnecdote}>Next Anecdote</button>
-      <h2>Anecdote with the most votes</h2>
+      <h2>
+        {`Anecdote with the most votes ,
+        ${points[highScoreSelected]} ${
+          points[highScoreSelected] > 1 ? "votes" : "vote"
+        }`}
+      </h2>
       <p>{`"${anecdotes[highScoreSelected]}"`}</p>
-      <p>{` has ${points[highScoreSelected]} ${
-        points[highScoreSelected] > 1 ? "votes" : "vote"
-      }`}</p>
     </div>
   );
 };
