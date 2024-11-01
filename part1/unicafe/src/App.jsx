@@ -59,9 +59,6 @@ const App = () => {
     const calcAverage = (good - bad) / calcAll;
     const calcPositive = (good / calcAll) * 100;
 
-    console.log(good, neutral, bad);
-    console.log(calcAll, calcAverage, calcPositive);
-
     setAllPoints(calcAll);
     setAverage(calcAverage);
     setPositive(calcPositive);
