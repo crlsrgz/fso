@@ -1,7 +1,5 @@
-function Header(props){
-    return (
-        <h1>{props.title}</h1>
-    )
+function Header(props) {
+  return <h2>{props.title}</h2>;
 }
 
-export default Header
+export default Header;
