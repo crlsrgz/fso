@@ -18,23 +18,13 @@ function PersonForm({
 }) {
   return (
     <form onSubmit={addTelephoneNumber}>
-      <table>
-        <tbody>
-          <tr>
-            <td>name: </td>
-            <td>
-              <input value={newName} onChange={handleNameValue} />
-            </td>
-          </tr>
-          <tr>
-            <td>number: </td>
-            <td>
-              <input value={newNumber} onChange={handleNumberValue} />
-            </td>
-          </tr>
-          <button type="submit">add</button>
-        </tbody>
-      </table>
+      <div>
+        name: <input value={newName} onChange={handleNameValue} />{" "}
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={handleNumberValue} />
+      </div>
+      <button type="submit">add</button>
     </form>
   );
 }
