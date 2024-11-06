@@ -1,16 +1,7 @@
 import { useState } from "react";
-
-const Persons = (props) => {
-  const arr = props.persons;
-  return(
-
-      {arr.map((item) => {
-        if (item.name.toLowerCase().includes(props.searchName.toLowerCase()) || "") {
-          return <div key={item.name}>{`${item.name} ${item.number}`} </div>;
-        }
-      })}
-  )
-}
+import Persons from "./components/Persons.component";
+import Filter from "./components/Filter.component";
+import PersonForm from "./components/PersonForm.component";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -18,6 +9,10 @@ function App() {
     { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
     { name: "Dan Abramov", number: "12-43-234345", id: 3 },
     { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
+    { name: "John Doe", number: "39-23-6723122", id: 5 },
+    { name: "Jane Doe", number: "39-23-623122", id: 6 },
+    { name: "John Smith", number: "39-23-6411122", id: 7 },
+    { name: "Jane Smith", number: "39-23-6423322", id: 8 },
   ]);
 
   const [newName, setNewName] = useState("");
@@ -84,32 +79,19 @@ function App() {
     <div>
       <h2>Phonebook</h2>
       {/* Filter */}
-      <form>
-        <div>
-          search name: <input value={searchName} onChange={handleSearchName} />
-        </div>
-      </form>
+      <Filter searchName={searchName} handleSearchName={handleSearchName} />
       {/* Form input names */}
       <h2>Add new</h2>
-      <form onSubmit={addTelphoneNumber}>
-        <div>
-          name: <input value={newName} onChange={handleNameValue} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberValue} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addTelphoneNumber={addTelphoneNumber}
+        newName={newName}
+        handleNameValue={handleNameValue}
+        newNumber={newNumber}
+        handleNumberValue={handleNumberValue}
+      />
       {/* Display names */}
       <h2>Numbers</h2>
-
-      {persons.map((item) => {
-        if (item.name.toLowerCase().includes(searchName.toLowerCase()) || "") {
-          return <div key={item.name}>{`${item.name} ${item.number}`} </div>;
-        }
-      })}
+      <Persons persons={persons} searchName={searchName} />
     </div>
   );
 }
