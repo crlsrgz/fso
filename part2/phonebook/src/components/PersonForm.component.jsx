@@ -1,40 +1,40 @@
 /**
- *
+ * Form to add a new entry
  * @param {Object} formValues - Object
- * @param {function} formValues.addTelefonNumber
- * @param {string} formValues.newName
- * @param {function} formValues.handleNameValue
- * @param {string} formValues.newNumber
- * @param {function} formValues.handleNumberValue
+ * @param {function} formValues.addTelephoneNumber - functionality of the form onSubmit
+ * @param {string} formValues.newName - name input value from a react state
+ * @param {function} formValues.handleNameValue - fired onChange in the name input field
+ * @param {string} formValues.newNumber - number input value from a react state
+ * @param {function} formValues.handleNumberValue - fired onChange in the number input field
+
  * @returns
  */
 function PersonForm({
-  addTelphoneNumber,
+  addTelephoneNumber,
   newName,
   handleNameValue,
   newNumber,
   handleNumberValue,
 }) {
   return (
-    <form onSubmit={addTelphoneNumber}>
+    <form onSubmit={addTelephoneNumber}>
       <table>
-        <tbody></tbody>
+        <tbody>
+          <tr>
+            <td>name: </td>
+            <td>
+              <input value={newName} onChange={handleNameValue} />
+            </td>
+          </tr>
+          <tr>
+            <td>number: </td>
+            <td>
+              <input value={newNumber} onChange={handleNumberValue} />
+            </td>
+          </tr>
+          <button type="submit">add</button>
+        </tbody>
       </table>
-      <tr>
-        <td>name: </td>{" "}
-        <td>
-          <input value={newName} onChange={handleNameValue} />
-        </td>
-      </tr>
-      <tr>
-        <td>number: </td>{" "}
-        <td>
-          <input value={newNumber} onChange={handleNumberValue} />
-        </td>
-      </tr>
-      <tr>
-        <button type="submit">add</button>
-      </tr>
     </form>
   );
 }

@@ -19,16 +19,20 @@ function App() {
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
 
-  const addTelphoneNumber = (event) => {
+  const addTelephoneNumber = (event) => {
     event.preventDefault();
+    // Trim  input
     const cleanValue = String(newName).trim();
     const cleanNumberValue = String(newNumber).trim();
 
+    // Create object entry
     const newEntry = {
       name: cleanValue,
       number: cleanNumberValue,
+      id: persons.length + 1,
     };
 
+    // Prepare booleans
     let newNameAlreadyExists = false;
     let newNumberAlreadyExists = false;
 
@@ -47,23 +51,22 @@ function App() {
       alert(
         `The name - ${newEntry.name} - already exist, please check if the name is correct`
       );
-      console.log("already here");
       return;
     }
     if (newNumberAlreadyExists) {
       alert(
         `The number - ${newEntry.number} - already exist, please add ad another number`
       );
-      console.log("Number already here");
       return;
     }
+
+    // Add object to array of persons and reset the values in the input
     setPersons(persons.concat(newEntry));
     setNewName("");
     setNewNumber("");
   };
 
   const handleNameValue = (event) => {
-    // console.log(event.target.value);
     setNewName(event.target.value);
   };
   const handleNumberValue = (event) => {
@@ -72,7 +75,6 @@ function App() {
 
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
-    // console.log(searchName);
   };
 
   return (
@@ -83,7 +85,7 @@ function App() {
       {/* Form input names */}
       <h2>Add new</h2>
       <PersonForm
-        addTelphoneNumber={addTelphoneNumber}
+        addTelphoneNumber={addTelephoneNumber}
         newName={newName}
         handleNameValue={handleNameValue}
         newNumber={newNumber}
