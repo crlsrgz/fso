@@ -27,6 +27,7 @@ function App() {
     const newEntry = {
       name: cleanValue,
       number: cleanNumberValue,
+      id: persons.length + 1,
     };
 
     let newNameAlreadyExists = false;
@@ -63,7 +64,6 @@ function App() {
   };
 
   const handleNameValue = (event) => {
-    // console.log(event.target.value);
     setNewName(event.target.value);
   };
   const handleNumberValue = (event) => {
@@ -72,7 +72,6 @@ function App() {
 
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
-    // console.log(searchName);
   };
 
   return (
