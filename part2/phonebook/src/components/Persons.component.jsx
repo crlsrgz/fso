@@ -7,10 +7,6 @@
  */
 const Persons = ({ persons, searchName }) => {
   const arr = persons;
-<<<<<<< HEAD
-  console.log(arr);
-=======
->>>>>>> recover
   return (
     <>
       {arr.map((item) => {
