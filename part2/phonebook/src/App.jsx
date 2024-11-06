@@ -64,22 +64,20 @@ function App() {
   };
 
   const handleSearchName = (event) => {
-    console.log(event.target.value);
-    persons.filter((item) => {
-      console.log(item.name.includes(event.target.value));
-    });
-
     setSearchName(event.target.value);
+    // console.log(searchName);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      {/* Filter */}
       <form>
         <div>
           search name: <input value={searchName} onChange={handleSearchName} />
         </div>
       </form>
+      {/* Form input names */}
       <h2>Add new</h2>
       <form onSubmit={addTelphoneNumber}>
         <div>
@@ -92,9 +90,13 @@ function App() {
           <button type="submit">add</button>
         </div>
       </form>
+      {/* Display names */}
       <h2>Numbers</h2>
+
       {persons.map((item) => {
-        return <div key={item.name}>{`${item.name} ${item.number}`} </div>;
+        if (item.name.toLowerCase().includes(searchName.toLowerCase()) || "") {
+          return <div key={item.name}>{`${item.name} ${item.number}`} </div>;
+        }
       })}
     </div>
   );
