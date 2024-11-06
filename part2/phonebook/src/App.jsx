@@ -1,5 +1,17 @@
 import { useState } from "react";
 
+const Persons = (props) => {
+  const arr = props.persons;
+  return(
+
+      {arr.map((item) => {
+        if (item.name.toLowerCase().includes(props.searchName.toLowerCase()) || "") {
+          return <div key={item.name}>{`${item.name} ${item.number}`} </div>;
+        }
+      })}
+  )
+}
+
 function App() {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
