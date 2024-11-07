@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import axios from "axios";
 function App() {
-  const [count, setCount] = useState(0)
+  const promise = axios.get("http://localhost:3001/notes");
+
+  //displays the promise status, in this instance "pending"
+  console.log(promise);
+
+  promise.then((response) => {
+    // display the response content, Object config, data, headers and request
+    console.log(response);
+    // use data key to acces the filling
+    const notes = response.data;
+    console.log(notes);
+  });
+
+  // Another shorter version
+  axios.get("http://localhost:3001/notes").then((response) => {
+    const notes = response.data;
+    console.log(notes);
+  });
+
+  // const promise2 = axios.get('http://localhost:3001/foobar')
+  // console.log(promise2)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>Hello</div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
