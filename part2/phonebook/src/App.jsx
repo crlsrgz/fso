@@ -84,13 +84,15 @@ function App() {
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
       {/* Form input names */}
       <h2>Add new</h2>
-      <PersonForm
-        addTelphoneNumber={addTelephoneNumber}
-        newName={newName}
-        handleNameValue={handleNameValue}
-        newNumber={newNumber}
-        handleNumberValue={handleNumberValue}
-      />
+      <form onSubmit={addTelephoneNumber}>
+        <PersonForm
+          addTelphoneNumber={addTelephoneNumber}
+          newName={newName}
+          handleNameValue={handleNameValue}
+          newNumber={newNumber}
+          handleNumberValue={handleNumberValue}
+        />
+      </form>
       {/* Display names */}
       <h2>Numbers</h2>
       <Persons persons={persons} searchName={searchName} />
