@@ -21,6 +21,7 @@ function App() {
 
   const addTelephoneNumber = (event) => {
     event.preventDefault();
+
     // Trim  input
     const cleanValue = String(newName).trim();
     const cleanNumberValue = String(newNumber).trim();
@@ -84,15 +85,15 @@ function App() {
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
       {/* Form input names */}
       <h2>Add new</h2>
-      <form onSubmit={addTelephoneNumber}>
-        <PersonForm
-          addTelphoneNumber={addTelephoneNumber}
-          newName={newName}
-          handleNameValue={handleNameValue}
-          newNumber={newNumber}
-          handleNumberValue={handleNumberValue}
-        />
-      </form>
+      <PersonForm
+        addTelephoneNumber={(e) => {
+          addTelephoneNumber(e);
+        }}
+        newName={newName}
+        handleNameValue={handleNameValue}
+        newNumber={newNumber}
+        handleNumberValue={handleNumberValue}
+      />
       {/* Display names */}
       <h2>Numbers</h2>
       <Persons persons={persons} searchName={searchName} />

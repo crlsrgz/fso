@@ -9,6 +9,7 @@
  * @returns
  */
 function PersonForm({
+  addTelephoneNumber,
   newName,
   handleNameValue,
   newNumber,
@@ -16,13 +17,15 @@ function PersonForm({
 }) {
   return (
     <>
-      <div>
-        nameme: <input value={newName} onChange={handleNameValue} />{" "}
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={handleNumberValue} />
-      </div>
-      <button type="submit">add</button>
+      <form onSubmit={addTelephoneNumber}>
+        <div>
+          nameme: <input value={newName} onChange={handleNameValue} />{" "}
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberValue} />
+        </div>
+        <button type="submit">add</button>
+      </form>
     </>
   );
 }
