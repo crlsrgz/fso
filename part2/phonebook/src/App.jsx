@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Persons from "./components/Persons.component";
 import Filter from "./components/Filter.component";
 import PersonForm from "./components/PersonForm.component";
+import axios from "axios";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -18,6 +19,16 @@ function App() {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
+  const request = () => {
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log(response.data);
+      setPersons(response.data);
+    });
+  };
+
+  useEffect(() => {
+    request();
+  }, []);
 
   const addTelephoneNumber = (event) => {
     event.preventDefault();
@@ -30,41 +41,40 @@ function App() {
     const newEntry = {
       name: cleanValue,
       number: cleanNumberValue,
-      id: persons.length + 1,
+      // id: persons.length + 1,
     };
 
-    // Prepare booleans
-    let newNameAlreadyExists = false;
-    let newNumberAlreadyExists = false;
+    // POST
+    axios.post("http://localhost:3001/persons", newEntry).then((response) => {
+      console.log(response);
+      newEntry.id = response.data.id;
+      // Prepare booleans
+      let newNameAlreadyExists = false;
+      let newNumberAlreadyExists = false;
 
-    const arrayToCheck = [...persons];
+      const arrayToCheck = [...persons];
 
-    arrayToCheck.forEach((item) => {
-      if (item.name.toLowerCase() === newEntry.name.toLowerCase()) {
-        newNameAlreadyExists = true;
+      arrayToCheck.forEach((item) => {
+        if (item.name.toLowerCase() === newEntry.name.toLowerCase()) {
+          newNameAlreadyExists = true;
+        }
+        if (item.number.toLowerCase() === newEntry.number.toLowerCase()) {
+          newNumberAlreadyExists = true;
+        }
+      });
+
+      if (newNameAlreadyExists && newNumberAlreadyExists) {
+        alert(
+          `The name - ${newEntry.name} - already exist, please check if the name is correct`
+        );
+        return;
       }
-      if (item.number.toLowerCase() === newEntry.number.toLowerCase()) {
-        newNumberAlreadyExists = true;
-      }
+
+      // Add object to array of persons and reset the values in the input
+      setPersons(persons.concat(newEntry));
+      setNewName("");
+      setNewNumber("");
     });
-
-    if (newNameAlreadyExists) {
-      alert(
-        `The name - ${newEntry.name} - already exist, please check if the name is correct`
-      );
-      return;
-    }
-    if (newNumberAlreadyExists) {
-      alert(
-        `The number - ${newEntry.number} - already exist, please add ad another number`
-      );
-      return;
-    }
-
-    // Add object to array of persons and reset the values in the input
-    setPersons(persons.concat(newEntry));
-    setNewName("");
-    setNewNumber("");
   };
 
   const handleNameValue = (event) => {
