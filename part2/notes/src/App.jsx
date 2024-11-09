@@ -1,10 +1,30 @@
 import { useState } from "react";
 import Note from "./components/Note";
+import axios from "axios";
 
 const App = (props) => {
   const [notes, setNotes] = useState(props.notes);
   const [newNote, setNewNote] = useState(`a new note...`);
   const [showAll, setShowAll] = useState(true);
+
+  // axios.get("http://localhost:3001/notes").then((response) => {
+  //   // console.log(response.data);
+  //   setNotes(response.data);
+  // });
+
+  const toggleImportanceOf = (id) => {
+    console.log(`importance of ${id} needs to be toggled`);
+    const url = `http://localhost:3001/notes/${id}`;
+    // Make a copy, never mutate state
+    const note = notes.find((n) => n.id === id);
+    console.log(note);
+    const changeNote = { ...note, important: !note.important };
+
+    axios.put(url, changeNote).then((response) => {
+      // replaces all notes
+      setNotes(notes.map((n) => (n.id === id ? response.data : n)));
+    });
+  };
 
   /**
    * addNote function
@@ -21,10 +41,14 @@ const App = (props) => {
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
-      id: String(notes.length + 1),
+      // id: String(notes.length + 1),
     };
-    setNotes(notes.concat(noteObject));
-    setNewNote("");
+
+    axios.post("http://localhost:3001/notes", noteObject).then((response) => {
+      console.log(response);
+      setNotes(notes.concat(response.data));
+      setNewNote("");
+    });
   };
 
   const handleNoteChange = (event) => {
@@ -46,7 +70,13 @@ const App = (props) => {
       </div>
       <ul>
         {notesToShow.map((note) => (
-          <Note key={note.id} note={note} />
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => {
+              toggleImportanceOf(note.id);
+            }}
+          />
         ))}
       </ul>
       <form onSubmit={addNote}>
