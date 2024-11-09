@@ -2,19 +2,26 @@ import axios from "axios";
 const BASEURL = "http://localhost:3001/notes";
 
 const getAll = () => {
-  return axios.get(BASEURL);
+  const request = axios.get(BASEURL);
+  return request.then((response) => response.data);
 };
 
 const create = (newObject) => {
-  return axios.post(BASEURL, newObject);
+  const request = axios.post(BASEURL, newObject);
+  return request.then((response) => response.data);
+};
+
+const updateTest = (id, newObject) => {
+  return axios
+    .put(`${BASEURL}/${id}`, newObject)
+    .then((response) => response.data);
 };
 
 const update = (id, newObject) => {
-  return axios.put(`${BASEURL}/${id}`, newObject);
+  const request = axios.put(`${BASEURL}/${id}`, newObject);
+  return request.then((res) => {
+    return res.data;
+  });
 };
 
-export default {
-  getAll: getAll,
-  create: create,
-  update: update,
-};
+export default { getAll, create, update, updateTest };

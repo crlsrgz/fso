@@ -9,21 +9,20 @@ const App = (props) => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    noteService.getAll().then((response) => {
-      setNotes(response.data);
+    noteService.getAll().then((initialNotes) => {
+      setNotes(initialNotes);
+      // console.log(initialNotes);
     });
   }, []);
 
   const toggleImportanceOf = (id) => {
-    // Make a copy, never mutate state
     const note = notes.find((n) => n.id === id);
-    console.log("the note", note);
     const changeNote = { ...note, important: !note.important };
 
-    noteService.update(id, changeNote).then((response) => {
+    noteService.update(id, changeNote).then((returnedNote) => {
       setNotes(
-        notes.map((n) => {
-          n.id === id ? response.data : n;
+        notes.map((note) => {
+          return note.id === id ? returnedNote : note;
         })
       );
     });
@@ -46,10 +45,10 @@ const App = (props) => {
       important: Math.random() < 0.5,
       // id: String(notes.length + 1),
     };
-    noteService.create(noteObject).then((response) => {
-      setNotes(notes.concat(response.data));
-      setNewNote("");
+    noteService.create(noteObject).then((returnedNote) => {
+      setNotes(notes.concat(returnedNote));
     });
+    setNewNote("");
   };
 
   const handleNoteChange = (event) => {
@@ -70,15 +69,17 @@ const App = (props) => {
         </button>
       </div>
       <ul>
-        {notesToShow.map((note) => (
-          <Note
-            key={note.id}
-            note={note}
-            toggleImportance={() => {
-              toggleImportanceOf(note.id);
-            }}
-          />
-        ))}
+        {notesToShow.map((note) => {
+          return (
+            <Note
+              key={note.id}
+              note={note}
+              toggleImportance={() => {
+                toggleImportanceOf(note.id);
+              }}
+            />
+          );
+        })}
       </ul>
       <form onSubmit={addNote}>
         <input value={newNote} onChange={handleNoteChange} />
