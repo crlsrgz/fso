@@ -19,13 +19,20 @@ const App = (props) => {
     const note = notes.find((n) => n.id === id);
     const changeNote = { ...note, important: !note.important };
 
-    noteService.update(id, changeNote).then((returnedNote) => {
-      setNotes(
-        notes.map((note) => {
-          return note.id === id ? returnedNote : note;
-        })
-      );
-    });
+    noteService
+      .update(id, changeNote)
+      .then((returnedNote) => {
+        setNotes(
+          notes.map((note) => {
+            return note.id === id ? returnedNote : note;
+          })
+        );
+      })
+      .catch((error) => {
+        alert(`the note ${note.content} was already deleted from server`);
+        // Remove Note in case of erros
+        setNotes(notes.filter((n) => n.id !== id));
+      });
   };
 
   /**
