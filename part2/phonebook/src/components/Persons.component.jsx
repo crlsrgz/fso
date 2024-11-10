@@ -11,14 +11,12 @@ const Persons = ({ persons, searchName, deleteEntry }) => {
       {persons.map((item) => {
         if (item.name.toLowerCase().includes(searchName.toLowerCase()) || "") {
           return (
-            <>
-              <div key={item.id}>
-                {`${item.name} ${item.number}`}
-                <button onClick={deleteEntry} data-buttonId={item.id}>
-                  delete
-                </button>{" "}
-              </div>
-            </>
+            <div key={item.id} id={item.id}>
+              {`${item.name} ${item.number}`}
+              <button onClick={deleteEntry} data-button-id={item.id}>
+                delete
+              </button>
+            </div>
           );
         }
       })}

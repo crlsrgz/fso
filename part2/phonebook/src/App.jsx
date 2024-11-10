@@ -3,6 +3,7 @@ import Persons from "./components/Persons.component";
 import Filter from "./components/Filter.component";
 import PersonForm from "./components/PersonForm.component";
 import services from "./services/requests";
+import axios from "axios";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -84,7 +85,16 @@ function App() {
   };
 
   function deleteEntry(event) {
-    console.log(event.target.dataset.buttonid);
+    const id = event.target.dataset.buttonId;
+    const entryName = document.getElementById(id);
+    if (
+      window.confirm(`Do you want to delete the entry ${entryName.textContent}`)
+    ) {
+      axios.delete(`http://localhost:3001/persons/${id}`).then((response) => {
+        console.log(response);
+        services.getAll().then((response) => setPersons(response));
+      });
+    }
   }
 
   return (
