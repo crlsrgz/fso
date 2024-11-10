@@ -5,13 +5,21 @@
  * @param {string} contact.searchName - string used in the search from a state.
  * @returns
  */
-const Persons = ({ persons, searchName }) => {
-  const arr = persons;
+const Persons = ({ persons, searchName, deleteEntry }) => {
   return (
     <>
-      {arr.map((item) => {
+      {persons.map((item) => {
         if (item.name.toLowerCase().includes(searchName.toLowerCase()) || "") {
-          return <div key={item.id}>{`${item.name} ${item.number}`} </div>;
+          return (
+            <>
+              <div key={item.id}>
+                {`${item.name} ${item.number}`}
+                <button onClick={deleteEntry} data-buttonId={item.id}>
+                  delete
+                </button>{" "}
+              </div>
+            </>
+          );
         }
       })}
     </>

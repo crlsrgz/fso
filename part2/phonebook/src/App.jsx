@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Persons from "./components/Persons.component";
 import Filter from "./components/Filter.component";
 import PersonForm from "./components/PersonForm.component";
-import axios from "axios";
+import services from "./services/requests";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -19,15 +19,11 @@ function App() {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
-  const request = () => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log(response.data);
-      setPersons(response.data);
-    });
-  };
 
   useEffect(() => {
-    request();
+    services.getAll().then((response) => {
+      setPersons(response);
+    });
   }, []);
 
   const addTelephoneNumber = (event) => {
@@ -45,9 +41,8 @@ function App() {
     };
 
     // POST
-    axios.post("http://localhost:3001/persons", newEntry).then((response) => {
-      console.log(response);
-      newEntry.id = response.data.id;
+    services.create(newEntry).then((response) => {
+      newEntry.id = response.id;
       // Prepare booleans
       let newNameAlreadyExists = false;
       let newNumberAlreadyExists = false;
@@ -88,6 +83,10 @@ function App() {
     setSearchName(event.target.value);
   };
 
+  function deleteEntry(event) {
+    console.log(event.target.dataset.buttonid);
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -106,7 +105,13 @@ function App() {
       />
       {/* Display names */}
       <h2>Numbers</h2>
-      <Persons persons={persons} searchName={searchName} />
+      <Persons
+        persons={persons}
+        searchName={searchName}
+        deleteEntry={(e) => {
+          deleteEntry(e);
+        }}
+      />
     </div>
   );
 }

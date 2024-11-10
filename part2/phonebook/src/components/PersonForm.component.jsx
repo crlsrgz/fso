@@ -19,7 +19,7 @@ function PersonForm({
     <>
       <form onSubmit={addTelephoneNumber}>
         <div>
-          nameme: <input value={newName} onChange={handleNameValue} />{" "}
+          name: <input value={newName} onChange={handleNameValue} />{" "}
         </div>
         <div>
           number: <input value={newNumber} onChange={handleNumberValue} />
