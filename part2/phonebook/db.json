@@ -21,11 +21,6 @@
       "id": "4"
     },
     {
-      "id": "2317",
-      "name": "john",
-      "number": "123"
-    },
-    {
       "id": "72d3",
       "name": "John Doe",
       "number": "354"
@@ -44,16 +39,6 @@
       "id": "4fd7",
       "name": "Jack Doe",
       "number": "333"
-    },
-    {
-      "id": "5801",
-      "name": "Threes",
-      "number": "098"
-    },
-    {
-      "id": "ae9f",
-      "name": "John",
-      "number": "6644654"
     }
   ]
 }

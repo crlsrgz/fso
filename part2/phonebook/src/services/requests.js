@@ -1,16 +1,22 @@
 import axios from "axios";
 const BASEURL = "http://localhost:3001/persons";
-async function getAll() {
-  //   axios.get(BASEURL).then((response) => {
-  //     console.log("service", response.data);
-  //   });
+
+async function getAllReq() {
   const request = axios.get(BASEURL);
   return request.then((response) => response.data);
 }
 
-const create = (newEntry) => {
+const createEntryReq = (newEntry) => {
   const request = axios.post(BASEURL, newEntry);
   return request.then((response) => response.data);
 };
 
-export default { getAll, create };
+const deleteEntryReq = (id) => {
+  const request = axios.delete(`${BASEURL}/${id}`);
+
+  return request.then((response) => {
+    response.data;
+  });
+};
+
+export default { getAllReq, createEntryReq, deleteEntryReq };

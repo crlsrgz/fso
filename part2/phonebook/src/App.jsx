@@ -3,7 +3,6 @@ import Persons from "./components/Persons.component";
 import Filter from "./components/Filter.component";
 import PersonForm from "./components/PersonForm.component";
 import services from "./services/requests";
-import axios from "axios";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -22,7 +21,7 @@ function App() {
   const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
-    services.getAll().then((response) => {
+    services.getAllReq().then((response) => {
       setPersons(response);
     });
   }, []);
@@ -42,7 +41,7 @@ function App() {
     };
 
     // POST
-    services.create(newEntry).then((response) => {
+    services.createEntryReq(newEntry).then((response) => {
       newEntry.id = response.id;
       // Prepare booleans
       let newNameAlreadyExists = false;
@@ -90,9 +89,11 @@ function App() {
     if (
       window.confirm(`Do you want to delete the entry ${entryName.textContent}`)
     ) {
-      axios.delete(`http://localhost:3001/persons/${id}`).then((response) => {
-        console.log(response);
-        services.getAll().then((response) => setPersons(response));
+      // axios.delete(`http://localhost:3001/persons/${id}`).then(() => {
+      //   services.getAllReq().then((response) => setPersons(response));
+      // });
+      services.deleteEntryReq(id).then(() => {
+        services.getAllReq().then((response) => setPersons(response));
       });
     }
   }
