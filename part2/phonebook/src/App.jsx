@@ -4,6 +4,17 @@ import Filter from "./components/Filter.component";
 import PersonForm from "./components/PersonForm.component";
 import services from "./services/requests";
 
+function Messagefeedback(props) {
+  if (props.message === null) {
+    return "";
+  }
+  return (
+    <div>
+      {props.message ? ` ${props.user} added` : ` ${props.user} deleted`}{" "}
+    </div>
+  );
+}
+
 function App() {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -19,6 +30,7 @@ function App() {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [messageTextFeedback, setMessageTextFeedback] = useState(false);
 
   useEffect(() => {
     services.getAllReq().then((response) => {
@@ -66,6 +78,7 @@ function App() {
       }
 
       // Add object to array of persons and reset the values in the input
+      setMessageTextFeedback(true);
       setPersons(persons.concat(newEntry));
       setNewName("");
       setNewNumber("");
@@ -102,6 +115,7 @@ function App() {
     <div>
       <h2>Phonebook</h2>
       {/* Filter */}
+      <Messagefeedback message={messageTextFeedback} />
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
       {/* Form input names */}
       <h2>Add new</h2>
