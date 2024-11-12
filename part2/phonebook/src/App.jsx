@@ -10,9 +10,17 @@ function Messagefeedback(props) {
   }
   return (
     <div className={props.message ? "accepted" : "error"}>
-      {props.message ? ` ${props.user} added` : ` ${props.user} deleted`}{" "}
+      {props.message
+        ? ` Contanct ${props.user} added`
+        : ` Info: ${props.user} has already been removed from the server`}{" "}
     </div>
   );
+}
+
+function hideFeedbackMessage(setFunction, value, waitTime = 3000) {
+  setTimeout(() => {
+    setFunction(value);
+  }, waitTime);
 }
 
 function App() {
@@ -81,6 +89,7 @@ function App() {
       // Add object to array of persons and reset the values in the input
       setMessageNameFeedback(newEntry.name);
       setMessageTextFeedback(true);
+      hideFeedbackMessage(setMessageTextFeedback, null);
 
       setPersons(persons.concat(newEntry));
       setNewName("");
@@ -101,7 +110,7 @@ function App() {
 
   function deleteEntry(event) {
     const id = event.target.dataset.buttonId;
-    const entryName = document.getElementById(id);
+    const entryName = document.getElementById(id).querySelector(".name");
 
     if (
       window.confirm(`Do you want to delete the entry ${entryName.textContent}`)
@@ -109,13 +118,18 @@ function App() {
       // axios.delete(`http://localhost:3001/persons/${id}`).then(() => {
       //   services.getAllReq().then((response) => setPersons(response));
       // });
-      services.deleteEntryReq(id).then(() => {
-        services.getAllReq().then((response) => setPersons(response));
-      });
+      services
+        .deleteEntryReq(id)
+        .catch((err) => {
+          // console.log("ups", err);
+          setMessageNameFeedback(entryName.textContent);
+          setMessageTextFeedback(false);
+          hideFeedbackMessage(setMessageTextFeedback, null);
+        })
+        .then(() => {
+          services.getAllReq().then((response) => setPersons(response));
+        });
     }
-
-    setMessageNameFeedback(entryName.textContent);
-    setMessageTextFeedback(false);
   }
 
   return (
