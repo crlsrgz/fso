@@ -9,7 +9,7 @@ function Messagefeedback(props) {
     return "";
   }
   return (
-    <div>
+    <div className={props.message ? "accepted" : "error"}>
       {props.message ? ` ${props.user} added` : ` ${props.user} deleted`}{" "}
     </div>
   );
@@ -30,7 +30,8 @@ function App() {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
-  const [messageTextFeedback, setMessageTextFeedback] = useState(false);
+  const [messageTextFeedback, setMessageTextFeedback] = useState(null);
+  const [messageNameFeedback, setMessageNameFeedback] = useState("");
 
   useEffect(() => {
     services.getAllReq().then((response) => {
@@ -78,7 +79,9 @@ function App() {
       }
 
       // Add object to array of persons and reset the values in the input
+      setMessageNameFeedback(newEntry.name);
       setMessageTextFeedback(true);
+
       setPersons(persons.concat(newEntry));
       setNewName("");
       setNewNumber("");
@@ -99,6 +102,7 @@ function App() {
   function deleteEntry(event) {
     const id = event.target.dataset.buttonId;
     const entryName = document.getElementById(id);
+
     if (
       window.confirm(`Do you want to delete the entry ${entryName.textContent}`)
     ) {
@@ -109,13 +113,19 @@ function App() {
         services.getAllReq().then((response) => setPersons(response));
       });
     }
+
+    setMessageNameFeedback(entryName.textContent);
+    setMessageTextFeedback(false);
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
       {/* Filter */}
-      <Messagefeedback message={messageTextFeedback} />
+      <Messagefeedback
+        message={messageTextFeedback}
+        user={messageNameFeedback}
+      />
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
       {/* Form input names */}
       <h2>Add new</h2>
