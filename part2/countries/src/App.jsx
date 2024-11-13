@@ -8,20 +8,20 @@ function App() {
   const [allCountries, setAllCountries] = useState([]);
   const [filterResults, setFilterResults] = useState([]);
 
-  axios
-    .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
-    .then((response) => {
-      return response.data;
-    })
-    .then((data) => {
-      // console.log(
-      //   data.name.common
-      // data.capital[0],
-      // data.area,
-      // data.languages,
-      // data.flag
-      // );
-    });
+  // axios
+  //   .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
+  //   .then((response) => {
+  //     return response.data;
+  //   })
+  // .then((data) => {
+  // console.log(
+  //   data.name.common
+  // data.capital[0],
+  // data.area,
+  // data.languages,
+  // data.flag
+  // );
+  // });
   useEffect(() => {
     axios
       .get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
@@ -35,15 +35,26 @@ function App() {
 
   function checkInput(event) {
     // console.log(event.target.value);
-
     setSearchCountry(event.target.value);
-    const tmpCountries = allCountries.filter(
-      (country) => searchCountry === country.name.common
+  }
+
+  /*:: Separating functionality WIP ::*/
+
+  function filterCountries() {
+    const tmpCountries = allCountries.filter((country) =>
+      country.name.common.includes(searchCountry)
     );
 
     setFilterResults(tmpCountries);
     console.log(filterResults);
   }
+  /*:: Testing returned values ::*/
+
+  useEffect(() => {
+    filterCountries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchCountry]);
+
   return (
     <>
       <div>
