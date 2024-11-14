@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CountryInfo from "./CountryInfo";
 import CountryList from "./CountryList";
 
@@ -7,8 +8,19 @@ import CountryList from "./CountryList";
  * @param {string} searchCountry
  * @returns {HTMLDivElement}
  */
+
 export default function CountryResult({ countries, searchCountry }) {
-  // const arr = [...countries];
+  const [openCountry, setOpenCountry] = useState("-");
+
+  function handleClick(event) {
+    // console.log(event.target.value);
+    // console.log(event.target.dataset.countryname);
+    const tmp = event.target.dataset.countryname;
+    setOpenCountry(tmp);
+    // setOpenCountry(event.target.dataset.countryname);
+    console.log(tmp);
+  }
+
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(searchCountry)
   );
@@ -22,8 +34,13 @@ export default function CountryResult({ countries, searchCountry }) {
         "Nothing found"
       ) : filteredCountries.length === 1 ? (
         <CountryInfo filteredCountries={filteredCountries} />
+      ) : openCountry !== "-" ? (
+        console.log(filteredCountries[0])
       ) : (
-        <CountryList filteredCountries={filteredCountries} />
+        <CountryList
+          filteredCountries={filteredCountries}
+          handleClick={(e) => handleClick(e)}
+        />
       )}
     </div>
   );

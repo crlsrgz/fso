@@ -6,6 +6,7 @@ import CountryResult from "./components/CountryResults";
 function App() {
   const [searchCountry, setSearchCountry] = useState("");
   const [allCountries, setAllCountries] = useState([]);
+
   // axios
   //   .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
   //   .then((response) => {
