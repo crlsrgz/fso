@@ -2,6 +2,7 @@ import { useState } from "react";
 import CountryInfo from "./CountryInfo";
 import CountryList from "./CountryList";
 import { useEffect } from "react";
+import axios from "axios";
 
 /**
  * Returns a list or a single country data
@@ -17,6 +18,10 @@ export default function CountryResult({
 }) {
   const [openCountry, setOpenCountry] = useState(interactingWithInput);
   const [displaySingleCountry, setDisplaySingleCountry] = useState(false);
+
+  const [weatherInfo, setWeatherInfo] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [weaKey, _] = useState(import.meta.env.VITE_WEA_KEY);
 
   function handleClick(event) {
     // console.log(event.target.value);
@@ -35,14 +40,32 @@ export default function CountryResult({
     country.name.common.toLowerCase().includes(searchCountry)
   );
 
+  function weatherGet(countryName, apiKey) {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${countryName}&units=metric&appid=${apiKey}`
+      )
+      .then((response) => setWeatherInfo(response.data));
+  }
+
   useEffect(() => {
     setDisplaySingleCountry(false);
   }, [interactingWithInput]);
 
   useEffect(() => {
     if (filteredCountries.length === 1) {
-      setOpenCountry(filteredCountries);
+      const tmpCountry = [...filteredCountries];
+      setOpenCountry(tmpCountry);
+      //   const tmp = openCountry;
+      //   console.log("weaKey", weaKey);
+      //   console.log("filteredCountries", filteredCountries);
+
+      //   console.log("openCountry", openCountry[0]);
+      //   console.log("tmp", tmp);
+
+      weatherGet(tmpCountry[0].name.common, weaKey);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredCountries.length]);
 
   return (
@@ -54,10 +77,14 @@ export default function CountryResult({
       ) : filteredCountries.length <= 0 ? (
         "Nothing found"
       ) : filteredCountries.length === 1 ? (
-        <CountryInfo filteredCountry={openCountry[0]} />
+        /* 💡 TODO open country instead filteredCOuntries*/
+        <CountryInfo
+          filteredCountry={filteredCountries[0]}
+          weather={weatherInfo}
+        />
       ) : displaySingleCountry === true ? (
         // console.log("nothing", openCountry)
-        <CountryInfo filteredCountry={openCountry[0]} />
+        <CountryInfo filteredCountry={openCountry[0]} weather={weatherInfo} />
       ) : (
         <CountryList
           filteredCountries={filteredCountries}
