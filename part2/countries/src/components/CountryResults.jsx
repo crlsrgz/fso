@@ -16,9 +16,11 @@ export default function CountryResult({ countries, searchCountry }) {
     // console.log(event.target.value);
     // console.log(event.target.dataset.countryname);
     const tmp = event.target.dataset.countryname;
-    setOpenCountry(tmp);
-    // setOpenCountry(event.target.dataset.countryname);
-    console.log(tmp);
+    const tmpCountry = countries.filter((country) => {
+      return country.name.common === tmp;
+    });
+    setOpenCountry(tmpCountry);
+    // console.log(tmp);
   }
 
   const filteredCountries = countries.filter((country) =>
@@ -33,9 +35,10 @@ export default function CountryResult({ countries, searchCountry }) {
       ) : filteredCountries.length <= 0 ? (
         "Nothing found"
       ) : filteredCountries.length === 1 ? (
-        <CountryInfo filteredCountries={filteredCountries} />
+        <CountryInfo filteredCountry={filteredCountries[0]} />
       ) : openCountry !== "-" ? (
-        console.log(filteredCountries[0])
+        // console.log("nothing", openCountry)
+        <CountryInfo filteredCountry={openCountry[0]} />
       ) : (
         <CountryList
           filteredCountries={filteredCountries}
@@ -44,4 +47,4 @@ export default function CountryResult({ countries, searchCountry }) {
       )}
     </div>
   );
-}
+} //

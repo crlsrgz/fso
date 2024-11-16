@@ -1,28 +1,26 @@
 /**
  * Process an array with a single object from the filtered elements
  * returns the object values.
- * @param {Array} filteredCountries filtered array with just one item.
+ * @param {Object} filteredCountries result one Object of the filtered array.
  * @returns {HTMLElement}
  */
-export default function CountryInfo({ filteredCountries }) {
+export default function CountryInfo({ filteredCountry }) {
   return (
     <div>
-      <div>{filteredCountries[0].name.common}</div>
-      <div>{filteredCountries[0].capital}</div>
-      <div>{filteredCountries[0].area}</div>
+      <div>{filteredCountry.name.common}</div>
+      <div>{filteredCountry.capital}</div>
+      <div>{filteredCountry.area}</div>
       <div>
-        {Object.values(filteredCountries[0].languages).map((lang) =>
+        {Object.values(filteredCountry.languages).map((lang) =>
           console.log(lang)
         )}
-        {Object.values(filteredCountries[0].languages).map((language) => {
+        {Object.values(filteredCountry.languages).map((language) => {
           return (
-            <p key={`${filteredCountries[0].name.common}-${language}`}>
-              {language}
-            </p>
+            <p key={`${filteredCountry.name.common}-${language}`}>{language}</p>
           );
         })}
       </div>
-      <div>{filteredCountries[0].flag}</div>
+      <div>{filteredCountry.flag}</div>
     </div>
   );
 }
