@@ -7,9 +7,10 @@
 export default function CountryInfo({ filteredCountry }) {
   return (
     <div>
-      <div>{filteredCountry.name.common}</div>
+      <h1>{filteredCountry.name.common}</h1>
       <div>{filteredCountry.capital}</div>
       <div>{filteredCountry.area}</div>
+      <h5>languages:</h5>
       <div>
         {Object.values(filteredCountry.languages).map((lang) =>
           console.log(lang)
@@ -20,7 +21,12 @@ export default function CountryInfo({ filteredCountry }) {
           );
         })}
       </div>
-      <div>{filteredCountry.flag}</div>
+      <div>
+        <img
+          src={filteredCountry.flags.png}
+          alt={filteredCountry.name.common + " flag"}
+        />
+      </div>
     </div>
   );
 }

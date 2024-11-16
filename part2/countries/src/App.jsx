@@ -6,21 +6,7 @@ import CountryResult from "./components/CountryResults";
 function App() {
   const [searchCountry, setSearchCountry] = useState("");
   const [allCountries, setAllCountries] = useState([]);
-
-  // axios
-  //   .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
-  //   .then((response) => {
-  //     return response.data;
-  //   })
-  // .then((data) => {
-  // console.log(
-  //   data.name.common
-  // data.capital[0],
-  // data.area,
-  // data.languages,
-  // data.flag
-  // );
-  // });
+  const [interactingWithInput, setSelectCountry] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,8 +20,8 @@ function App() {
   }, []);
 
   function checkInput(event) {
-    // console.log(event.target.value);
     setSearchCountry(event.target.value.toLowerCase());
+    setSelectCountry(!interactingWithInput);
   }
 
   /*:: Separating functionality WIP ::*/
@@ -47,7 +33,11 @@ function App() {
         <input type="text" value={searchCountry} onChange={checkInput} />
       </div>
       <div>
-        <CountryResult countries={allCountries} searchCountry={searchCountry} />
+        <CountryResult
+          countries={allCountries}
+          searchCountry={searchCountry}
+          interactingWithInput={interactingWithInput}
+        />
       </div>
     </>
   );
