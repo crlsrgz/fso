@@ -6,7 +6,7 @@ import Notification from "./components/Notification";
 import Footer from "./components/Footer";
 
 const App = () => {
-  const [notes, setNotes] = useState(null);
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState(`a new note...`);
   const [showAll, setShowAll] = useState(true);
   const [errorMesage, setErrorMessage] = useState(null);
