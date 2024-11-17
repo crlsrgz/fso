@@ -24,8 +24,6 @@ export default function CountryResult({
   const [weaKey, _] = useState(import.meta.env.VITE_WEA_KEY);
 
   function handleClick(event) {
-    // console.log(event.target.value);
-    // console.log(event.target.dataset.countryname);
     const tmp = event.target.dataset.countryname;
     const tmpCountry = countries.filter((country) => {
       return country.name.common === tmp;
@@ -33,10 +31,6 @@ export default function CountryResult({
     setOpenCountry(tmpCountry);
     setDisplaySingleCountry(true);
     weatherGet(tmpCountry[0].name.common, weaKey);
-    console.log("openCountry", tmpCountry);
-
-    console.log("interactingWithInput", interactingWithInput);
-    console.log("from click", weatherInfo);
   }
 
   const filteredCountries = countries.filter((country) =>
@@ -49,7 +43,6 @@ export default function CountryResult({
         `https://api.openweathermap.org/data/2.5/weather?q=${countryName}&units=metric&appid=${apiKey}`
       )
       .then((response) => {
-        console.log("from request", response);
         return setWeatherInfo(response.data);
       });
   }
@@ -62,12 +55,7 @@ export default function CountryResult({
     if (filteredCountries.length === 1) {
       const tmpCountry = [...filteredCountries];
       setOpenCountry(tmpCountry);
-      //   const tmp = openCountry;
-      //   console.log("weaKey", weaKey);
-      //   console.log("filteredCountries", filteredCountries);
 
-      //   console.log("openCountry", openCountry[0]);
-      //   console.log("tmp", tmp);
       weatherGet(tmpCountry[0].name.common, weaKey);
     }
 
@@ -89,7 +77,6 @@ export default function CountryResult({
           weather={weatherInfo}
         />
       ) : displaySingleCountry === true ? (
-        // console.log("nothing", openCountry)
         <CountryInfo filteredCountry={openCountry[0]} weather={weatherInfo} />
       ) : (
         <CountryList

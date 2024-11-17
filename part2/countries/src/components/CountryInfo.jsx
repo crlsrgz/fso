@@ -2,10 +2,10 @@
  * Process an array with a single object from the filtered elements
  * returns the object values.
  * @param {Object} filteredCountries result one Object of the filtered array.
+ * @param {Object} weather result of the request.
  * @returns {HTMLElement}
  */
-export default function CountryInfo({ filteredCountry, weather = "empty" }) {
-  // console.log("weather data", weather);
+export default function CountryInfo({ filteredCountry, weather = {} }) {
   return (
     <div>
       <h1>{filteredCountry.name.common}</h1>
