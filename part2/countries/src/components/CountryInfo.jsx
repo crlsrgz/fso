@@ -5,7 +5,7 @@
  * @returns {HTMLElement}
  */
 export default function CountryInfo({ filteredCountry, weather = "empty" }) {
-  console.log("weather data", weather);
+  // console.log("weather data", weather);
   return (
     <div>
       <h1>{filteredCountry.name.common}</h1>

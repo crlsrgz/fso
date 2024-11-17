@@ -32,8 +32,11 @@ export default function CountryResult({
     });
     setOpenCountry(tmpCountry);
     setDisplaySingleCountry(true);
+    weatherGet(tmpCountry[0].name.common, weaKey);
+    console.log("openCountry", tmpCountry);
+
     console.log("interactingWithInput", interactingWithInput);
-    // console.log(tmp);
+    console.log("from click", weatherInfo);
   }
 
   const filteredCountries = countries.filter((country) =>
@@ -45,7 +48,10 @@ export default function CountryResult({
       .get(
         `https://api.openweathermap.org/data/2.5/weather?q=${countryName}&units=metric&appid=${apiKey}`
       )
-      .then((response) => setWeatherInfo(response.data));
+      .then((response) => {
+        console.log("from request", response);
+        return setWeatherInfo(response.data);
+      });
   }
 
   useEffect(() => {
@@ -62,9 +68,9 @@ export default function CountryResult({
 
       //   console.log("openCountry", openCountry[0]);
       //   console.log("tmp", tmp);
-
       weatherGet(tmpCountry[0].name.common, weaKey);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredCountries.length]);
 
