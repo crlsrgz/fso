@@ -120,21 +120,26 @@ function App() {
       // });
       services
         .deleteEntryReq(id)
-        .catch((err) => {
-          // console.log("ups", err);
+        // eslint-disable-next-line no-unused-vars
+        .then((_res) => {
           setMessageNameFeedback(entryName.textContent);
           setMessageTextFeedback(false);
           hideFeedbackMessage(setMessageTextFeedback, null);
         })
-        .then(() => {
-          services.getAllReq().then((response) => setPersons(response));
+        .catch((err) => {
+          console.log("ups", err);
+          setMessageNameFeedback(entryName.textContent);
+          setMessageTextFeedback(false);
+          hideFeedbackMessage(setMessageTextFeedback, null);
         });
     }
+
+    services.getAllReq().then((response) => setPersons(response));
   }
 
   return (
     <div>
-      <h2>- Phonebook -</h2>
+      <h2>Phonebook</h2>
       {/* Filter */}
       <Messagefeedback
         message={messageTextFeedback}
