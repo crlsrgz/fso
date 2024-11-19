@@ -104,9 +104,10 @@ app.post("/api/persons", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
-  const name = persons[id].name;
-  persons = persons.find((person) => person.id === id);
+  const index = persons.findIndex((person) => person.id === id);
+  const name = persons[index].name;
   response.statusMessage = `Sad, seems that ${name} has been deleted`;
+  persons.splice(index, 1);
   response.status(204).end();
 });
 

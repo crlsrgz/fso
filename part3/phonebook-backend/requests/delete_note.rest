@@ -18,4 +18,4 @@ Content-Type: application/json
   "number": "39-44-5323523"
 }
 ###
-DELETE http://localhost:3001/api/persons/1
+DELETE http://localhost:3001/api/persons/2
