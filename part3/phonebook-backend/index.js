@@ -1,6 +1,12 @@
+require("dotenv").config();
+
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+
+//Mongoose setup
+const Contact = require("./models/person");
+const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -24,38 +30,27 @@ let persons = [
     name: "Arto Hellas",
     number: "040-123456",
   },
-  {
-    id: "2",
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: "3",
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: "4",
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
 ];
 
 app.get("/", (request, response) => {
   response.send("Run serv");
 });
 
-app.get("/info", (request, response) => {
-  const personsLengh = persons.length;
-  const requestDate = new Date();
-  response.send(
-    `<p>Phonebook has info for ${personsLengh} people,</p>
-    <p>${requestDate}</p>`
-  );
+app.get("/api/persons", (request, response) => {
+  Contact.find({}).then((contacts) => {
+    response.json(contacts);
+    mongoose.connection.close();
+  });
 });
 
-app.get("/api/persons", (request, response) => {
-  response.json(persons);
+app.get("/info", (request, response) => {
+  Contact.find({}).then((contacts) => {
+    const numberOfContacts = contacts.length;
+    const requestDate = new Date();
+    response.send(`<p>Phonebook has info for <b>${numberOfContacts}</b> people,</p>
+    <p>${requestDate}</p>`);
+    mongoose.connection.close();
+  });
 });
 
 app.get("/api/persons/:id", (request, response) => {
