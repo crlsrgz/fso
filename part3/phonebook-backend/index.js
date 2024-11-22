@@ -95,6 +95,15 @@ app.post("/api/persons", (request, response) => {
   // persons = persons.concat(person);
   // response.statusMessage = `Hey, ${person.name} has been added`;
   // response.json(person);
+
+  /**
+   * @todo close connections
+   */
+
+  Contact.find({}).then((contacts) => {
+    persons = contacts;
+    response.json(contacts);
+  });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
