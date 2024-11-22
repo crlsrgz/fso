@@ -6,6 +6,7 @@ const cors = require("cors");
 
 //Mongoose setup
 const Contact = require("./models/person");
+const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -62,13 +63,6 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 
-function generateId() {
-  const maxId =
-    persons.length > 0 ? Math.max(...persons.map((person) => person.id)) : 0;
-  // console.log("maxId", maxId);
-  return String(maxId + 1);
-}
-
 app.post("/api/persons", (request, response) => {
   const body = request.body;
   if (!body.name || !body.number) {
@@ -77,21 +71,30 @@ app.post("/api/persons", (request, response) => {
     });
   }
 
-  if (persons.find((person) => person.name === body.name)) {
-    return response.status(400).json({
-      error: `name must be unique. ${body.name} already exists`,
-    });
-  }
-
-  const person = {
+  const contact = new Contact({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  };
+  });
 
-  persons = persons.concat(person);
-  response.statusMessage = `Hey, ${person.name} has been added`;
-  response.json(person);
+  // if (persons.find((person) => person.name === body.name)) {
+  //   return response.status(400).json({
+  //     error: `name must be unique. ${body.name} already exists`,
+  //   });
+  // }
+
+  contact.save().then((result) => {
+    console.log("saved a contact", result);
+  });
+
+  // const person = {
+  //   name: body.name,
+  //   number: body.number,
+  //   id: generateId(),
+  // };
+
+  // persons = persons.concat(person);
+  // response.statusMessage = `Hey, ${person.name} has been added`;
+  // response.json(person);
 });
 
 app.delete("/api/persons/:id", (request, response) => {
