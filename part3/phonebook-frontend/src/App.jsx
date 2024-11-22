@@ -26,13 +26,6 @@ function hideFeedbackMessage(setFunction, value, waitTime = 3000) {
 function App() {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-    { name: "John Doe", number: "39-23-6723122", id: 5 },
-    { name: "Jane Doe", number: "39-23-623122", id: 6 },
-    { name: "John Smith", number: "39-23-6411122", id: 7 },
-    { name: "Jane Smith", number: "39-23-6423322", id: 8 },
   ]);
 
   const [newName, setNewName] = useState("");
