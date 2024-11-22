@@ -6,7 +6,6 @@ const cors = require("cors");
 
 //Mongoose setup
 const Contact = require("./models/person");
-const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -32,15 +31,14 @@ let persons = [
   },
 ];
 
-app.get("/", (request, response) => {
-  response.send("Run serv");
-});
-
 app.get("/api/persons", (request, response) => {
   Contact.find({}).then((contacts) => {
     response.json(contacts);
-    mongoose.connection.close();
   });
+});
+
+app.get("/", (request, response) => {
+  response.send("Run serv");
 });
 
 app.get("/info", (request, response) => {
@@ -49,7 +47,6 @@ app.get("/info", (request, response) => {
     const requestDate = new Date();
     response.send(`<p>Phonebook has info for <b>${numberOfContacts}</b> people,</p>
     <p>${requestDate}</p>`);
-    mongoose.connection.close();
   });
 });
 
