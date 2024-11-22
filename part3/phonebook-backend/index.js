@@ -6,7 +6,6 @@ const cors = require("cors");
 
 //Mongoose setup
 const Contact = require("./models/person");
-const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -99,7 +98,6 @@ app.post("/api/persons", (request, response) => {
   /**
    * @todo close connections
    */
-
   Contact.find({}).then((contacts) => {
     persons = contacts;
     response.json(contacts);
@@ -108,11 +106,11 @@ app.post("/api/persons", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
-  const index = persons.findIndex((person) => person.id === id);
-  const name = persons[index].name;
-  response.statusMessage = `Sad, seems that ${name} has been deleted`;
-  persons.splice(index, 1);
-  response.status(204).end();
+  Contact.findByIdAndDelete(id)
+    .then((result) => {
+      response.status(204).end;
+    })
+    .catch((error) => next(error));
 });
 
 const PORT = 3001;
