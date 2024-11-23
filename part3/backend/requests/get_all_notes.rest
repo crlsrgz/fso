@@ -8,6 +8,14 @@ Content-Type: application/json
     "important": "true"
 }
 ###
-DELETE http://localhost:3001/api/notes/674165258bc906135e7a8f81
+PUT http://localhost:3001/api/notes/67416d18e40f2ae6f7eb29be
+Content-Type: application/json
+
+{
+    "content": "Javascript lives in the browser and in node",
+    "important": "true"
+}
+###
+DELETE http://localhost:3001/api/notes/67416d18e40f2ae6f7eb29be
 
 
