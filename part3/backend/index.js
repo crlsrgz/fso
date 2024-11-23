@@ -6,8 +6,9 @@ const app = express();
 
 const Note = require("./models/note");
 
-app.use(express.json());
+// Middleware
 app.use(express.static("build"));
+app.use(express.json());
 app.use(cors());
 
 // let notes = [
@@ -30,10 +31,25 @@ app.get("/api/notes", (request, response) => {
   });
 });
 
-app.get("/api/notes/:id", (request, response) => {
-  Note.findById(request.params.id).then((note) => {
-    response.json(note);
-  });
+app.get("/api/notes/:id", (request, response, next) => {
+  // Mongoose find by id
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.statusMessage =
+          "It seems the note you're looking fore is not here";
+
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      // console.log("This is what happened ->", error);
+      // response.status(400).end({ error: "malformatted id" });
+      //next is middleware from express to handle errors
+      next(error);
+    });
 });
 
 app.post("/api/notes", (request, response) => {
