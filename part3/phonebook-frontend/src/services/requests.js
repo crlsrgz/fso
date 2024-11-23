@@ -11,6 +11,17 @@ const createEntryReq = (newEntry) => {
   return request.then((response) => response.data);
 };
 
+// const modifyEntryReq = (newEntry) => {
+//   const request = axios.put(BASEURL, newEntry);
+//   return request.then((response) => response.data);
+// };
+
+async function modifyEntryReq(newEntry) {
+  const request = axios.put(`${BASEURL}/${newEntry.id}`, newEntry);
+
+  return request.then((response) => response.data);
+}
+
 const deleteEntryReq = (id) => {
   const request = axios.delete(`${BASEURL}/${id}`);
 
@@ -19,4 +30,4 @@ const deleteEntryReq = (id) => {
   });
 };
 
-export default { getAllReq, createEntryReq, deleteEntryReq };
+export default { getAllReq, createEntryReq, modifyEntryReq, deleteEntryReq };

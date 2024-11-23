@@ -66,40 +66,49 @@ function App() {
       // id: persons.length + 1,
     };
 
-    // POST
-    services.createEntryReq(newEntry).then((response) => {
-      newEntry.id = response.id;
-      // Prepare booleans
-      let newNameAlreadyExists = false;
-      let newNumberAlreadyExists = false;
+    // Prepare booleans
+    let newNameAlreadyExists = false;
 
-      const arrayToCheck = [...persons];
+    const arrayToCheck = [...persons];
 
-      arrayToCheck.forEach((item) => {
-        if (item.name.toLowerCase() === newEntry.name.toLowerCase()) {
-          newNameAlreadyExists = true;
-        }
-        if (item.number.toLowerCase() === newEntry.number.toLowerCase()) {
-          newNumberAlreadyExists = true;
+    arrayToCheck.forEach((item) => {
+      if (item.name.toLowerCase() === newEntry.name.toLowerCase()) {
+        newNameAlreadyExists = true;
+        newEntry.id = item.id;
+      }
+    });
+
+    // PUT
+    // TODO entry not updated after modification
+    if (newNameAlreadyExists) {
+      services.modifyEntryReq(newEntry);
+
+      //  thiss changes the local state, but it doesn't check if the state in the server matches.
+      persons.forEach((item) => {
+        if (item.name === newEntry.name) {
+          item.number = newEntry.number;
         }
       });
 
-      if (newNameAlreadyExists && newNumberAlreadyExists) {
-        alert(
-          `The name - ${newEntry.name} - already exist, please check if the name is correct`
-        );
-        return;
-      }
-
-      // Add object to array of persons and reset the values in the input
-      setMessageNameFeedback(newEntry.name);
-      setMessageTextFeedback("add");
-      hideFeedbackMessage(setMessageTextFeedback, null);
-
-      setPersons(persons.concat(newEntry));
       setNewName("");
       setNewNumber("");
-    });
+
+      setPersons(persons); // this is just for testing
+    } else {
+      // POST
+      services.createEntryReq(newEntry).then((response) => {
+        newEntry.id = response.id;
+
+        // Add object to array of persons and reset the values in the input
+        setMessageNameFeedback(newEntry.name);
+        setMessageTextFeedback("add");
+        hideFeedbackMessage(setMessageTextFeedback, null);
+
+        setPersons(persons.concat(newEntry));
+        setNewName("");
+        setNewNumber("");
+      });
+    }
   };
 
   const handleNameValue = (event) => {

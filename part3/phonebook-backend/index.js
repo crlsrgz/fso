@@ -3,11 +3,10 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const app = express();
 
 //Mongoose setup
 const Contact = require("./models/person");
-
-const app = express();
 
 app.use(express.static("build"));
 app.use(express.json());
@@ -94,6 +93,26 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+  console.log(body);
+  console.log(request.params.id);
+  // new object, not from Contact constructor
+  const contact = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+    .then((updatedContact) => {
+      console.log(updatedContact);
+      response.json(updatedContact);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
+
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
   Contact.findByIdAndDelete(id)
@@ -104,6 +123,6 @@ app.delete("/api/persons/:id", (request, response) => {
 });
 
 const PORT = 3001;
-app.listen(PORT, () => {
+app.listen(3001, () => {
   console.log(`Server running on port ${PORT}`);
 });
