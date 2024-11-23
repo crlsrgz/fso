@@ -9,10 +9,12 @@ function Messagefeedback(props) {
     return "";
   }
   return (
-    <div className={props.message ? "accepted" : "error"}>
-      {props.message
-        ? ` Contanct ${props.user} added`
-        : ` Info: ${props.user} has already been removed from the server`}{" "}
+    <div className={props.message === "add" ? "accepted" : "error"}>
+      {props.message === "add"
+        ? ` Contact ${props.user} added`
+        : props.message === "info"
+        ? ` Info: ${props.user} has already been removed from the server`
+        : `Missing values, check your input and try again`}
     </div>
   );
 }
@@ -42,7 +44,17 @@ function App() {
 
   const addTelephoneNumber = (event) => {
     event.preventDefault();
-
+    if (
+      newName === "" ||
+      newName === false ||
+      newNumber === "" ||
+      newNumber === false
+    ) {
+      setMessageTextFeedback("miss");
+      hideFeedbackMessage(setMessageTextFeedback, null);
+      console.log("missing values");
+      return;
+    }
     // Trim  input
     const cleanValue = String(newName).trim();
     const cleanNumberValue = String(newNumber).trim();
@@ -81,7 +93,7 @@ function App() {
 
       // Add object to array of persons and reset the values in the input
       setMessageNameFeedback(newEntry.name);
-      setMessageTextFeedback(true);
+      setMessageTextFeedback("add");
       hideFeedbackMessage(setMessageTextFeedback, null);
 
       setPersons(persons.concat(newEntry));
@@ -116,13 +128,13 @@ function App() {
         // eslint-disable-next-line no-unused-vars
         .then((_res) => {
           setMessageNameFeedback(entryName.textContent);
-          setMessageTextFeedback(false);
+          setMessageTextFeedback("info");
           hideFeedbackMessage(setMessageTextFeedback, null);
         })
         .catch((err) => {
           console.log("ups", err);
           setMessageNameFeedback(entryName.textContent);
-          setMessageTextFeedback(false);
+          setMessageTextFeedback("info");
           hideFeedbackMessage(setMessageTextFeedback, null);
         });
     }

@@ -50,16 +50,22 @@ app.get("/info", (request, response) => {
   });
 });
 
-app.get("/api/persons/:id", (request, response) => {
+app.get("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
-  const person = persons.find((person) => person.id === id);
+  Contact.findById(id)
+    .then((contact) => {
+      if (contact) {
+        response.json(contact);
+      } else {
+        response.statusMessage =
+          "It seems the note you're looking fore is not here";
 
-  if (person) {
-    response.json(person);
-  } else {
-    response.statusMessage = "Hey, that person is not here.";
-    response.status(404).end();
-  }
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      next(["It seems the note you're looking fore is not here\n", error]);
+    });
 });
 
 app.post("/api/persons", (request, response) => {
@@ -75,25 +81,9 @@ app.post("/api/persons", (request, response) => {
     number: body.number,
   });
 
-  // if (persons.find((person) => person.name === body.name)) {
-  //   return response.status(400).json({
-  //     error: `name must be unique. ${body.name} already exists`,
-  //   });
-  // }
-
   contact.save().then((result) => {
     console.log("saved a contact", result);
   });
-
-  // const person = {
-  //   name: body.name,
-  //   number: body.number,
-  //   id: generateId(),
-  // };
-
-  // persons = persons.concat(person);
-  // response.statusMessage = `Hey, ${person.name} has been added`;
-  // response.json(person);
 
   /**
    * @todo close connections
