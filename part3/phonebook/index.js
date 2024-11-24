@@ -12,6 +12,7 @@ app.use(express.static("build"));
 app.use(express.json());
 app.use(cors());
 
+// Morgan, console messages
 morgan.token("reqBody", function (request, _) {
   return JSON.stringify(request.body);
 });
@@ -21,6 +22,22 @@ app.use(
     ":remote-addr - :remote-user [:date[clf]] :reqBody :method :url HTTP/:http-version :status :res[content-length]"
   )
 );
+
+// Error and Endpoint middleware declaration
+
+function errorHandler(error, reques, response, next) {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "The query format is wrong" });
+  } else {
+    return response.status(400).json({ error: error.message });
+  }
+}
+
+function unknownEndPoint(request, response) {
+  response.status(404).send({ error: "unknown endpoint" });
+}
 
 let persons = [
   {
@@ -63,7 +80,7 @@ app.get("/api/persons/:id", (request, response, next) => {
       }
     })
     .catch((error) => {
-      next(["It seems the note you're looking fore is not here\n", error]);
+      next(error);
     });
 });
 
@@ -126,3 +143,7 @@ const PORT = 3001;
 app.listen(3001, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// Error and Endpoint middleware call
+app.use(unknownEndPoint);
+app.use(errorHandler);
