@@ -99,15 +99,19 @@ function App() {
     // PUT
     // TODO entry not updated after modification
     if (newNameAlreadyExists) {
-      services.modifyEntryReq(newEntry);
-
-      //  thiss changes the local state, but it doesn't check if the state in the server matches.
-      persons.forEach((item) => {
-        if (item.name === newEntry.name) {
-          item.number = newEntry.number;
+      services.modifyEntryReq(newEntry).then((response) => {
+        if (response.status === 400) {
+          setMessageNameFeedback(newEntry.name);
+          setMessageTextFeedback("short");
+          hideFeedbackMessage(setMessageTextFeedback, null);
+          return;
         }
       });
 
+      services.getAllReq().then((response) => {
+        console.log("getAll", response);
+        setPersons(response);
+      });
       setNewName("");
       setNewNumber("");
 

@@ -19,7 +19,7 @@ const createEntryReq = (newEntry) => {
 async function modifyEntryReq(newEntry) {
   const request = axios.put(`${BASEURL}/${newEntry.id}`, newEntry);
 
-  return request.then((response) => response.data);
+  return request.then((response) => response.data).catch((error) => error);
 }
 
 const deleteEntryReq = (id) => {
