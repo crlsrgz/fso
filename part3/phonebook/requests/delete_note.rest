@@ -7,16 +7,24 @@ POST http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {       
-  "name": "Adams", 
-  "number": "39"
+  "name": "Adamrfffs", 
+  "number": "aaa3aaa9"
 }
 ###
 POST http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {       
-  "name": "DG", 
-  "number": "39-44-5323523"
+  "name": "John wrong number", 
+  "number": "344442"
+}
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{       
+  "name": "John right number", 
+  "number": "344-442111"
 }
 ###
 PUT http://localhost:3001/api/persons/67404cfc4812c1229089215c
@@ -24,7 +32,15 @@ Content-Type: application/json
 
 {       
   "name": "John must Code", 
-  "number": "3244"
+  "number": "31"
 }
 ###
-DELETE http://localhost:3001/api/persons/2
+PUT http://localhost:3001/api/persons/67404cfc4812c1229089215c
+Content-Type: application/json
+
+{       
+  "name": "John must Code", 
+  "number": "321-11110"
+}
+###
+DELETE http://localhost:3001/api/persons/6745da59debaad829c00f7c3

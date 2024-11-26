@@ -87,12 +87,14 @@ app.get("/api/persons/:id", (request, response, next) => {
 
 app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  if (body.content === undefined) {
+  console.log("one", request.body);
+  if (body === undefined) {
     return response.status(400).json({
       error:
         "Content error, the name and the number should have at least three characters",
     });
   }
+  // console.log("one", request.body);
 
   const contact = new Contact({
     name: body.name,
@@ -103,16 +105,17 @@ app.post("/api/persons", (request, response, next) => {
     .save()
     .then((result) => {
       console.log("saved a contact", result);
+      response.json(contact);
     })
     .catch((error) => next(error));
 
   /**
    * @todo close connections
    */
-  Contact.find({}).then((contacts) => {
-    persons = contacts;
-    response.json(contacts);
-  });
+  // Contact.find({}).then((contacts) => {
+  //   persons = contacts;
+  //   response.json(contacts);
+  // });
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
@@ -126,12 +129,10 @@ app.put("/api/persons/:id", (request, response, next) => {
     number: body.number,
   };
 
-  Contact.findByIdAndUpdate(
-    request.params.id,
-    contact,
-    { new: true },
-    { runValidators: true }
-  )
+  Contact.findByIdAndUpdate(request.params.id, contact, {
+    new: true,
+    runValidators: true,
+  })
     .then((updatedContact) => {
       console.log(updatedContact);
       response.json(updatedContact);
