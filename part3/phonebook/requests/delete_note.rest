@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {       
   "name": "Adams", 
-  "number": "39-44-5323523"
+  "number": "39"
 }
 ###
 POST http://localhost:3001/api/persons/
@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {       
   "name": "John must Code", 
-  "number": "39-44-1111"
+  "number": "3244"
 }
 ###
 DELETE http://localhost:3001/api/persons/2
