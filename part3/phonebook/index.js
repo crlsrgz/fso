@@ -25,14 +25,15 @@ app.use(
 
 // Error and Endpoint middleware declaration
 
-function errorHandler(error, reques, response, next) {
+function errorHandler(error, request, response, next) {
   console.error(error.message);
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "The query format is wrong" });
-  } else {
+  } else if (error.name === "ValidationError") {
     return response.status(400).json({ error: error.message });
   }
+  next(error);
 }
 
 function unknownEndPoint(request, response) {
@@ -84,11 +85,12 @@ app.get("/api/persons/:id", (request, response, next) => {
     });
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  if (!body.name || !body.number) {
+  if (body.content === undefined) {
     return response.status(400).json({
-      error: "content missing",
+      error:
+        "Content error, the name and the number should have at least three characters",
     });
   }
 
@@ -97,9 +99,12 @@ app.post("/api/persons", (request, response) => {
     number: body.number,
   });
 
-  contact.save().then((result) => {
-    console.log("saved a contact", result);
-  });
+  contact
+    .save()
+    .then((result) => {
+      console.log("saved a contact", result);
+    })
+    .catch((error) => next(error));
 
   /**
    * @todo close connections
@@ -112,15 +117,21 @@ app.post("/api/persons", (request, response) => {
 
 app.put("/api/persons/:id", (request, response, next) => {
   const body = request.body;
-  console.log(body);
-  console.log(request.params.id);
+  // console.log(body);
+  // console.log(request.params.id);
+
   // new object, not from Contact constructor
   const contact = {
     name: body.name,
     number: body.number,
   };
 
-  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+  Contact.findByIdAndUpdate(
+    request.params.id,
+    contact,
+    { new: true },
+    { runValidators: true }
+  )
     .then((updatedContact) => {
       console.log(updatedContact);
       response.json(updatedContact);

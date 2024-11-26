@@ -23,7 +23,7 @@ PUT http://localhost:3001/api/persons/67404cfc4812c1229089215c
 Content-Type: application/json
 
 {       
-  "name": "John has Code", 
+  "name": "John must Code", 
   "number": "39-44-1111"
 }
 ###
