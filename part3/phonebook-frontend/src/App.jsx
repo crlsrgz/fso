@@ -8,15 +8,33 @@ function Messagefeedback(props) {
   if (props.message === null) {
     return "";
   }
-  return (
-    <div className={props.message === "add" ? "accepted" : "error"}>
-      {props.message === "add"
-        ? ` Contact ${props.user} added`
-        : props.message === "info"
-        ? ` Info: ${props.user} has already been removed from the server`
-        : `Missing values, check your input and try again`}
-    </div>
-  );
+  const values = {
+    message: (function () {
+      switch (props.message) {
+        case "add":
+          return ` Contact ${props.user} added`;
+        case "info":
+          return ` Info: ${props.user} has already been removed from the server`;
+        case "short":
+          return ` Info: ${props.user}  has less characters than needed, you need at least 3`;
+        default:
+          `Missing values, check your input and try again`;
+      }
+    })(),
+    class: (function () {
+      switch (props.message) {
+        case "add":
+          return `add`;
+        case "info":
+          return `error`;
+        case "short":
+          return `error`;
+        default:
+          return `error`;
+      }
+    })(),
+  };
+  return <div className={values.class}>{values.message}</div>;
 }
 
 function hideFeedbackMessage(setFunction, value, waitTime = 3000) {
@@ -98,15 +116,22 @@ function App() {
       // POST
       services.createEntryReq(newEntry).then((response) => {
         newEntry.id = response.id;
+        if (response.status === 400) {
+          setMessageNameFeedback(newEntry.name);
+          setMessageTextFeedback("short");
+          hideFeedbackMessage(setMessageTextFeedback, null);
 
-        // Add object to array of persons and reset the values in the input
-        setMessageNameFeedback(newEntry.name);
-        setMessageTextFeedback("add");
-        hideFeedbackMessage(setMessageTextFeedback, null);
+          return;
+        } else {
+          // Add object to array of persons and reset the values in the input
+          setMessageNameFeedback(newEntry.name);
+          setMessageTextFeedback("add");
+          hideFeedbackMessage(setMessageTextFeedback, null);
 
-        setPersons(persons.concat(newEntry));
-        setNewName("");
-        setNewNumber("");
+          setPersons(persons.concat(newEntry));
+          setNewName("");
+          setNewNumber("");
+        }
       });
     }
   };

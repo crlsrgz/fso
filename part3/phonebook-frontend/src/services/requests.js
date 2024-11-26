@@ -8,7 +8,7 @@ async function getAllReq() {
 
 const createEntryReq = (newEntry) => {
   const request = axios.post(BASEURL, newEntry);
-  return request.then((response) => response.data);
+  return request.then((response) => response.data).catch((error) => error);
 };
 
 // const modifyEntryReq = (newEntry) => {
