@@ -24,7 +24,7 @@ function Messagefeedback(props) {
     class: (function () {
       switch (props.message) {
         case "add":
-          return `add`;
+          return `accepted`;
         case "info":
           return `error`;
         case "short":
