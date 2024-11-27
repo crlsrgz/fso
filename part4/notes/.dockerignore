@@ -1,0 +1,2 @@
+# Ignore in case deployment is done with DOcker/ fly.io
+.env
