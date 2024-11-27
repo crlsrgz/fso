@@ -7,9 +7,7 @@ mongoose.set("strictQuery", false);
 
 mongoose
   .connect(url)
-  .then((resulr) =>
-    console.log(`-------\nConnection to MDB established\n-------\n`)
-  )
+  .then(() => console.log("-------\nConnection to MDB established\n-------\n"))
   .catch((error) => {
     console.log("Connection error", error.message);
   });

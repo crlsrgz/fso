@@ -13,8 +13,12 @@ app.use(express.json());
 app.use(cors());
 
 // Morgan, console messages
-morgan.token("reqBody", function (request, _) {
-  return JSON.stringify(request.body);
+morgan.token("reqBody", function (request, response) {
+  if (request.body) {
+    return JSON.stringify(request.body);
+  } else {
+    return "Morgan token error:" + JSON.stringify(response);
+  }
 });
 
 app.use(
@@ -40,13 +44,13 @@ function unknownEndPoint(request, response) {
   response.status(404).send({ error: "unknown endpoint" });
 }
 
-let persons = [
-  {
-    id: "1",
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-];
+// let persons = [
+//   {
+//     id: "1",
+//     name: "Arto Hellas",
+//     number: "040-123456",
+//   },
+// ];
 
 app.get("/api/persons", (request, response) => {
   Contact.find({}).then((contacts) => {
@@ -142,10 +146,10 @@ app.put("/api/persons/:id", (request, response, next) => {
     });
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
   Contact.findByIdAndDelete(id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end;
     })
     .catch((error) => next(error));
