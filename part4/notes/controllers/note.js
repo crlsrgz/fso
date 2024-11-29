@@ -49,9 +49,11 @@ notesRouter.post("/api/notes", (request, response) => {
 notesRouter.put("/api/notes/:id", (request, response, next) => {
   const { content, important } = request.body;
   // Regular Object, not created with Note constructor in module using mongoose
+
+  console.log(content);
   const note = {
-    content: body.content,
-    important: body.important,
+    content: content,
+    important: important,
   };
   //updatedNote is the original parameter,
   // but adding {new:true} valls the event handler with then new modified document.
@@ -61,8 +63,7 @@ notesRouter.put("/api/notes/:id", (request, response, next) => {
     { new: true, runValidators: true, context: "query" }
   )
     .then((updatedNote) => {
-      // response.json(updatedNote);
-      console.log("hiiiiii");
+      response.json(updatedNote);
     })
     .catch((error) => next(error));
 });
