@@ -4,15 +4,15 @@ POST http://localhost:3001/api/notes/
 Content-Type: application/json
 
 {
-    "content": "Javascript lives in the browser",
+    "content": "The notes are working sometime",
     "important": "true"
 }
 ###
-PUT http://localhost:3001/api/notes/67416d18e40f2ae6f7eb29be
+PUT http://localhost:3001/api/notes/673f2343bdd5f5c539b34df5
 Content-Type: application/json
 
 {
-    "content": "Javascript lives in the browser and in node",
+    "content": "Fourth part",
     "important": "true"
 }
 ###

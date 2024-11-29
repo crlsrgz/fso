@@ -12,7 +12,6 @@ notesRouter.get("/api/notes", (request, response) => {
 });
 
 notesRouter.get("/api/notes/:id", (request, response, next) => {
-  // Mongoose find by id
   Note.findById(request.params.id)
     .then((note) => {
       if (note) {
@@ -25,9 +24,6 @@ notesRouter.get("/api/notes/:id", (request, response, next) => {
       }
     })
     .catch((error) => {
-      // console.log("This is what happened ->", error);
-      // response.status(400).end({ error: "malformatted id" });
-      //next is middleware from express to handle errors
       next(error);
     });
 });
@@ -65,7 +61,8 @@ notesRouter.put("/api/notes/:id", (request, response, next) => {
     { new: true, runValidators: true, context: "query" }
   )
     .then((updatedNote) => {
-      response.json(updatedNote);
+      // response.json(updatedNote);
+      console.log("hiiiiii");
     })
     .catch((error) => next(error));
 });
