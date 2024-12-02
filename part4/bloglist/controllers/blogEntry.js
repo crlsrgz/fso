@@ -1,22 +1,23 @@
-const blogEntriesRouter = require("express").Router();
+const blogRouter = require("express").Router();
+
 const BlogEntry = require("../models/blogEntry");
 
-blogEntriesRouter.get("/", (request, response) => {
+blogRouter.get("/", (request, response) => {
   response.send("<h1>Hello Blog</h1>");
 });
 
-blogEntriesRouter.get("/api/blogs", (request, response) => {
+blogRouter.get("/api/blogs", (request, response) => {
   BlogEntry.find({}).then((blogs) => {
     response.json(blogs);
   });
 });
 
-// blogEntriesRouter.post("/api/blogs", (request, response) => {
-//   const blog = new Blog(request.body);
+blogRouter.post("/api/blogs", (request, response) => {
+  const blog = new BlogEntry(request.body);
 
-//   blog.save().then((result) => {
-//     response.status(201).json(result);
-//   });
-// });
+  blog.save().then((result) => {
+    response.status(201).json(result);
+  });
+});
 
-module.exports = blogEntriesRouter;
+module.exports = blogRouter;
