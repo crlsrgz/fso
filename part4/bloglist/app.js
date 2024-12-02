@@ -5,13 +5,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
-
-const blogEntriesRouter = require("./controllers/blogEntry");
+const blogRouter = require("./controllers/blogEntry");
+const logger = require("./utils/logger");
 
 const mongoose = require("mongoose");
-mongoose.set("strictQuery", false);
+
+// // mongoose.set("strictQuery", false);
 logger.info("connecting to:", config.MONGODB_URI);
 
 mongoose
@@ -25,10 +25,11 @@ mongoose
 
 app.use(cors());
 // TODO Static folder?
+app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/", blogEntriesRouter);
+app.use("/", blogRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
