@@ -1,4 +1,6 @@
-POST http://localhost:3001/api/blogs
+GET  http://localhost:3003/api/blogs
+###
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
@@ -7,3 +9,26 @@ Content-Type: application/json
     "url":"String",
     "likes": 61
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title":"One",
+    "author":"John Doe",
+    "url":"blog.somthing/one/",
+    "likes":77 
+}
+
+###
+PUT http://localhost:3003/api/blogs/id
+Content-Type: application/json
+
+{
+    "title":" _Updated",
+    "author":"John Doe",
+    "url":"blog.somthing/one/",
+    "likes":77 
+}
+###
+DELETE http://localhost:3003/api/blogs/id
