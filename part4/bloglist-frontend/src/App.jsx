@@ -1,25 +1,26 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import services from "./services/requests";
+// import getAllBlogs from "./services/requests";
 
 function App() {
   const [blogListElements, setBlogListElements] = useState([]);
 
-  // REQUESTS
-  async function getAllReq() {
-    const request = axios.get("http://localhost:3003/api/blogs");
-    return request.then((response) => response.data);
-  }
+  const blogRequests = new services.BlogRequest();
 
   useEffect(() => {
-    getAllReq().then((response) => {
-      setBlogListElements(response);
-    });
+    blogRequests.getAll().then((response) => setBlogListElements(response));
   }, []);
 
   // FORM Fuctionality
   function addNewBlog(event) {
     event.preventDefault();
     console.log(event);
+    blogRequests.submitNewBlog({
+      title: "Third",
+      author: "Jake Doe",
+      url: "secondblog.sometld/one/",
+      likes: 78,
+    });
   }
 
   return (
@@ -32,7 +33,12 @@ function App() {
             addNewBlog(event);
           }}
         >
-          title: <input />
+          <div>
+            title: <input />
+          </div>
+          <div>
+            author: <input />
+          </div>
           <button type="submit">Add new</button>
         </form>
       </div>
