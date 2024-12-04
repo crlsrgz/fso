@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import services from "./services/requests";
+import Title from "./components/Title.components";
 // import getAllBlogs from "./services/requests";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     title: "",
     author: "",
     url: "",
+    likes: 0,
   });
 
   const blogRequests = new services.BlogRequest();
@@ -29,6 +31,32 @@ function App() {
       url: blogEntry.url,
       likes: 1,
     });
+
+    blogRequests.getAll().then((response) => setBlogListElements(response));
+  }
+
+  function deleteBlogEntry(event) {
+    console.log(event.target.dataset.buttonId);
+    blogRequests.deleteBlogEntry(event.target.dataset.buttonId);
+    blogRequests.getAll().then((response) => setBlogListElements(response));
+  }
+
+  function likeBlogEntry(event) {
+    blogRequests
+      .getBlogEntry(event.target.dataset.buttonId)
+      .then((response) => {
+        console.log(response.likes);
+
+        const tmp = response.likes + 1;
+
+        console.log(tmp);
+        setBlogEntry({
+          title: blogEntry.title,
+          author: blogEntry.author,
+          url: blogEntry.url,
+          likes: tmp,
+        });
+      });
   }
 
   function handleBlogTitle(event) {
@@ -37,6 +65,7 @@ function App() {
       title: tmp,
       author: blogEntry.author,
       url: blogEntry.url,
+      likes: blogEntry.likes,
     });
   }
   function handleBlogAuthor(event) {
@@ -45,6 +74,7 @@ function App() {
       title: blogEntry.title,
       author: tmp,
       url: blogEntry.url,
+      likes: blogEntry.likes,
     });
   }
 
@@ -54,12 +84,13 @@ function App() {
       title: blogEntry.title,
       author: blogEntry.author,
       url: tmp,
+      likes: blogEntry.likes,
     });
   }
 
   return (
     <>
-      <h1>Bloglist</h1>
+      <Title title={"blog list"} />
       <div>
         {/* FORM */}
         <form
@@ -87,8 +118,13 @@ function App() {
           {blogListElements.map((blog) => {
             return (
               <li key={blog.id}>
-                {blog.title} - {blog.author} - {blog.likes} -{" "}
-                <button>delete</button>
+                {blog.title} - {blog.author} - {blog.likes} - {blog.url}
+                <button onClick={likeBlogEntry} data-button-id={blog.id}>
+                  like
+                </button>
+                <button onClick={deleteBlogEntry} data-button-id={blog.id}>
+                  delete
+                </button>
               </li>
             );
           })}
