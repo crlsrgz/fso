@@ -4,6 +4,11 @@ import services from "./services/requests";
 
 function App() {
   const [blogListElements, setBlogListElements] = useState([]);
+  const [blogEntry, setBlogEntry] = useState({
+    title: "",
+    author: "",
+    url: "",
+  });
 
   const blogRequests = new services.BlogRequest();
 
@@ -14,12 +19,41 @@ function App() {
   // FORM Fuctionality
   function addNewBlog(event) {
     event.preventDefault();
-    console.log(event);
+    console.log("newBlog body", blogEntry);
+
+    // console.log(event.target);
+
     blogRequests.submitNewBlog({
-      title: "Third",
-      author: "Jake Doe",
-      url: "secondblog.sometld/one/",
-      likes: 78,
+      title: blogEntry.title,
+      author: blogEntry.author,
+      url: blogEntry.url,
+      likes: 1,
+    });
+  }
+
+  function handleBlogTitle(event) {
+    const tmp = event.target.value;
+    setBlogEntry({
+      title: tmp,
+      author: blogEntry.author,
+      url: blogEntry.url,
+    });
+  }
+  function handleBlogAuthor(event) {
+    const tmp = event.target.value;
+    setBlogEntry({
+      title: blogEntry.title,
+      author: tmp,
+      url: blogEntry.url,
+    });
+  }
+
+  function handleBlogUrl(event) {
+    const tmp = event.target.value;
+    setBlogEntry({
+      title: blogEntry.title,
+      author: blogEntry.author,
+      url: tmp,
     });
   }
 
@@ -27,6 +61,7 @@ function App() {
     <>
       <h1>Bloglist</h1>
       <div>
+        {/* FORM */}
         <form
           id="addBlog"
           onSubmit={(event) => {
@@ -34,10 +69,15 @@ function App() {
           }}
         >
           <div>
-            title: <input />
+            title: <input value={blogEntry.title} onChange={handleBlogTitle} />
           </div>
           <div>
-            author: <input />
+            author:
+            <input value={blogEntry.author} onChange={handleBlogAuthor} />
+          </div>
+          <div>
+            url:
+            <input value={blogEntry.url} onChange={handleBlogUrl} />
           </div>
           <button type="submit">Add new</button>
         </form>
@@ -47,7 +87,8 @@ function App() {
           {blogListElements.map((blog) => {
             return (
               <li key={blog.id}>
-                {blog.title} - {blog.author} - {blog.likes}
+                {blog.title} - {blog.author} - {blog.likes} -{" "}
+                <button>delete</button>
               </li>
             );
           })}
