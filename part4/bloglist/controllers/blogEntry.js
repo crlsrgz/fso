@@ -12,12 +12,26 @@ blogRouter.get("/api/blogs", (request, response) => {
   });
 });
 
+blogRouter.get("/api/blogs/:id", (request, response) => {
+  BlogEntry.findById(request.params.id).then((blog) => {
+    response.json(blog);
+  });
+});
+
 blogRouter.post("/api/blogs", (request, response) => {
   const blog = new BlogEntry(request.body);
 
   blog.save().then((result) => {
     response.status(201).json(result);
   });
+});
+
+blogRouter.delete("/api/blogs/:id", (request, response) => {
+  BlogEntry.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 module.exports = blogRouter;
