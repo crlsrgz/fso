@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import services from "./services/requests";
 import Title from "./components/Title.components";
+import { handleBlogTitle } from "./functions/buttonActions";
 // import getAllBlogs from "./services/requests";
 
 function App() {
@@ -59,15 +60,6 @@ function App() {
       });
   }
 
-  function handleBlogTitle(event) {
-    const tmp = event.target.value;
-    setBlogEntry({
-      title: tmp,
-      author: blogEntry.author,
-      url: blogEntry.url,
-      likes: blogEntry.likes,
-    });
-  }
   function handleBlogAuthor(event) {
     const tmp = event.target.value;
     setBlogEntry({
@@ -100,7 +92,13 @@ function App() {
           }}
         >
           <div>
-            title: <input value={blogEntry.title} onChange={handleBlogTitle} />
+            title:{" "}
+            <input
+              value={blogEntry.title}
+              onChange={(e) => {
+                handleBlogTitle(e, blogEntry, setBlogEntry);
+              }}
+            />
           </div>
           <div>
             author:
