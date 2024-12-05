@@ -25,7 +25,7 @@ mongoose
 
 app.use(cors());
 // TODO Static folder?
-app.use(express.static("dist"));
+app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
