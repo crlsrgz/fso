@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import services from "./services/requests";
 import Title from "./components/Title.components";
-import { handleBlogTitle } from "./functions/buttonActions";
+import {
+  handleBlogAuthor,
+  handleBlogTitle,
+  handleBlogUrl,
+} from "./functions/buttonActions";
+import NewEntryForm from "./components/NewEntryForm.component";
 // import getAllBlogs from "./services/requests";
 
 function App() {
@@ -16,6 +21,7 @@ function App() {
   const blogRequests = new services.BlogRequest();
 
   useEffect(() => {
+    console.log("effect - display list");
     blogRequests.getAll().then((response) => setBlogListElements(response));
   }, []);
 
@@ -34,12 +40,25 @@ function App() {
     });
 
     blogRequests.getAll().then((response) => setBlogListElements(response));
+
+    setBlogEntry({
+      title: "",
+      author: "",
+      url: "",
+      likes: 0,
+    });
   }
 
   function deleteBlogEntry(event) {
     console.log(event.target.dataset.buttonId);
     blogRequests.deleteBlogEntry(event.target.dataset.buttonId);
     blogRequests.getAll().then((response) => setBlogListElements(response));
+    setBlogEntry({
+      title: "",
+      author: "",
+      url: "",
+      likes: 0,
+    });
   }
 
   function likeBlogEntry(event) {
@@ -51,6 +70,7 @@ function App() {
         const tmp = response.likes + 1;
 
         console.log(tmp);
+        // PUT
         setBlogEntry({
           title: blogEntry.title,
           author: blogEntry.author,
@@ -58,58 +78,26 @@ function App() {
           likes: tmp,
         });
       });
-  }
-
-  function handleBlogAuthor(event) {
-    const tmp = event.target.value;
-    setBlogEntry({
-      title: blogEntry.title,
-      author: tmp,
-      url: blogEntry.url,
-      likes: blogEntry.likes,
-    });
-  }
-
-  function handleBlogUrl(event) {
-    const tmp = event.target.value;
-    setBlogEntry({
-      title: blogEntry.title,
-      author: blogEntry.author,
-      url: tmp,
-      likes: blogEntry.likes,
-    });
+    // setBlogEntry({
+    //   title: "",
+    //   author: "",
+    //   url: "",
+    //   likes: 0,
+    // });
   }
 
   return (
     <>
       <Title title={"blog list"} />
       <div>
-        {/* FORM */}
-        <form
-          id="addBlog"
-          onSubmit={(event) => {
-            addNewBlog(event);
-          }}
-        >
-          <div>
-            title:{" "}
-            <input
-              value={blogEntry.title}
-              onChange={(e) => {
-                handleBlogTitle(e, blogEntry, setBlogEntry);
-              }}
-            />
-          </div>
-          <div>
-            author:
-            <input value={blogEntry.author} onChange={handleBlogAuthor} />
-          </div>
-          <div>
-            url:
-            <input value={blogEntry.url} onChange={handleBlogUrl} />
-          </div>
-          <button type="submit">Add new</button>
-        </form>
+        <NewEntryForm
+          addNewBlog={addNewBlog}
+          blogEntry={blogEntry}
+          setBlogEntry={setBlogEntry}
+          handleBlogTitle={handleBlogTitle}
+          handleBlogAuthor={handleBlogAuthor}
+          handleBlogUrl={handleBlogUrl}
+        />
       </div>
       <div>
         <ul>
