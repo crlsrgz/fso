@@ -26,4 +26,23 @@ const totalLikes = (array) => {
   }
 };
 
-module.exports = { dummy, totalLikes };
+const favoriteBlog = (array) => {
+  // simple
+  let mostLiked = {};
+  let mostLikes = -1;
+
+  array.forEach((item, index) => {
+    if (item.likes > mostLikes) {
+      mostLiked = {
+        title: item.title,
+        author: item.author,
+        likes: item.likes,
+      };
+      mostLikes = item.likes;
+    }
+  });
+
+  return mostLiked;
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog };
