@@ -4,8 +4,8 @@ POST http://localhost:3003/api/notes/
 Content-Type: application/json
 
 {
-    "content": "The notes are working sometime",
-    "important": "true"
+    "content": "Browser can execute only JavaScript",
+    "important": "false"
 }
 ###
 PUT http://localhost:3003/api/notes/673f2343bdd5f5c539b34df5
