@@ -41,7 +41,7 @@ notesRouter.post("/api/notes", (request, response) => {
   });
 
   note.save().then((savedNote) => {
-    response.json(savedNote);
+    response.status(201).json(savedNote);
   });
 });
 
