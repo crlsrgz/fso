@@ -67,13 +67,9 @@ notesRouter.put("/api/notes/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-notesRouter.delete("/api/notes/:id", async (request, response, next) => {
-  try {
-    await Note.findByIdAndDelete(request.params.id);
-    response.status(204).end();
-  } catch (exception) {
-    next(exception);
-  }
+notesRouter.delete("/api/notes/:id", async (request, response) => {
+  await Note.findByIdAndDelete(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = notesRouter;
