@@ -15,13 +15,13 @@ const mongoose = require("mongoose");
 logger.info("connecting to:", config.MONGODB_URI);
 
 mongoose
-  .connect(config.MONGODB_URI)
-  .then(() => {
-    logger.info("connected to Mongo");
-  })
-  .catch((error) => {
-    logger.error("error connecting to Monogo:", error.message);
-  });
+    .connect(config.MONGODB_URI)
+    .then(() => {
+        logger.info("connected to Mongo");
+    })
+    .catch((error) => {
+        logger.error("error connecting to Monogo:", error.message);
+    });
 
 app.use(cors());
 // TODO Static folder?
