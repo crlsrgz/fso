@@ -40,7 +40,7 @@ notesRouter.post("/api/notes", (request, response, next) => {
   try {
     const savedNote = note.save();
     response.status(201).json(savedNote);
-  } catch {
+  } catch (exception) {
     next(exception);
   }
 });
@@ -67,12 +67,13 @@ notesRouter.put("/api/notes/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-notesRouter.delete("/api/notes/:id", (request, response) => {
-  Note.findByIdAndDelete(request.params.id)
-    .then((result) => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
+notesRouter.delete("/api/notes/:id", async (request, response, next) => {
+  try {
+    await Note.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 module.exports = notesRouter;
