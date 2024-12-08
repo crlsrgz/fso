@@ -10,20 +10,16 @@ notesRouter.get("/api/notes", async (request, response) => {
   response.json(notes);
 });
 
-notesRouter.get("/api/notes/:id", async (request, response, next) => {
-  try {
-    const note = await Note.findById(request.params.id);
-    if (note) {
-      response.json(note);
-    } else {
-      response.status(400).end();
-    }
-  } catch (exception) {
-    next(exception);
+notesRouter.get("/api/notes/:id", async (request, response) => {
+  const note = await Note.findById(request.params.id);
+  if (note) {
+    response.json(note);
+  } else {
+    response.status(400).end();
   }
 });
 
-notesRouter.post("/api/notes", (request, response, next) => {
+notesRouter.post("/api/notes", (request, response) => {
   const body = request.body;
 
   if (body.content === undefined) {
@@ -37,12 +33,8 @@ notesRouter.post("/api/notes", (request, response, next) => {
     important: Boolean(body.important) || false,
   });
 
-  try {
-    const savedNote = note.save();
-    response.status(201).json(savedNote);
-  } catch (exception) {
-    next(exception);
-  }
+  const savedNote = note.save();
+  response.status(201).json(savedNote);
 });
 
 notesRouter.put("/api/notes/:id", (request, response, next) => {
