@@ -12,8 +12,8 @@ PUT http://localhost:3003/api/notes/673f2343bdd5f5c539b34df5
 Content-Type: application/json
 
 {
-    "content": "Fourth part",
-    "important": "true"
+    "content": "Sixth part",
+    "important": "false"
 }
 ###
 DELETE http://localhost:3003/api/notes/67416d18e40f2ae6f7eb29be

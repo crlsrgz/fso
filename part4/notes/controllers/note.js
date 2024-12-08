@@ -27,8 +27,9 @@ notesRouter.get("/api/notes/:id", (request, response, next) => {
     });
 });
 
-notesRouter.post("/api/notes", (request, response) => {
+notesRouter.post("/api/notes", (request, response, next) => {
   const body = request.body;
+
   if (body.content === undefined) {
     return response.status(400).json({
       error: "content missing",
@@ -40,9 +41,12 @@ notesRouter.post("/api/notes", (request, response) => {
     important: Boolean(body.important) || false,
   });
 
-  note.save().then((savedNote) => {
+  try {
+    const savedNote = note.save();
     response.status(201).json(savedNote);
-  });
+  } catch {
+    next(exception);
+  }
 });
 
 notesRouter.put("/api/notes/:id", (request, response, next) => {
