@@ -10,21 +10,17 @@ notesRouter.get("/api/notes", async (request, response) => {
   response.json(notes);
 });
 
-notesRouter.get("/api/notes/:id", (request, response, next) => {
-  Note.findById(request.params.id)
-    .then((note) => {
-      if (note) {
-        response.json(note);
-      } else {
-        response.statusMessage =
-          "It seems the note you're looking fore is not here";
-
-        response.status(404).end();
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
+notesRouter.get("/api/notes/:id", async (request, response, next) => {
+  try {
+    const note = await Note.findById(request.params.id);
+    if (note) {
+      response.json(note);
+    } else {
+      response.status(400).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 notesRouter.post("/api/notes", (request, response, next) => {
