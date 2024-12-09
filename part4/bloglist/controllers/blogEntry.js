@@ -20,7 +20,6 @@ blogRouter.get("/api/blogs/:id", (request, response) => {
 
 blogRouter.post("/api/blogs", (request, response) => {
     const blog = new BlogEntry(request.body);
-
     blog.save().then((result) => {
         response.status(201).json(result);
     });
