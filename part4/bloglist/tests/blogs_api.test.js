@@ -45,6 +45,15 @@ test.only("There are three blogs", async () => {
     assert.strictEqual(responseLength, initialLength);
 });
 
+test.only('First entry has the address "https://reactpatterns.com/"', async () => {
+    const response = await api.get("/api/blogs");
+    const contents = await response.body.map((entry) => {
+        return entry.url;
+    });
+    // assert.strictEqual(contents.includes("https://reactpatterns.com/"), true);
+    assert.strictEqual(contents[0] === "https://reactpatterns.com/", true);
+});
+
 after(async () => {
     await mongoose.connection.close();
 });
