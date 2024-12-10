@@ -93,6 +93,23 @@ test("Create Note", async () => {
     assert(contents.includes("http://www.john.somepage"));
 });
 
+test("Missing likes", async () => {
+    const response = await api.get("/api/blogs");
+    const contents = response.body;
+
+    for (let entry of contents) {
+        if (!entry.likes) {
+            entry.likes = 0;
+        }
+    }
+
+    const likesArray = contents.map((entry) => {
+        return entry.likes !== undefined;
+    });
+
+    assert.strictEqual(likesArray.includes(false), false);
+});
+
 after(async () => {
     await mongoose.connection.close();
 });
