@@ -20,9 +20,17 @@ blogRouter.get("/api/blogs/:id", (request, response) => {
 
 blogRouter.post("/api/blogs", (request, response) => {
     const blog = new BlogEntry(request.body);
+
     if (!blog.likes) {
         blog.likes = 0;
     }
+
+    if (blog.title === undefined || blog.url === undefined) {
+        return response.status(400).json({
+            error: "Content error, check all fields are correct",
+        });
+    }
+
     blog.save().then((result) => {
         response.status(201).json(result);
     });

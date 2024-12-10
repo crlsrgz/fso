@@ -74,12 +74,7 @@ test("Check id keys", async () => {
 });
 
 test("Create Note", async () => {
-    const newBlogEntry = {
-        title: "Test Post",
-        author: "John Doe",
-        url: "http://www.john.somepage",
-        likes: 5, // missing will default to 0
-    };
+    const newBlogEntry = helper.newBlogEntry;
 
     await api
         .post("/api/blogs")
@@ -95,12 +90,7 @@ test("Create Note", async () => {
 });
 
 test("Missing likes", async () => {
-    const newBlogEntry = {
-        title: "Test Post",
-        author: "John Doe",
-        url: "http://www.john.somepage",
-        // likes: 5, // missing will default to 0
-    };
+    const newBlogEntry = helper.newBlogEntryMissingLikes;
 
     await api
         .post("/api/blogs")
@@ -112,9 +102,19 @@ test("Missing likes", async () => {
     const getLikes = response.body.filter(
         (item) => item.title === newBlogEntry.title,
     );
-    console.log("=====>", getLikes);
 
     assert.strictEqual(getLikes[0].likes, 0);
+});
+
+test("Missing Title", async () => {
+    const newBlogEntry = helper.newBlogEntryMissingTitle;
+    // Expects a rejection
+    await api.post("/api/blogs").send(newBlogEntry).expect(400);
+});
+test("Missing url", async () => {
+    const newBlogEntry = helper.newBlogEntryMissingUrl;
+    // Expects a rejection
+    await api.post("/api/blogs").send(newBlogEntry).expect(400);
 });
 
 after(async () => {
