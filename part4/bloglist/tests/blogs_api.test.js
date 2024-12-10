@@ -38,6 +38,12 @@ test.only("Return JSON Content", async () => {
         .expect("Content-Type", /application\/json/);
 });
 
+test("Get Entry by ID", async () => {
+    const request = helper.blogs[0];
+    const response = await api.get(`/api/blogs/${request._id}`);
+    assert.strictEqual(response.body.title, request.title);
+});
+
 test.only("There are three blogs", async () => {
     const response = await api.get("/api/blogs");
     const responseLength = await response.body.length;
