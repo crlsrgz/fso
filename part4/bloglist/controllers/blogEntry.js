@@ -20,6 +20,9 @@ blogRouter.get("/api/blogs/:id", (request, response) => {
 
 blogRouter.post("/api/blogs", (request, response) => {
     const blog = new BlogEntry(request.body);
+    if (!blog.likes) {
+        blog.likes = 0;
+    }
     blog.save().then((result) => {
         response.status(201).json(result);
     });

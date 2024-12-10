@@ -10,6 +10,7 @@ const app = require("../app");
 const api = supertest(app);
 
 const BlogEntry = require("../models/blogEntry");
+const { title } = require("node:process");
 
 // Clear DB and create entries for every test
 beforeEach(async () => {
@@ -77,7 +78,7 @@ test("Create Note", async () => {
         title: "Test Post",
         author: "John Doe",
         url: "http://www.john.somepage",
-        likes: 5,
+        likes: 5, // missing will default to 0
     };
 
     await api
@@ -94,20 +95,26 @@ test("Create Note", async () => {
 });
 
 test("Missing likes", async () => {
+    const newBlogEntry = {
+        title: "Test Post",
+        author: "John Doe",
+        url: "http://www.john.somepage",
+        // likes: 5, // missing will default to 0
+    };
+
+    await api
+        .post("/api/blogs")
+        .send(newBlogEntry)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
     const response = await api.get("/api/blogs");
-    const contents = response.body;
+    const getLikes = response.body.filter(
+        (item) => item.title === newBlogEntry.title,
+    );
+    console.log("=====>", getLikes);
 
-    for (let entry of contents) {
-        if (!entry.likes) {
-            entry.likes = 0;
-        }
-    }
-
-    const likesArray = contents.map((entry) => {
-        return entry.likes !== undefined;
-    });
-
-    assert.strictEqual(likesArray.includes(false), false);
+    assert.strictEqual(getLikes[0].likes, 0);
 });
 
 after(async () => {
