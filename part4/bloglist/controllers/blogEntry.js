@@ -6,16 +6,14 @@ blogRouter.get("/", (request, response) => {
     response.send("<h1>Hello Blog</h1>");
 });
 
-blogRouter.get("/api/blogs", (request, response) => {
-    BlogEntry.find({}).then((blogs) => {
-        response.json(blogs);
-    });
+blogRouter.get("/api/blogs", async (request, response) => {
+    const blogs = await BlogEntry.find({});
+    response.json(blogs);
 });
 
-blogRouter.get("/api/blogs/:id", (request, response) => {
-    BlogEntry.findById(request.params.id).then((blog) => {
-        response.json(blog);
-    });
+blogRouter.get("/api/blogs/:id", async (request, response) => {
+    const blog = await BlogEntry.findById(request.params.id);
+    response.json(blog);
 });
 
 blogRouter.post("/api/blogs", (request, response) => {
