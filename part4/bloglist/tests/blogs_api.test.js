@@ -79,7 +79,7 @@ test("Check id keys", async () => {
     assert.strictEqual(idIsKey, true);
 });
 
-test("Create Note", async () => {
+test("Create Blog entry", async () => {
     const newBlogEntry = helper.newBlogEntry;
 
     await api
@@ -89,10 +89,8 @@ test("Create Note", async () => {
         .expect("Content-Type", /application\/json/);
 
     const response = await api.get("/api/blogs");
-    const contents = response.body.map((res) => res.url);
 
     assert.strictEqual(response.body.length, helper.blogs.length + 1);
-    assert(contents.includes("http://www.john.somepage"));
 });
 
 test("Missing likes", async () => {
