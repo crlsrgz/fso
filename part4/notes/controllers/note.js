@@ -12,10 +12,18 @@ notesRouter.get("/api/notes", async (request, response) => {
 
 notesRouter.get("/api/notes/:id", async (request, response) => {
   const note = await Note.findById(request.params.id);
+  console.log(
+    "is id Valid ====>",
+    mongoose.Types.ObjectId.isValid(request.params.id)
+  );
+  if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
+    console.log("mongoose type", request.params.id);
+    response.status(400).end();
+  }
   if (note) {
     response.json(note);
   } else {
-    response.status(400).end();
+    response.status(404).end();
   }
 });
 
