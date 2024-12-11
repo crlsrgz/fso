@@ -14,16 +14,17 @@ const Note = require("../models/note");
 
 beforeEach(async () => {
   await Note.deleteMany({});
-  console.log("cleared");
+  await Note.insertMany(helper.initialNotes);
+  // console.log("cleared");
 
-  // for "pauses" at every iteration, allowinf async functionality
-  // await promise all is also a solution
-  for (let note of helper.initialNotes) {
-    let noteObject = new Note(note);
-    await noteObject.save();
-    console.log("saved", note);
-  }
-  console.log("done");
+  // // for "pauses" at every iteration, allowinf async functionality
+  // // await promise all is also a solution
+  // for (let note of helper.initialNotes) {
+  //   let noteObject = new Note(note);
+  //   await noteObject.save();
+  //   console.log("saved", note);
+  // }
+  // console.log("done");
 });
 
 describe("when there is initialy some notes saved", () => {
