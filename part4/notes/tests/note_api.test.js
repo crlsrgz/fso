@@ -12,21 +12,21 @@ const api = supertest(app);
 /*:: Reset database and generate test data  ::*/
 const Note = require("../models/note");
 
+beforeEach(async () => {
+  await Note.deleteMany({});
+  console.log("cleared");
+
+  // for "pauses" at every iteration, allowinf async functionality
+  // await promise all is also a solution
+  for (let note of helper.initialNotes) {
+    let noteObject = new Note(note);
+    await noteObject.save();
+    console.log("saved", note);
+  }
+  console.log("done");
+});
+
 describe("when there is initialy some notes saved", () => {
-  beforeEach(async () => {
-    await Note.deleteMany({});
-    console.log("cleared");
-
-    // for "pauses" at every iteration, allowinf async functionality
-    // await promise all is also a solution
-    for (let note of helper.initialNotes) {
-      let noteObject = new Note(note);
-      await noteObject.save();
-      console.log("saved", note);
-    }
-    console.log("done");
-  });
-
   /*:: TESTS ::*/
   test("notes are returned as json", async () => {
     console.log("Connection and JSON");
@@ -45,8 +45,8 @@ describe("when there is initialy some notes saved", () => {
   test("a specific note is within the returned notes", async () => {
     const response = await api.get("/api/notes");
 
-    const contents = response.body.map((resItem) => resItem.content);
-    assert(contents.includdes("Browser can execute only JavaScript"));
+    const contents = await response.body.map((resItem) => resItem.content);
+    assert(contents.includes("Browser can execute only JavaScript"));
   });
 
   test("there are two notes", async () => {
@@ -90,7 +90,6 @@ describe("add new note", () => {
     await api.post("/api/notes").send(newNote).expect(400);
 
     const response = await api.get("/api/notes");
-
     assert.strictEqual(response.body.length, helper.initialNotes.length);
   });
 });
