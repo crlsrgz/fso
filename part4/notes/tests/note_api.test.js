@@ -117,9 +117,9 @@ describe("view a specific note", () => {
 
   test("fails with statuscode 400 id is invalid", async () => {
     const invalidId = "5a3d5da59070081a82a3445";
-    // const invalidId = "5a422a851b54a676234d17f7";
 
-    await api.get(`api/notes/${invalidId}`).expect(400);
+    const response = await api.get(`/api/notes/${invalidId}`);
+    assert.strictEqual(response.status, 400);
   });
 });
 

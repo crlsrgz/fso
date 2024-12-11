@@ -1,6 +1,8 @@
 const notesRouter = require("express").Router();
 const Note = require("../models/note");
 
+const mongoose = require("mongoose");
+
 notesRouter.get("/", (request, response) => {
   response.send("<h1>Hello World</h1>");
 });
@@ -11,15 +13,12 @@ notesRouter.get("/api/notes", async (request, response) => {
 });
 
 notesRouter.get("/api/notes/:id", async (request, response) => {
-  const note = await Note.findById(request.params.id);
-  console.log(
-    "is id Valid ====>",
-    mongoose.Types.ObjectId.isValid(request.params.id)
-  );
   if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
     console.log("mongoose type", request.params.id);
     response.status(400).end();
   }
+  const note = await Note.findById(request.params.id);
+
   if (note) {
     response.json(note);
   } else {
