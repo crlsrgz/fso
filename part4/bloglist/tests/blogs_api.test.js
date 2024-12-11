@@ -121,6 +121,25 @@ test("Missing url", async () => {
     await api.post("/api/blogs").send(newBlogEntry).expect(400);
 });
 
+test("update title of blog", async () => {
+    const newTitle = "the blog";
+    const entryIndex = 0;
+    const blogsDb = await helper.blogEntriesInDb();
+    const blogEntryToUpdate = blogsDb[entryIndex];
+
+    const updatedEntry = {
+        title: newTitle,
+        author: blogEntryToUpdate.author,
+        url: blogEntryToUpdate.url,
+    };
+
+    await api.put(`/api/blogs/${blogEntryToUpdate.id}`).send(updatedEntry);
+
+    const checkEntryInDB = await helper.blogEntriesInDb();
+
+    assert.strictEqual(checkEntryInDB[entryIndex].title, newTitle);
+});
+
 after(async () => {
     await mongoose.connection.close();
-});
+}); //

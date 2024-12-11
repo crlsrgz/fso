@@ -31,14 +31,13 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3003/api/blogs/id
+PUT http://localhost:3003/api/blogs/67580e36380c0d20c88fbe5a
 Content-Type: application/json
 
 {
-    "title":" _Updated",
+    "title":"Updated",
     "author":"John Doe",
-    "url":"blog.somthing/one/",
-    "likes":77 
-
+    "url":"blog.somthing/one/"
+}
 ###
 DELETE http://localhost:3003/api/blogs/675025336e144e8fa4eb0578

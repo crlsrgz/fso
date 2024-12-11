@@ -45,10 +45,20 @@ const newBlogEntryMissingUrl = {
     author: "John Doe",
     url: "http://www.missinglikes.somepage",
 };
+
+/*:: Functions */
+const BlogEntry = require("../models/blogEntry");
+
+const blogEntriesInDb = async () => {
+    const blogEntries = await BlogEntry.find({});
+    return blogEntries.map((entry) => entry.toJSON());
+};
+
 module.exports = {
     blogs,
     newBlogEntry,
     newBlogEntryMissingLikes,
     newBlogEntryMissingTitle,
     newBlogEntryMissingUrl,
+    blogEntriesInDb,
 };

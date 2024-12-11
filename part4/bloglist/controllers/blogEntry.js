@@ -34,6 +34,27 @@ blogRouter.post("/api/blogs", (request, response) => {
     });
 });
 
+blogRouter.put("/api/blogs/:id", (request, response, next) => {
+    const body = request.body;
+    const blogEntry = {
+        title: body.title,
+        author: body.author,
+        url: body.url,
+    };
+
+    BlogEntry.findByIdAndUpdate(request.params.id, blogEntry, {
+        new: true,
+        runValidators: false,
+    })
+        .then((updateBlogEntry) => {
+            console.log(updateBlogEntry);
+            response.json(updateBlogEntry);
+        })
+        .catch((error) => {
+            next(error);
+        });
+});
+
 blogRouter.delete("/api/blogs/:id", (request, response) => {
     BlogEntry.findByIdAndDelete(request.params.id)
         .then(() => {
