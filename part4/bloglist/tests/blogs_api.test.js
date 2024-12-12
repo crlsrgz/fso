@@ -140,6 +140,21 @@ test("C000 update title of blog", async () => {
     assert.strictEqual(checkEntryInDB[entryIndex].title, newTitle);
 });
 
+test("D000 delete blog entry", async () => {
+    const entriesAtStart = await helper.blogEntriesInDb();
+    const entryToDelete = entriesAtStart[0];
+
+    await api.delete(`/api/blogs/${entryToDelete.id}`);
+    await api.get(`/api/notes/${entryToDelete.id}`).expect(404);
+    console.log("D000, Status 404");
+
+    const checkEntries = await api.get(`/api/blogs`);
+    assert.strictEqual(entriesAtStart.length - 1, checkEntries.body.length);
+    console.log(
+        `D000 number of entries ${checkEntries.body.length}, from initial ${entriesAtStart.length} `,
+    );
+});
+
 after(async () => {
     await mongoose.connection.close();
-}); //
+}); ////
