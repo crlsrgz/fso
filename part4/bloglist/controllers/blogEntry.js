@@ -33,7 +33,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
     response.status(201).json(savedEntry);
 });
 
-blogRouter.put("/api/blogs/:id", async (request, response, next) => {
+blogRouter.put("/api/blogs/:id", async (request, response) => {
     const body = request.body;
     const blogEntry = {
         title: body.title,
@@ -52,12 +52,9 @@ blogRouter.put("/api/blogs/:id", async (request, response, next) => {
     response.json(updatedBlogEntry);
 });
 
-blogRouter.delete("/api/blogs/:id", (request, response) => {
-    BlogEntry.findByIdAndDelete(request.params.id)
-        .then(() => {
-            response.status(204).end();
-        })
-        .catch((error) => next(error));
+blogRouter.delete("/api/blogs/:id", async (request, response) => {
+    await BlogEntry.findByIdAndDelete(request.params.id);
+    response.status(204).end();
 });
 
 module.exports = blogRouter;
