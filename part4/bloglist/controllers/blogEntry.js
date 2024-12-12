@@ -16,8 +16,8 @@ blogRouter.get("/api/blogs/:id", async (request, response) => {
     response.json(blog);
 });
 
-blogRouter.post("/api/blogs", (request, response) => {
-    const blog = new BlogEntry(request.body);
+blogRouter.post("/api/blogs", async (request, response) => {
+    const blog = await BlogEntry(request.body);
 
     if (!blog.likes) {
         blog.likes = 0;
@@ -29,12 +29,11 @@ blogRouter.post("/api/blogs", (request, response) => {
         });
     }
 
-    blog.save().then((result) => {
-        response.status(201).json(result);
-    });
+    const savedEntry = blog.save();
+    response.status(201).json(savedEntry);
 });
 
-blogRouter.put("/api/blogs/:id", (request, response, next) => {
+blogRouter.put("/api/blogs/:id", async (request, response, next) => {
     const body = request.body;
     const blogEntry = {
         title: body.title,
@@ -42,17 +41,15 @@ blogRouter.put("/api/blogs/:id", (request, response, next) => {
         url: body.url,
     };
 
-    BlogEntry.findByIdAndUpdate(request.params.id, blogEntry, {
-        new: true,
-        runValidators: false,
-    })
-        .then((updateBlogEntry) => {
-            console.log(updateBlogEntry);
-            response.json(updateBlogEntry);
-        })
-        .catch((error) => {
-            next(error);
-        });
+    const updatedBlogEntry = await BlogEntry.findByIdAndUpdate(
+        request.params.id,
+        blogEntry,
+        {
+            new: true,
+            runValidators: false,
+        },
+    );
+    response.json(updatedBlogEntry);
 });
 
 blogRouter.delete("/api/blogs/:id", (request, response) => {
