@@ -26,25 +26,25 @@ beforeEach(async () => {
     console.log("done");
 });
 
-test("API test initial setup", () => {
+test("A000 API test initial setup", () => {
     const result = 111;
     assert.strictEqual(result, 111);
 });
 
-test.only("Return JSON Content", async () => {
+test("A001 Return JSON Content", async () => {
     await api
         .get("/api/blogs")
         .expect(200)
         .expect("Content-Type", /application\/json/);
 });
 
-test("Get Entry by ID", async () => {
+test("A002 Get Entry by ID", async () => {
     const request = helper.blogs[0];
     const response = await api.get(`/api/blogs/${request._id}`);
     assert.strictEqual(response.body.title, request.title);
 });
 
-test.only("There are three blogs", async () => {
+test("A003 There are three blogs", async () => {
     const response = await api.get("/api/blogs");
     const responseLength = await response.body.length;
     const initialLength = helper.blogs.length;
@@ -52,7 +52,7 @@ test.only("There are three blogs", async () => {
     assert.strictEqual(responseLength, initialLength);
 });
 
-test.only('First entry has the address "https://reactpatterns.com/"', async () => {
+test('A004 First entry has the address "https://reactpatterns.com/"', async () => {
     const response = await api.get("/api/blogs");
     const contents = await response.body.map((entry) => {
         return entry.url;
@@ -61,7 +61,7 @@ test.only('First entry has the address "https://reactpatterns.com/"', async () =
     assert.strictEqual(contents[0] === "https://reactpatterns.com/", true);
 });
 
-test("Check id keys", async () => {
+test("A005 Check id keys", async () => {
     // Get the entries,
     // - map to get the keys of every entry,
     // - map to get just the if the id is included
@@ -79,7 +79,7 @@ test("Check id keys", async () => {
     assert.strictEqual(idIsKey, true);
 });
 
-test("Create Blog entry", async () => {
+test("B000 Create Blog entry", async () => {
     const newBlogEntry = helper.newBlogEntry;
 
     await api
@@ -93,7 +93,7 @@ test("Create Blog entry", async () => {
     assert.strictEqual(response.body.length, helper.blogs.length + 1);
 });
 
-test("Missing likes", async () => {
+test("B001 Missing likes", async () => {
     const newBlogEntry = helper.newBlogEntryMissingLikes;
 
     await api
@@ -110,18 +110,18 @@ test("Missing likes", async () => {
     assert.strictEqual(getLikes[0].likes, 0);
 });
 
-test("Missing Title", async () => {
+test("B002 Missing Title", async () => {
     const newBlogEntry = helper.newBlogEntryMissingTitle;
     // Expects a rejection
     await api.post("/api/blogs").send(newBlogEntry).expect(400);
 });
-test("Missing url", async () => {
+test("B003 Missing url", async () => {
     const newBlogEntry = helper.newBlogEntryMissingUrl;
     // Expects a rejection
     await api.post("/api/blogs").send(newBlogEntry).expect(400);
 });
 
-test("update title of blog", async () => {
+test("C000 update title of blog", async () => {
     const newTitle = "the blog";
     const entryIndex = 0;
     const blogsDb = await helper.blogEntriesInDb();
