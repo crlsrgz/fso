@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const userRouter = require("express").Router();
+const usersRouter = require("express").Router();
 const User = require("../models/user");
 
-userRouter.post("/", async (request, response) => {
+usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
 
   const saltRounds = 10;
@@ -18,4 +18,9 @@ userRouter.post("/", async (request, response) => {
   response.status(201).json(savedUser);
 });
 
-module.exports = userRouter;
+usersRouter.get("/", async (request, response) => {
+  const users = await User.find({});
+  response.json(users);
+});
+
+module.exports = usersRouter;

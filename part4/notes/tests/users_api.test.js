@@ -23,7 +23,7 @@ describe("AA000 when there is initially one user in db", () => {
     await user.save();
   });
 
-  test("creation succeeds with a fresh username", async () => {
+  test("AA001 creation succeeds with a fresh username", async () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
@@ -45,6 +45,27 @@ describe("AA000 when there is initially one user in db", () => {
     // console.log("===> ", usernames, usersAtEnd);
 
     assert(usernames.includes(newUser.username));
+  });
+
+  test("AA002 creation fails withh proper statuscode and messge if username already taken", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "root",
+      name: "Superuser",
+      password: "saladin",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    assert(result.body.error.includes("expected `username` to be unique"));
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length);
   });
 });
 //

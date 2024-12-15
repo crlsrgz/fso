@@ -37,5 +37,15 @@ Content-Type: application/json
     "password": "sdfudsfs7das"
 
 }
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username":"Galadriel",
+    "name": "GaladrielElf",
+    "password": "sdfudsfaas7das"
+
+}
 
 
