@@ -24,8 +24,18 @@ POST http://localhost:3003/api/notes/
 Content-Type: application/json
 
 {
-    "content": "The notes are working sometime",
-    "important": "true"
+    "content": "Note created with user id",
+    "important": "true",
+    "userId": "675f050e3f2af3ecac056aca"
+}
+###
+POST http://localhost:3003/api/notes/
+Content-Type: application/json
+
+{
+    "content": "Note created by Galadriel",
+    "important": "true",
+    "userId": "675effc6306f2e0431bed875"
 }
 ###
 POST http://localhost:3003/api/users/
@@ -42,8 +52,7 @@ POST http://localhost:3003/api/users/
 Content-Type: application/json
 
 {
-    "username":"Galadriel",
-    "name": "GaladrielElf",
+    "username":"root",
     "password": "sdfudsfaas7das"
 
 }
