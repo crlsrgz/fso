@@ -52,8 +52,8 @@ POST http://localhost:3003/api/users/
 Content-Type: application/json
 
 {
-    "username":"JohnathanDoe",
-    "name": "Johnathan Doe",
+    "username":"JaneSmith",
+    "name": "Jane Smith",
     "password": "hello"
 
 }
@@ -62,20 +62,19 @@ POST http://localhost:3003/api/login/
 Content-Type: application/json
 
 {
-    "username":"JohnathanDoe",
+    "username":"JaneSmith",
     "password": "hello"
 
 }
 ###
 POST http://localhost:3003/api/notes/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG5hdGhhbkRvZSIsImlkIjoiNjc2MDMyNTVkM2IxMDlkNTA2OTQ1OWQ0IiwiaWF0IjoxNzM0MzgwODY4fQ.s39h1vw6i_7VJJHRGcrYp4spVONhC63X9Z0OeRaqI4o
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbmVTbWl0aCIsImlkIjoiNjc2MDk0ZjdhZThmMDk0MTYwMzJjZGU3IiwiaWF0IjoxNzM0MzgyODQ5fQ.QwTKmPNRtOGxueS2ZoltM_3jEtnDRBgzlrsvtgn3ju8
 
 {
     "content": "Single page app token based auth",
-    "important": "false",
-    "userId": "67603255d3b109d5069459d4"
+    "important": false,
+    "userId": "676094f7ae8f09416032cde7"
 }
 
 
