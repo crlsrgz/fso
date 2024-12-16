@@ -56,5 +56,24 @@ Content-Type: application/json
     "password": "sdfudsfaas7das"
 
 }
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username":"JohnathanDoe",
+    "name": "Johnathan Doe",
+    "password": "hello"
+
+}
+###
+POST http://localhost:3003/api/login/
+Content-Type: application/json
+
+{
+    "username":"JohnathanDoe",
+    "password": "hello"
+
+}
 
 
