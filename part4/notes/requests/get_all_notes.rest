@@ -72,7 +72,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbmVTbWl0aCIsImlkIjoiNjc2MDk0ZjdhZThmMDk0MTYwMzJjZGU3IiwiaWF0IjoxNzM0MzgyODQ5fQ.QwTKmPNRtOGxueS2ZoltM_3jEtnDRBgzlrsvtgn3ju8
 
 {
-    "content": "Single page app token based auth",
+    "content": "Note from the hood",
     "important": false,
     "userId": "676094f7ae8f09416032cde7"
 }
