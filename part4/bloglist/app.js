@@ -11,6 +11,8 @@ const middleware = require("./utils/middleware");
 const blogRouter = require("./controllers/blogEntry");
 const logger = require("./utils/logger");
 
+const userRouter = require("./controllers/user");
+
 const mongoose = require("mongoose");
 
 // // mongoose.set("strictQuery", false);
@@ -32,6 +34,7 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use("/", blogRouter);
+app.use("/", userRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
