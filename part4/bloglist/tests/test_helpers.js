@@ -54,6 +54,17 @@ const blogEntriesInDb = async () => {
     return blogEntries.map((entry) => entry.toJSON());
 };
 
+const newUser = {
+    username: "legolas",
+    name: "Legolas",
+    password: "ethelum",
+};
+
+const newInvalidUser = {
+    name: "Gimli",
+    password: "edro",
+};
+
 module.exports = {
     blogs,
     newBlogEntry,
@@ -61,4 +72,6 @@ module.exports = {
     newBlogEntryMissingTitle,
     newBlogEntryMissingUrl,
     blogEntriesInDb,
+    newUser,
+    newInvalidUser,
 };
