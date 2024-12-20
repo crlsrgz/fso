@@ -12,7 +12,7 @@ const User = require("../models/user");
 
 const helper = require("./test_helpers");
 
-describe("AB000 initial tests", () => {
+describe("AB000 Check database response and user creation", () => {
     beforeEach(async () => {
         await User.deleteMany({});
 
