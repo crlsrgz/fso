@@ -6,8 +6,9 @@ const User = require("../models/user");
 
 loginRouter.post("/api/login", async (request, response) => {
     const { username, password } = request.body;
+
     const user = await User.findOne({ username });
-    console.log("===>", username, password, user);
+
     const passwordCorrect =
         user === null
             ? false

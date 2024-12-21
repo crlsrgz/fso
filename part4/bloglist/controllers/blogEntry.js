@@ -1,13 +1,28 @@
 const blogRouter = require("express").Router();
 
 const BlogEntry = require("../models/blogEntry");
+const User = require("../models/user");
+
+const jwt = require("jsonwebtoken");
+
+function getTokenFrom(request) {
+    const authorization = request.get("authorization");
+    if (authorization && authorization.startsWith("Bearer")) {
+        return authorization.replace("Bearer ", "");
+    }
+    return null;
+}
 
 blogRouter.get("/", (request, response) => {
     response.send("<h1>Hello Blog</h1>");
 });
 
 blogRouter.get("/api/blogs", async (request, response) => {
-    const blogs = await BlogEntry.find({});
+    // const blogs = await BlogEntry.find({});
+    const blogs = await BlogEntry.find({}).populate("user", {
+        username: 1,
+        name: 1,
+    });
     response.json(blogs);
 });
 
@@ -17,7 +32,17 @@ blogRouter.get("/api/blogs/:id", async (request, response) => {
 });
 
 blogRouter.post("/api/blogs", async (request, response) => {
-    const blog = await BlogEntry(request.body);
+    const blog = request.body;
+    // TODO
+    // Refactor in a middleware functionality
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: "token invalid" });
+    }
+
+    const user = await User.findById(decodedToken.id);
+    console.log("===>", user, decodedToken);
 
     if (!blog.likes) {
         blog.likes = 0;
@@ -29,7 +54,18 @@ blogRouter.post("/api/blogs", async (request, response) => {
         });
     }
 
-    const savedEntry = blog.save();
+    const newEntryBlog = new BlogEntry({
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        user: user.id,
+    });
+
+    const savedEntry = await newEntryBlog.save();
+
+    user.blogs = user.blogs.concat(savedEntry._id);
+    await user.save();
+
     response.status(201).json(savedEntry);
 });
 
