@@ -25,9 +25,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"One no likes",
-    "author":"John Doe",
-    "url":"blog.somthing/one/"
+    "title":"The battle of Minas Tirith",
+    "author":"aragorn",
+    "url":"aragorn.gond/battle/"
 }
 
 ###
@@ -40,13 +40,24 @@ Content-Type: application/json
     "url":"blog.somthing/one/"
 }
 ###
-DELETE http://localhost:3003/api/blogs/675025336e144e8fa4eb0578
+DELETE http://localhost:3003/api/blogs/6765ca165d04a4fbc75a4674
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "legoddlas",
+    "username": "legolas",
     "name": "Legolas",
-    "password": "ethelum"
+    "password": "hello"
 }
+
+###
+POST http://localhost:3003/api/login/
+Content-Type: application/json
+
+{
+    "username":"legolas",
+    "password": "hello"
+
+}
+###

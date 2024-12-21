@@ -12,7 +12,7 @@ const blogRouter = require("./controllers/blogEntry");
 const logger = require("./utils/logger");
 
 const userRouter = require("./controllers/user");
-
+const loginRouter = require("./controllers/login");
 const mongoose = require("mongoose");
 
 // // mongoose.set("strictQuery", false);
@@ -35,6 +35,7 @@ app.use(middleware.requestLogger);
 
 app.use("/", blogRouter);
 app.use("/", userRouter);
+app.use("/", loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
