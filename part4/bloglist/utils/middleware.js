@@ -23,8 +23,22 @@ const errorHandler = (error, request, response, next) => {
     next(error);
 };
 
+const tokenExtractor = (request, response, next) => {
+    const authorization = request.get("authorization");
+    if (authorization && authorization.startsWith("Bearer")) {
+        // return authorization.replace("Bearer ", "");
+        request.token = authorization.replace("Bearer ", "");
+    } else {
+        // return null;
+        request.token = null;
+    }
+    console.log("middleware ==>", request.token);
+    next();
+};
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
+    tokenExtractor,
 };
