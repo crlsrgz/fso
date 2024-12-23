@@ -23,10 +23,9 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDg5NDE5NCwiZXhwIjoxNzM0ODk3Nzk0fQ.NUxtyfD64iS8kvM2XobiGPK9hd5jtq32LrorIYzBz1s 
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk1ODI3NSwiZXhwIjoxNzM0OTYxODc1fQ.qQdV6sAbE6Jei1EC-p5jjR5-ATXHHdBjtih_eAsLr90 
 {
-    "title":"balrog",
+    "title":"Blog3",
     "author":"gandald",
     "url":"aragorn.gond/forest/",
     "userId":"67685db17edfd867ac1d29f9"
@@ -42,7 +41,8 @@ Content-Type: application/json
     "url":"blog.somthing/one/"
 }
 ###
-DELETE http://localhost:3003/api/blogs/6765ca165d04a4fbc75a4674
+DELETE http://localhost:3003/api/blogs/67695aab0e631879db826294
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk1ODUwOCwiZXhwIjoxNzM0OTYyMTA4fQ.DuXNi60vnnMejyOhy6ja5jS7ldMCaSaUBCNRYoXxADI
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json

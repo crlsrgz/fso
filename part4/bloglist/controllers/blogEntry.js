@@ -35,12 +35,10 @@ blogRouter.post("/api/blogs", async (request, response) => {
     const blog = request.body;
     // TODO
     // Refactor in a middleware functionality
-    console.log("===>", request.token);
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
 
     // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
-    console.log("decodedToken ===>", decodedToken);
 
     if (!decodedToken.id) {
         return response.status(401).json({ error: "token invalid" });
@@ -94,6 +92,12 @@ blogRouter.put("/api/blogs/:id", async (request, response) => {
 });
 
 blogRouter.delete("/api/blogs/:id", async (request, response) => {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+    if (!decodedToken.id) {
+        return response.status(404).json({ error: "token invalid" });
+    }
+
     await BlogEntry.findByIdAndDelete(request.params.id);
     response.status(204).end();
 });
