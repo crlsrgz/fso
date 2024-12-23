@@ -41,8 +41,8 @@ Content-Type: application/json
     "url":"blog.somthing/one/"
 }
 ###
-DELETE http://localhost:3003/api/blogs/67695aab0e631879db826294
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk1ODUwOCwiZXhwIjoxNzM0OTYyMTA4fQ.DuXNi60vnnMejyOhy6ja5jS7ldMCaSaUBCNRYoXxADI
+DELETE http://localhost:3003/api/blogs/67695aa00e631879db82628c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk2MTY3NywiZXhwIjoxNzM0OTY1Mjc3fQ.nSqDk75YWptBhQJiy2qYYg44iDpVtajOPqVZslsDpNI 
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json
