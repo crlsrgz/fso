@@ -23,7 +23,8 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk1ODI3NSwiZXhwIjoxNzM0OTYxODc1fQ.qQdV6sAbE6Jei1EC-p5jjR5-ATXHHdBjtih_eAsLr90 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk2NDk0NywiZXhwIjoxNzM0OTY4NTQ3fQ.GT8rqeXsl-eOPeyKyZbSpMNZIw5dXhDp2OQZssYXBxU
+ 
 {
     "title":"Blog3",
     "author":"gandald",
@@ -41,8 +42,8 @@ Content-Type: application/json
     "url":"blog.somthing/one/"
 }
 ###
-DELETE http://localhost:3003/api/blogs/67695aa00e631879db82628c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNDk2MTY3NywiZXhwIjoxNzM0OTY1Mjc3fQ.nSqDk75YWptBhQJiy2qYYg44iDpVtajOPqVZslsDpNI 
+DELETE http://localhost:3003/api/blogs/6769770fda85f7fcfddd47dd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhbmRhbGYiLCJpZCI6IjY3Njg1ZGIxN2VkZmQ4NjdhYzFkMjlmOSIsImlhdCI6MTczNTAzMzg4MCwiZXhwIjoxNzM1MDM3NDgwfQ.lgxxu-Ng3fNZVfmaTZiRGDI-JWqd64KXJniQIT5JIys 
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json

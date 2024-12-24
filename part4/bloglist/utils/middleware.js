@@ -32,6 +32,30 @@ const tokenExtractor = (request, response, next) => {
         // return null;
         request.token = null;
     }
+    console.log("tokenExtractor ===> ", request.token);
+    next();
+};
+
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+
+const userExtractor = async (request, response, next) => {
+    if (request.token) {
+        const getToken = await request.token;
+        console.log("que token => ", getToken);
+        const decodedToken = await jwt.verify(getToken, process.env.SECRET);
+        console.log("decodedToken", decodedToken);
+
+        if (!decodedToken.id) {
+            return response.status(404).json({ error: "token invalid" });
+        }
+
+        const user = await User.findById(decodedToken.id);
+        request.user = user._id.toString();
+    } else {
+        request.user = null;
+    }
+
     next();
 };
 
@@ -40,4 +64,5 @@ module.exports = {
     unknownEndpoint,
     errorHandler,
     tokenExtractor,
+    userExtractor,
 };
