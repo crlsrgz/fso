@@ -42,7 +42,7 @@ const jwt = require("jsonwebtoken");
 const userExtractor = async (request, response, next) => {
     if (request.token) {
         const getToken = await request.token;
-        console.log("que token => ", getToken);
+        // console.log("que token => ", getToken);
         const decodedToken = await jwt.verify(getToken, process.env.SECRET);
         console.log("decodedToken", decodedToken);
 

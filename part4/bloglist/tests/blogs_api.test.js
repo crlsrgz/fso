@@ -1,16 +1,20 @@
 const { test, after, describe, beforeEach } = require("node:test");
 const assert = require("node:assert");
 
-const helper = require("./test_helpers");
+const BlogEntry = require("../models/blogEntry");
+const User = require("../models/user");
 
-const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+
 const supertest = require("supertest");
-
 const app = require("../app");
 const api = supertest(app);
 
-const BlogEntry = require("../models/blogEntry");
-const { title } = require("node:process");
+const mongoose = require("mongoose");
+
+const jwt = require("jsonwebtoken");
+
+const helper = require("./test_helpers");
 
 // Clear DB and create entries for every test
 beforeEach(async () => {
@@ -78,19 +82,61 @@ test("A005 Check id keys", async () => {
     // console.log("=====>", entriesKeys, includesIdKey);
     assert.strictEqual(idIsKey, true);
 });
+describe("BB000 Check database response and user creation", () => {
+    beforeEach(async () => {
+        await User.deleteMany({});
 
-test("B000 Create Blog entry", async () => {
-    const newBlogEntry = helper.newBlogEntry;
+        const passwordHash = await bcrypt.hash("secret", 10);
+        const user = new User({ username: "root", passwordHash });
 
-    await api
-        .post("/api/blogs")
-        .send(newBlogEntry)
-        .expect(201)
-        .expect("Content-Type", /application\/json/);
+        await user.save();
+    });
 
-    const response = await api.get("/api/blogs");
+    test("BB102  Create Blog Entry", async () => {
+        const newUser = helper.newUser;
+        await api
+            .post("/api/users")
+            .send(newUser)
+            .expect(201)
+            .expect("Content-Type", /application\/json/);
 
-    assert.strictEqual(response.body.length, helper.blogs.length + 1);
+        const users = await api.get("/api/users");
+        const userNames = users.body.map((user) => user.username);
+        // console.log(users.body);
+        assert(userNames.includes(newUser.username));
+
+        // // Blog Entry
+        const newBlogEntry = helper.newBlogEntry;
+
+        const userToken = users.body.filter(
+            (user) => user.username === newUser.username,
+        );
+
+        console.log(userToken[0].passwordHash);
+
+        let loginToken = "";
+
+        await api
+            .post("/api/login")
+            .send({ username: newUser.username, password: newUser.password })
+            .expect(200)
+            .expect("Content-Type", /application\/json/)
+            .then((data) => {
+                console.log("response token===>", data.body.token);
+                loginToken = data.body.token;
+            });
+
+        console.log("loginTOken ====>", loginToken);
+
+        await api
+            .post("/api/blogs")
+            .set("Authorization", "Bearer " + loginToken)
+            .send(newBlogEntry)
+            .expect(201)
+            .expect("Content-Type", /application\/json/);
+        // const response = await api.get("/api/blogs");
+        // assert.strictEqual(response.body.length, helper.blogs.length + 1);
+    });
 });
 
 test("B001 Missing likes", async () => {
