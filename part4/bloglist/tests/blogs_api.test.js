@@ -93,6 +93,7 @@ describe("BB000 Check database response and user creation", () => {
     });
 
     test("BB102  Create Blog Entry", async () => {
+        // New User
         const newUser = helper.newUser;
         await api
             .post("/api/users")
@@ -102,17 +103,9 @@ describe("BB000 Check database response and user creation", () => {
 
         const users = await api.get("/api/users");
         const userNames = users.body.map((user) => user.username);
-        // console.log(users.body);
         assert(userNames.includes(newUser.username));
 
-        // // Blog Entry
-        const newBlogEntry = helper.newBlogEntry;
-
-        const userToken = users.body.filter(
-            (user) => user.username === newUser.username,
-        );
-
-        console.log(userToken[0].passwordHash);
+        // Login
 
         let loginToken = "";
 
@@ -126,7 +119,8 @@ describe("BB000 Check database response and user creation", () => {
                 loginToken = data.body.token;
             });
 
-        console.log("loginTOken ====>", loginToken);
+        // Blog Entry
+        const newBlogEntry = helper.newBlogEntry;
 
         await api
             .post("/api/blogs")
@@ -135,6 +129,7 @@ describe("BB000 Check database response and user creation", () => {
             .expect(201)
             .expect("Content-Type", /application\/json/);
 
+        // Check number of blogs
         const response = await api.get("/api/blogs");
         assert.strictEqual(response.body.length, helper.blogs.length + 1);
     });
