@@ -43,7 +43,7 @@ const userExtractor = async (request, response, next) => {
         const getToken = await request.token;
         // console.log("que token => ", getToken);
         const decodedToken = await jwt.verify(getToken, process.env.SECRET);
-        console.log("decodedToken", decodedToken);
+        // console.log("decodedToken", decodedToken);
 
         if (!decodedToken.id) {
             return response.status(404).json({ error: "token invalid" });
