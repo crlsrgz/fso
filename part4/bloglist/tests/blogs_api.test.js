@@ -134,8 +134,9 @@ describe("BB000 Check database response and user creation", () => {
             .send(newBlogEntry)
             .expect(201)
             .expect("Content-Type", /application\/json/);
-        // const response = await api.get("/api/blogs");
-        // assert.strictEqual(response.body.length, helper.blogs.length + 1);
+
+        const response = await api.get("/api/blogs");
+        assert.strictEqual(response.body.length, helper.blogs.length + 1);
     });
 });
 

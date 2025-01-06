@@ -32,7 +32,6 @@ const tokenExtractor = (request, response, next) => {
         // return null;
         request.token = null;
     }
-    console.log("tokenExtractor ===> ", request.token);
     next();
 };
 

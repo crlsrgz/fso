@@ -34,9 +34,6 @@ blogRouter.get("/api/blogs/:id", async (request, response) => {
 blogRouter.post("/api/blogs", async (request, response) => {
     const blog = request.body;
 
-    // TODO
-    // Refactor in a middleware functionality
-
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
     console.log("controller ===> ", decodedToken);
     // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
