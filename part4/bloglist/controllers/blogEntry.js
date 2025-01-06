@@ -33,9 +33,10 @@ blogRouter.get("/api/blogs/:id", async (request, response) => {
 
 blogRouter.post("/api/blogs", async (request, response) => {
     const blog = request.body;
-
+    if (!request.token) {
+        return response.status(401).json({ error: "Token not provided" });
+    }
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    console.log("controller ===> ", decodedToken);
     // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
     if (!decodedToken.id) {
         return response.status(401).json({ error: "token invalid" });

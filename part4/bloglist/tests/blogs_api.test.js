@@ -133,6 +133,46 @@ describe("BB000 Check database response and user creation", () => {
         const response = await api.get("/api/blogs");
         assert.strictEqual(response.body.length, helper.blogs.length + 1);
     });
+    test("BB103 Token NOT provided to create a new Blog Entry", async () => {
+        // New User
+        const newUser = helper.newUser;
+        await api
+            .post("/api/users")
+            .send(newUser)
+            .expect(201)
+            .expect("Content-Type", /application\/json/);
+
+        const users = await api.get("/api/users");
+        const userNames = users.body.map((user) => user.username);
+        assert(userNames.includes(newUser.username));
+
+        // Login
+
+        let loginToken = "";
+
+        await api
+            .post("/api/login")
+            .send({ username: newUser.username, password: newUser.password })
+            .expect(200)
+            .expect("Content-Type", /application\/json/)
+            .then((data) => {
+                loginToken = data.body.token;
+            });
+
+        // Blog Entry
+        const newBlogEntry = helper.newBlogEntry;
+
+        await api
+            .post("/api/blogs")
+            // .set("Authorization", "Bearer " + loginToken + "test")
+            .send(newBlogEntry)
+            .expect(401)
+            .expect("Content-Type", /application\/json/);
+
+        // Check number of blogs
+        const response = await api.get("/api/blogs");
+        assert.strictEqual(response.body.length, helper.blogs.length);
+    });
 });
 
 test("B001 Missing likes", async () => {
