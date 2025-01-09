@@ -51,6 +51,35 @@ const App = () => {
         <form onSubmit={handleLogout}>
           <button type='submit'>logout</button>
         </form>
+
+        {newEntryForm()}
+      </>
+    );
+  };
+
+  const newEntryForm = () => {
+    return (
+      <>
+        <h3>Create new</h3>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault;
+          }}
+        >
+          <div>
+            title:
+            <input type='text' />
+          </div>
+          <div>
+            author:
+            <input type='text' />
+          </div>
+          <div>
+            url:
+            <input type='text' />
+          </div>
+          <button type='submit'>Add new</button>
+        </form>
       </>
     );
   };
@@ -91,6 +120,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {!user ? loginForm() : logoutForm()}
+      <h3>blogs list</h3>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
