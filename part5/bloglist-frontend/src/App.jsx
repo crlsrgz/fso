@@ -12,6 +12,11 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [erroMessage, setErrorMessage] = useState(null);
 
+  // Blog Entry
+  const [blogTitle, setBlogTitle] = useState('');
+  const [blogAuthor, setBlogAuthor] = useState('');
+  const [blogUrl, setBlogUrl] = useState('');
+
   useEffect(() => {
     const getUser = window.localStorage.getItem('userLogged');
     setUser(JSON.parse(getUser));
@@ -57,26 +62,47 @@ const App = () => {
     );
   };
 
+  const handlePostNewEntry = async (event) => {
+    event.preventDefault();
+    const newEntry = {
+      title: blogTitle,
+      author: blogAuthor,
+      url: blogUrl,
+    };
+    blogService.postEntry(newEntry);
+    console.log(blogTitle, blogAuthor, blogUrl);
+  };
   const newEntryForm = () => {
     return (
       <>
         <h3>Create new</h3>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault;
-          }}
-        >
+        <form onSubmit={handlePostNewEntry}>
           <div>
             title:
-            <input type='text' />
+            <input
+              type='text'
+              value={blogTitle}
+              name='blogTitle'
+              onChange={({ target }) => setBlogTitle(target.value)}
+            />
           </div>
           <div>
             author:
-            <input type='text' />
+            <input
+              type='text'
+              value={blogAuthor}
+              name='blogAuthor'
+              onChange={({ target }) => setBlogAuthor(target.value)}
+            />
           </div>
           <div>
             url:
-            <input type='text' />
+            <input
+              type='text'
+              value={blogUrl}
+              name='blogUrl'
+              onChange={({ target }) => setBlogUrl(target.value)}
+            />
           </div>
           <button type='submit'>Add new</button>
         </form>
@@ -94,6 +120,7 @@ const App = () => {
       });
 
       window.localStorage.setItem('userLogged', JSON.stringify(user));
+      blogService.setToken(user.token);
 
       setUser(user);
       setUsername('');
