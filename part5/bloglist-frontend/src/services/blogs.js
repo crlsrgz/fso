@@ -4,7 +4,6 @@ const baseUrl = '/api/blogs';
 let token = null;
 const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
-  console.log(token);
 };
 
 const getAll = () => {
@@ -17,7 +16,6 @@ const postEntry = async (blogEntry) => {
     headers: { Authorization: token },
   };
 
-  console.log('service blogEntry', blogEntry, token);
   const request = await axios.post(baseUrl, blogEntry, config);
 };
 

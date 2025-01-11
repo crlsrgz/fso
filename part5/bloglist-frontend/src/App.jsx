@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
+import './app.css';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+
+  const [blogMessage, setBlogMessage] = useState(null);
+  const [messageClasses, setBlogMessageClasses] = useState('');
 
   // User
   const [username, setUsername] = useState('');
@@ -20,7 +24,7 @@ const App = () => {
   useEffect(() => {
     const getLoggedUser = window.localStorage.getItem('userLogged');
     if (getLoggedUser) {
-      const user = JSON.parse(getLoggerUser);
+      const user = JSON.parse(getLoggedUser);
       setUser(user);
       blogService.setToken(user.token);
     }
@@ -74,7 +78,13 @@ const App = () => {
       url: blogUrl,
     };
     blogService.postEntry(newEntry);
+
     setBlogs(blogs.concat(newEntry));
+    setBlogMessage(`a new blog ${blogTitle} by ${blogAuthor}`);
+    setBlogMessageClasses('accepted');
+    setTimeout(() => {
+      setBlogMessage(null);
+    }, 5000);
     // console.log(blogTitle, blogAuthor, blogUrl);
   };
   const newEntryForm = () => {
@@ -125,14 +135,21 @@ const App = () => {
       });
 
       blogService.setToken(user.token);
-
+      //TODO NOW
+      window.localStorage.setItem('userLogged', JSON.stringify(user));
       setUser(user);
+
       setUsername('');
       setPassword('');
     } catch (exception) {
       setErrorMessage('wrong credentials');
+
+      setBlogMessage(`wrong username or password`);
+      setBlogMessageClasses('error');
+
       setTimeout(() => {
         setErrorMessage(null);
+        setBlogMessage(null);
       }, 5000);
     }
   }
@@ -150,6 +167,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {blogMessage ? <h3 className={messageClasses}>{blogMessage}</h3> : ''}
+
       {!user ? loginForm() : logoutForm()}
       <h3>blogs list</h3>
       {blogs.map((blog) => (
