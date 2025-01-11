@@ -19,7 +19,6 @@ const postEntry = async (blogEntry) => {
 
   console.log('service blogEntry', blogEntry, token);
   const request = await axios.post(baseUrl, blogEntry, config);
-  // return response.data;
 };
 
 export default { getAll, postEntry, setToken };

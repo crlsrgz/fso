@@ -18,8 +18,12 @@ const App = () => {
   const [blogUrl, setBlogUrl] = useState('');
 
   useEffect(() => {
-    const getUser = window.localStorage.getItem('userLogged');
-    setUser(JSON.parse(getUser));
+    const getLoggedUser = window.localStorage.getItem('userLogged');
+    if (getLoggedUser) {
+      const user = JSON.parse(getLoggerUser);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
   }, []);
 
   const loginForm = () => {
@@ -70,7 +74,8 @@ const App = () => {
       url: blogUrl,
     };
     blogService.postEntry(newEntry);
-    console.log(blogTitle, blogAuthor, blogUrl);
+    setBlogs(blogs.concat(newEntry));
+    // console.log(blogTitle, blogAuthor, blogUrl);
   };
   const newEntryForm = () => {
     return (
@@ -119,7 +124,6 @@ const App = () => {
         password,
       });
 
-      window.localStorage.setItem('userLogged', JSON.stringify(user));
       blogService.setToken(user.token);
 
       setUser(user);
