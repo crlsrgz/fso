@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import noteService from "./services/notes";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -118,15 +119,13 @@ const App = () => {
     console.log("Check", loginVisible);
   }, [loginVisible]);
 
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? "none" : "" };
-    const showWhenVisible = { display: loginVisible ? "" : "none" };
-    return (
-      <>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
+  return (
+    <div>
+      <h1>Notes</h1>
+      <Notification message={errorMessage} />
+
+      {!user && (
+        <Togglable buttonLabel={"log in"}>
           <LoginForm
             handleSubmit={handleLogin}
             handleUsernameChange={({ target }) => setUsername(target.value)}
@@ -134,19 +133,8 @@ const App = () => {
             username={username}
             password={password}
           />
-
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-      </>
-    );
-  };
-
-  return (
-    <div>
-      <h1>Notes</h1>
-      <Notification message={errorMessage} />
-
-      {!user && loginForm()}
+        </Togglable>
+      )}
       {user && (
         <div>
           {[`${user.name} logged in`, logoutForm()]}
