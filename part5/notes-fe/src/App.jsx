@@ -139,11 +139,13 @@ const App = () => {
       {user && (
         <div>
           {[`${user.name} logged in`, logoutForm()]}
-          <NoteForm
-            onSubmit={addNote}
-            value={newNote}
-            handleChange={handleNoteChange}
-          />
+          <Togglable buttonLabel={"Add a new note"}>
+            <NoteForm
+              onSubmit={addNote}
+              value={newNote}
+              handleChange={handleNoteChange}
+            />
+          </Togglable>
         </div>
       )}
 
