@@ -126,7 +126,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {!user && (
-        <Togglable buttonLabel={"log in"}>
+        <Togglable buttonLabel={"Log in"}>
           <LoginForm
             handleSubmit={handleLogin}
             handleUsernameChange={({ target }) => setUsername(target.value)}
