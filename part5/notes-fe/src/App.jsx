@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Note from "./components/Note";
 import Notification from "./components/Notification";
 import Footer from "./components/Footer";
@@ -18,6 +18,8 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   const [loginVisible, setLoginVisible] = useState(false);
+
+  const noteFormRef = useRef();
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -40,6 +42,8 @@ const App = () => {
     //   content: newNote,
     //   important: Math.random() > 0.5,
     // };
+
+    noteFormRef.current.togglVisibility();
 
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
@@ -104,12 +108,11 @@ const App = () => {
   };
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
-  // const noteForm = () => (
-  //   <form onSubmit={addNote}>
-  //     <input value={newNote} onChange={handleNoteChange} />
-  //     <button type="submit">save</button>
-  //   </form>
-  // );
+  const noteForm = () => (
+    <Togglable buttonLabel={"Add a new note"} ref={noteForm}>
+      <NoteForm createNote={addNote} />
+    </Togglable>
+  );
   const logoutForm = () => (
     <form onSubmit={handleLogout}>
       <button type="submit">logout</button>
@@ -136,12 +139,7 @@ const App = () => {
         </Togglable>
       )}
       {user && (
-        <div>
-          {[`${user.name} logged in`, logoutForm()]}
-          <Togglable buttonLabel={"Add a new note"}>
-            <NoteForm createNote={addNote} />
-          </Togglable>
-        </div>
+        <div>{[`${user.name} logged in`, logoutForm(), noteForm()]}</div>
       )}
 
       <div>
