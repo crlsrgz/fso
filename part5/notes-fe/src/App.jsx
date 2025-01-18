@@ -42,8 +42,7 @@ const App = () => {
     //   content: newNote,
     //   important: Math.random() > 0.5,
     // };
-
-    noteFormRef.current.togglVisibility();
+    noteFormRef.current.toggleVisibility();
 
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
@@ -109,7 +108,7 @@ const App = () => {
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   const noteForm = () => (
-    <Togglable buttonLabel={"Add a new note"} ref={noteForm}>
+    <Togglable buttonLabel={"Add a new note"} ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   );
