@@ -3,6 +3,8 @@ import './app.css';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import Togglable from './components/Togglable';
+import NewEntryForm from './components/NewEntryForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -64,65 +66,36 @@ const App = () => {
         <form onSubmit={handleLogout}>
           <button type='submit'>logout</button>
         </form>
-
-        {newEntryForm()}
+        <Togglable buttonLabel={'Add new Blog'}>
+          <NewEntryForm createBlogEntry={handlePostNewEntry} />
+        </Togglable>
       </>
     );
   };
 
-  const handlePostNewEntry = async (event) => {
-    event.preventDefault();
-    const newEntry = {
-      title: blogTitle,
-      author: blogAuthor,
-      url: blogUrl,
-    };
-    blogService.postEntry(newEntry);
+  const handlePostNewEntry = async (blogEntryObject) => {
+    // event.preventDefault();
 
-    setBlogs(blogs.concat(newEntry));
-    setBlogMessage(`a new blog ${blogTitle} by ${blogAuthor}`);
+    // const newEntry = {
+    //   title: blogTitle,
+    //   author: blogAuthor,
+    //   url: blogUrl,
+    // };
+
+    blogService.postEntry(blogEntryObject);
+
+    // setBlogTitle('');
+    // setBlogAuthor('');
+    // setBlogUrl('');
+
+    setBlogs(blogs.concat(blogEntryObject));
+
+    // setBlogMessage(`a new blog ${blogTitle} by ${blogAuthor}`);
     setBlogMessageClasses('accepted');
+
     setTimeout(() => {
       setBlogMessage(null);
     }, 5000);
-    // console.log(blogTitle, blogAuthor, blogUrl);
-  };
-  const newEntryForm = () => {
-    return (
-      <>
-        <h3>Create new</h3>
-        <form onSubmit={handlePostNewEntry}>
-          <div>
-            title:
-            <input
-              type='text'
-              value={blogTitle}
-              name='blogTitle'
-              onChange={({ target }) => setBlogTitle(target.value)}
-            />
-          </div>
-          <div>
-            author:
-            <input
-              type='text'
-              value={blogAuthor}
-              name='blogAuthor'
-              onChange={({ target }) => setBlogAuthor(target.value)}
-            />
-          </div>
-          <div>
-            url:
-            <input
-              type='text'
-              value={blogUrl}
-              name='blogUrl'
-              onChange={({ target }) => setBlogUrl(target.value)}
-            />
-          </div>
-          <button type='submit'>Add new</button>
-        </form>
-      </>
-    );
   };
 
   async function handleLogin(event) {
