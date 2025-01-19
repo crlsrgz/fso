@@ -58,6 +58,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
         title: blog.title,
         author: blog.author,
         url: blog.url,
+        likes: blog.likes,
         user: user.id,
     });
 
