@@ -20,18 +20,18 @@ const postEntry = async (blogEntry) => {
 };
 
 const likeEntry = async (blogEntry) => {
-  // console.log(blogEntry);
   const url = `${baseUrl}/${blogEntry.id}`;
   const updatedLikes = blogEntry.likes + 1;
+
   const updatedEntry = {
-    user: blogEntry.user,
     likes: updatedLikes,
     author: blogEntry.author,
     title: blogEntry.title,
     url: blogEntry.url,
+    id: blogEntry.id,
   };
+
   const request = await axios.put(url, updatedEntry);
-  // console.log(request.data);
   return request.data;
 };
 

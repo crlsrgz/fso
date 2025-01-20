@@ -59,7 +59,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
         author: blog.author,
         url: blog.url,
         likes: blog.likes,
-        // user: user.id,
+        user: user.id,
     });
 
     const savedEntry = await newEntryBlog.save();
@@ -72,6 +72,8 @@ blogRouter.post("/api/blogs", async (request, response) => {
 
 blogRouter.put("/api/blogs/:id", async (request, response) => {
     const body = request.body;
+    console.log("check one");
+
     const blogEntry = {
         title: body.title,
         author: body.author,
@@ -80,7 +82,7 @@ blogRouter.put("/api/blogs/:id", async (request, response) => {
     };
 
     const updatedBlogEntry = await BlogEntry.findByIdAndUpdate(
-        request.params.id,
+        body.id,
         blogEntry,
         {
             new: true,

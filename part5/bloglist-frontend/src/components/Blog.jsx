@@ -20,7 +20,7 @@ const Blog = ({ blog }) => {
 
     try {
       const request = await blogService.likeEntry(blog);
-      return request.data;
+      // return request.data;
     } catch (error) {
       console.log(error);
     }
