@@ -2,7 +2,7 @@ import { useState } from 'react';
 import blogService from '../services/blogs';
 
 const Blog = ({ blog }) => {
-  const [likes, setLikes] = useState(blog.likes);
+  const [updateLikes, setUpdateLikes] = useState(blog.likes ?? 0);
 
   const blogStyle = {
     paddingTop: 10,
@@ -15,11 +15,9 @@ const Blog = ({ blog }) => {
   const handleLikeEntry = async (event) => {
     event.preventDefault();
 
-    // const updateLikes = (await response.likes) + 1;
-    // console.log('Updated', updateLikes);
-    // setLikes(updateLikes);
+    setUpdateLikes(updateLikes + 1);
+    blog.likes = updateLikes;
 
-    setLikes(likes + 1);
     try {
       const request = await blogService.likeEntry(blog);
       return request.data;
@@ -34,7 +32,7 @@ const Blog = ({ blog }) => {
       <div>{blog.url}</div>
       <div>
         {' '}
-        <span>likes: {likes}</span>
+        <span>likes: {updateLikes}</span>
         <span>
           <form onSubmit={handleLikeEntry}>
             <button>like</button>

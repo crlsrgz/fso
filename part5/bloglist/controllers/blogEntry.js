@@ -59,7 +59,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
         author: blog.author,
         url: blog.url,
         likes: blog.likes,
-        user: user.id,
+        // user: user.id,
     });
 
     const savedEntry = await newEntryBlog.save();
@@ -76,6 +76,7 @@ blogRouter.put("/api/blogs/:id", async (request, response) => {
         title: body.title,
         author: body.author,
         url: body.url,
+        likes: body.likes,
     };
 
     const updatedBlogEntry = await BlogEntry.findByIdAndUpdate(
