@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import blogService from '../services/blogs';
+import Togglable from './Togglable';
 
 const Blog = ({ blog }) => {
   const [updateLikes, setUpdateLikes] = useState(blog.likes ?? 0);
@@ -28,18 +29,23 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      <div>{blog.title}</div>
-      <div>{blog.url}</div>
       <div>
-        {' '}
-        <span>likes: {updateLikes}</span>
-        <span>
-          <form onSubmit={handleLikeEntry}>
-            <button>like</button>
-          </form>
-        </span>{' '}
+        <span>{blog.title}</span>
       </div>
-      <div>{blog.author}</div>
+      <Togglable buttonLabel={'view'}>
+        <div>
+          {blog.url}
+          <div>
+            <span>likes: {updateLikes}</span>
+            <span>
+              <form onSubmit={handleLikeEntry}>
+                <button>like</button>
+              </form>
+            </span>{' '}
+          </div>
+          <div>{blog.author}</div>
+        </div>
+      </Togglable>
     </div>
   );
 };
