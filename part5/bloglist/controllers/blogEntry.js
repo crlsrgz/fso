@@ -93,25 +93,28 @@ blogRouter.put("/api/blogs/:id", async (request, response) => {
 });
 
 blogRouter.delete("/api/blogs/:id", async (request, response) => {
-    // Autorization
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    console.log("check", request.params.id);
 
-    // if (!decodedToken.id) {
-    //     return response.status(404).json({ error: "token invalid" });
-    // }
+    // Autorization
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+    if (!decodedToken.id) {
+        return response.status(404).json({ error: "token invalid" });
+    }
 
     // Compare user id from blog entry and from token
-    // const user = await User.findById(decodedToken.id);
+    const user = await User.findById(decodedToken.id);
     const blog = await BlogEntry.findById(request.params.id);
 
-    // if (blog.user.toString() !== user._id.toString()) {
-    //     return;
-    // }
-    // console.log("=====> req.user", request.user);
+    // console.log("check user, blog", user._id, blog.user);
+    if (blog.user.toString() !== user._id.toString()) {
+        return;
+    }
+    // console.log("=====> req.user", request.user, "==>", blog.user.toString());
+
     if (blog.user.toString() !== request.user) {
         return;
     }
-    console.log("requestUser ===> ", request.user);
 
     await BlogEntry.findByIdAndDelete(request.params.id);
     response.status(204).end();

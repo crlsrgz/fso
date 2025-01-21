@@ -27,6 +27,15 @@ const Blog = ({ blog }) => {
     }
   };
 
+  const handleDeleteEntry = async (event) => {
+    event.preventDefault();
+    try {
+      const request = await blogService.deleteEntry(blog);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={blogStyle}>
       <div>
@@ -45,6 +54,9 @@ const Blog = ({ blog }) => {
           </div>
           <div>{blog.author}</div>
         </div>
+        <form onSubmit={handleDeleteEntry}>
+          <button>- remove -</button>
+        </form>
       </Togglable>
     </div>
   );

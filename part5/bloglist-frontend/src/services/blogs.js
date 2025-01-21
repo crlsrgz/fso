@@ -35,4 +35,21 @@ const likeEntry = async (blogEntry) => {
   return request.data;
 };
 
-export default { getAll, postEntry, setToken, likeEntry };
+const deleteEntry = async (blogEntry) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const updatedEntry = {
+    author: blogEntry.author,
+    title: blogEntry.title,
+    url: blogEntry.url,
+    id: blogEntry.id,
+  };
+
+  console.log(blogEntry);
+  console.log(updatedEntry);
+  const url = `${baseUrl}/${blogEntry.id}`;
+  const request = await axios.delete(url, config);
+};
+
+export default { getAll, postEntry, setToken, likeEntry, deleteEntry };
