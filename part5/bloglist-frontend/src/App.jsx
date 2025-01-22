@@ -82,13 +82,18 @@ const App = () => {
     //   url: blogUrl,
     // };
 
-    blogService.postEntry(blogEntryObject);
+    const postEntry = await blogService.postEntry(blogEntryObject);
 
+    // console.log('postEntry', postEntry.data);
+    // console.log('blogEntryObject', blogEntryObject);
+
+    // const newEntry = Object.create(blogEntryObject, {});
     // setBlogTitle('');
     // setBlogAuthor('');
     // setBlogUrl('');
 
-    setBlogs(blogs.concat(blogEntryObject));
+    setBlogs(blogs.concat(postEntry.data));
+    // console.log('blogs', blogs);
 
     // setBlogMessage(`a new blog ${blogTitle} by ${blogAuthor}`);
     setBlogMessageClasses('accepted');

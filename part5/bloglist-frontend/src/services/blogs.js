@@ -17,6 +17,7 @@ const postEntry = async (blogEntry) => {
   };
 
   const request = await axios.post(baseUrl, blogEntry, config);
+  return request;
 };
 
 /**

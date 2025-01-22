@@ -66,7 +66,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
 
     user.blogs = user.blogs.concat(savedEntry._id);
     await user.save();
-
+    console.log("returned VAlue", savedEntry);
     response.status(201).json(savedEntry);
 });
 
