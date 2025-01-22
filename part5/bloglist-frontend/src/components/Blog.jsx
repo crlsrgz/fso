@@ -2,7 +2,7 @@ import { useState } from 'react';
 import blogService from '../services/blogs';
 import Togglable from './Togglable';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onDelete }) => {
   const [updateLikes, setUpdateLikes] = useState(blog.likes ?? 0);
 
   const blogStyle = {
@@ -34,6 +34,7 @@ const Blog = ({ blog }) => {
     } catch (error) {
       console.log(error);
     }
+    onDelete(blog.id);
   };
 
   return (

@@ -133,6 +133,10 @@ const App = () => {
     setUser(null);
   }
 
+  function handleDelete(itemId) {
+    setBlogs((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  }
+
   useEffect(() => {
     blogService.getAll().then((blogs) => {
       blogs.sort((a, b) => b.likes - a.likes);
@@ -149,7 +153,7 @@ const App = () => {
       {!user ? loginForm() : logoutForm()}
       <h3>blogs list</h3>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} onDelete={handleDelete} />
       ))}
     </div>
   );
