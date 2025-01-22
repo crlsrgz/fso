@@ -19,6 +19,15 @@ const postEntry = async (blogEntry) => {
   const request = await axios.post(baseUrl, blogEntry, config);
 };
 
+/**
+ * like Entry based on id, this is so far just a PUT request with the whole object
+ *
+ * - TODO Setup the headers using the token variable in this context/file
+ * - set up a new object to send
+ * - TODO the sent value updates the backend and the frontend but the displayed state will not update the info in the entry
+ *
+ * @param {object} blogEntry
+ */
 const likeEntry = async (blogEntry) => {
   const url = `${baseUrl}/${blogEntry.id}`;
   const updatedLikes = blogEntry.likes + 1;
@@ -35,6 +44,12 @@ const likeEntry = async (blogEntry) => {
   return request.data;
 };
 
+/**
+ * Delete Entry based on id
+ * Setup the headers using the token variable in this context/file
+ * send the url with the entry id, and the configuration with the headers
+ * @param {object} blogEntry
+ */
 const deleteEntry = async (blogEntry) => {
   const config = {
     headers: { Authorization: token },
@@ -46,8 +61,8 @@ const deleteEntry = async (blogEntry) => {
     id: blogEntry.id,
   };
 
-  console.log(blogEntry);
-  console.log(updatedEntry);
+  // console.log(blogEntry);
+  // console.log(updatedEntry);
   const url = `${baseUrl}/${blogEntry.id}`;
   const request = await axios.delete(url, config);
 };

@@ -72,7 +72,7 @@ blogRouter.post("/api/blogs", async (request, response) => {
 
 blogRouter.put("/api/blogs/:id", async (request, response) => {
     const body = request.body;
-    console.log("check one");
+    // console.log("check one");
 
     const blogEntry = {
         title: body.title,
@@ -93,7 +93,7 @@ blogRouter.put("/api/blogs/:id", async (request, response) => {
 });
 
 blogRouter.delete("/api/blogs/:id", async (request, response) => {
-    console.log("check", request.params.id);
+    // console.log("check", request.params.id);
 
     // Autorization
     const decodedToken = jwt.verify(request.token, process.env.SECRET);

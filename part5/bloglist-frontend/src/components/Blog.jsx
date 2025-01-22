@@ -2,6 +2,14 @@ import { useState } from 'react';
 import blogService from '../services/blogs';
 import Togglable from './Togglable';
 
+/**
+ * Component
+ *
+ * @param {object} obj
+ * @param {object} obj.blog
+ * @param {Function} obj.onDelete
+ * onDelete callback function tells the parent component the id of blogEntry so it can be deleted from the original array of entries which are in the state of the parent component
+ */
 const Blog = ({ blog, onDelete }) => {
   const [updateLikes, setUpdateLikes] = useState(blog.likes ?? 0);
 

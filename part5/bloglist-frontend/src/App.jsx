@@ -132,8 +132,12 @@ const App = () => {
     window.localStorage.removeItem('userLogged');
     setUser(null);
   }
-
-  function handleDelete(itemId) {
+  /**
+   * Sets the blog using a new filtered array excluding the item with the deleted id
+   * the functions is called from the child component.
+   * @param {string} itemId
+   */
+  function handleDeleteItemfromArray(itemId) {
     setBlogs((prevItems) => prevItems.filter((item) => item.id !== itemId));
   }
 
@@ -153,7 +157,7 @@ const App = () => {
       {!user ? loginForm() : logoutForm()}
       <h3>blogs list</h3>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} onDelete={handleDelete} />
+        <Blog key={blog.id} blog={blog} onDelete={handleDeleteItemfromArray} />
       ))}
     </div>
   );
