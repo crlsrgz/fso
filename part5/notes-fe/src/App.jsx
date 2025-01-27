@@ -68,9 +68,9 @@ const App = () => {
       });
   };
 
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value);
-  };
+  // const handleNoteChange = (event) => {
+  //   setNewNote(event.target.value);
+  // };
   /**
    *
    * @param {MouseEvent} event
@@ -108,9 +108,11 @@ const App = () => {
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   const noteForm = () => (
-    <Togglable buttonLabel={"Add a new note"} ref={noteFormRef}>
-      <NoteForm createNote={addNote} />
-    </Togglable>
+    <>
+      <Togglable buttonLabel={"Add a new note"} ref={noteFormRef}>
+        <NoteForm createNote={addNote} />
+      </Togglable>
+    </>
   );
   const logoutForm = () => (
     <form onSubmit={handleLogout}>
