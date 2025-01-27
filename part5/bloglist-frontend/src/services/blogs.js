@@ -62,8 +62,6 @@ const deleteEntry = async (blogEntry) => {
     id: blogEntry.id,
   };
 
-  // console.log(blogEntry);
-  // console.log(updatedEntry);
   const url = `${baseUrl}/${blogEntry.id}`;
   const request = await axios.delete(url, config);
 };

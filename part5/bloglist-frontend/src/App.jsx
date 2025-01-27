@@ -18,11 +18,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [erroMessage, setErrorMessage] = useState(null);
 
-  // Blog Entry
-  const [blogTitle, setBlogTitle] = useState('');
-  const [blogAuthor, setBlogAuthor] = useState('');
-  const [blogUrl, setBlogUrl] = useState('');
-
   useEffect(() => {
     const getLoggedUser = window.localStorage.getItem('userLogged');
     if (getLoggedUser) {
@@ -74,28 +69,9 @@ const App = () => {
   };
 
   const handlePostNewEntry = async (blogEntryObject) => {
-    // event.preventDefault();
-
-    // const newEntry = {
-    //   title: blogTitle,
-    //   author: blogAuthor,
-    //   url: blogUrl,
-    // };
-
     const postEntry = await blogService.postEntry(blogEntryObject);
 
-    // console.log('postEntry', postEntry.data);
-    // console.log('blogEntryObject', blogEntryObject);
-
-    // const newEntry = Object.create(blogEntryObject, {});
-    // setBlogTitle('');
-    // setBlogAuthor('');
-    // setBlogUrl('');
-
     setBlogs(blogs.concat(postEntry.data));
-    // console.log('blogs', blogs);
-
-    // setBlogMessage(`a new blog ${blogTitle} by ${blogAuthor}`);
     setBlogMessageClasses('accepted');
 
     setTimeout(() => {
