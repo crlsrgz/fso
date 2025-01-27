@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import blogService from '../services/blogs';
-import Togglable from './Togglable';
+import { useState } from "react";
+import blogService from "../services/blogs";
+import Togglable from "./Togglable";
 
 /**
  * Component
@@ -16,7 +16,7 @@ const Blog = ({ blog, onDelete }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
+    border: "solid",
     borderWidth: 1,
     marginBottom: 5,
   };
@@ -50,7 +50,7 @@ const Blog = ({ blog, onDelete }) => {
       <div>
         <span>{blog.title}</span>
       </div>
-      <Togglable buttonLabel={'view'}>
+      <Togglable buttonLabel={"view"}>
         <div>
           {blog.url}
           <div>
@@ -59,7 +59,7 @@ const Blog = ({ blog, onDelete }) => {
               <form onSubmit={handleLikeEntry}>
                 <button>like</button>
               </form>
-            </span>{' '}
+            </span>{" "}
           </div>
           <div>{blog.author}</div>
         </div>

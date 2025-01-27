@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import './app.css';
-import Blog from './components/Blog';
-import blogService from './services/blogs';
-import loginService from './services/login';
-import Togglable from './components/Togglable';
-import NewEntryForm from './components/NewEntryForm';
+import { useState, useEffect } from "react";
+import "./app.css";
+import Blog from "./components/Blog";
+import blogService from "./services/blogs";
+import loginService from "./services/login";
+import Togglable from "./components/Togglable";
+import NewEntryForm from "./components/NewEntryForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
 
   const [blogMessage, setBlogMessage] = useState(null);
-  const [messageClasses, setBlogMessageClasses] = useState('');
+  const [messageClasses, setBlogMessageClasses] = useState("");
 
   // User
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [erroMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    const getLoggedUser = window.localStorage.getItem('userLogged');
+    const getLoggedUser = window.localStorage.getItem("userLogged");
     if (getLoggedUser) {
       const user = JSON.parse(getLoggedUser);
       setUser(user);
@@ -31,7 +31,7 @@ const App = () => {
     return (
       <form onSubmit={handleLogin}>
         <div>
-          username{' '}
+          username{" "}
           <input
             type='text'
             value={username}
@@ -40,7 +40,7 @@ const App = () => {
           />
         </div>
         <div>
-          password{' '}
+          password{" "}
           <input
             type='password'
             value={password}
@@ -61,7 +61,7 @@ const App = () => {
         <form onSubmit={handleLogout}>
           <button type='submit'>logout</button>
         </form>
-        <Togglable buttonLabel={'Add new Blog'}>
+        <Togglable buttonLabel={"Add new Blog"}>
           <NewEntryForm createBlogEntry={handlePostNewEntry} />
         </Togglable>
       </>
@@ -72,7 +72,7 @@ const App = () => {
     const postEntry = await blogService.postEntry(blogEntryObject);
 
     setBlogs(blogs.concat(postEntry.data));
-    setBlogMessageClasses('accepted');
+    setBlogMessageClasses("accepted");
 
     setTimeout(() => {
       setBlogMessage(null);
@@ -90,16 +90,16 @@ const App = () => {
 
       blogService.setToken(user.token);
       //TODO NOW
-      window.localStorage.setItem('userLogged', JSON.stringify(user));
+      window.localStorage.setItem("userLogged", JSON.stringify(user));
       setUser(user);
 
-      setUsername('');
-      setPassword('');
+      setUsername("");
+      setPassword("");
     } catch (exception) {
-      setErrorMessage('wrong credentials');
+      setErrorMessage("wrong credentials");
 
-      setBlogMessage(`wrong username or password`);
-      setBlogMessageClasses('error');
+      setBlogMessage("wrong username or password");
+      setBlogMessageClasses("error");
 
       setTimeout(() => {
         setErrorMessage(null);
@@ -110,7 +110,7 @@ const App = () => {
 
   function handleLogout(event) {
     event.preventDefault();
-    window.localStorage.removeItem('userLogged');
+    window.localStorage.removeItem("userLogged");
     setUser(null);
   }
   /**
@@ -133,7 +133,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      {blogMessage ? <h3 className={messageClasses}>{blogMessage}</h3> : ''}
+      {blogMessage ? <h3 className={messageClasses}>{blogMessage}</h3> : ""}
 
       {!user ? loginForm() : logoutForm()}
       <h3>blogs list</h3>

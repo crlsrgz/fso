@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import PropTypes from "prop-types";
+import { useState } from "react";
 
 const NewEntryForm = ({ createBlogEntry }) => {
   // Blog Entry
-  const [blogTitle, setBlogTitle] = useState('');
-  const [blogAuthor, setBlogAuthor] = useState('');
-  const [blogUrl, setBlogUrl] = useState('');
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogAuthor, setBlogAuthor] = useState("");
+  const [blogUrl, setBlogUrl] = useState("");
 
   const handlePostNewEntry = (event) => {
     event.preventDefault();
@@ -17,9 +17,9 @@ const NewEntryForm = ({ createBlogEntry }) => {
       likes: 0,
     });
 
-    setBlogTitle('');
-    setBlogAuthor('');
-    setBlogUrl('');
+    setBlogTitle("");
+    setBlogAuthor("");
+    setBlogUrl("");
   };
 
   return (
@@ -29,17 +29,17 @@ const NewEntryForm = ({ createBlogEntry }) => {
         <div>
           title:
           <input
-            key={'blogTitle'}
+            key={"blogTitle"}
             type='text'
             value={blogTitle}
-            name={'blogTitle'}
+            name={"blogTitle"}
             onChange={({ target }) => setBlogTitle(target.value)}
           />
         </div>
         <div>
           author:
           <input
-            key={'blogAuthor'}
+            key={"blogAuthor"}
             type='text'
             value={blogAuthor}
             name='blogAuthor'
@@ -49,7 +49,7 @@ const NewEntryForm = ({ createBlogEntry }) => {
         <div>
           url:
           <input
-            key={'blogUrl'}
+            key={"blogUrl"}
             type='text'
             value={blogUrl}
             name='blogUrl'
