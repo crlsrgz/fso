@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 const NewEntryForm = ({ createBlogEntry }) => {
@@ -60,5 +61,7 @@ const NewEntryForm = ({ createBlogEntry }) => {
     </>
   );
 };
-
+NewEntryForm.propTypes = {
+  createBlogEntry: PropTypes.func.isRequired,
+};
 export default NewEntryForm;
