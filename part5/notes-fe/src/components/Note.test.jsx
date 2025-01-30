@@ -31,3 +31,27 @@ test("clicking the button calls event handler once", async () => {
 
   expect(mockHandler.mock.calls).toHaveLength(1);
 });
+
+test("renders contents not working", () => {
+  const note = {
+    content: "Does not work anymore :(",
+    important: true,
+  };
+
+  render(<Note note={note} />);
+  const element = screen.findByText("Does not work anymore :(", {
+    exact: false,
+  });
+  expect(element).toBeDefined();
+});
+
+test("does not render this", () => {
+  const note = {
+    constent: "This is a reminder",
+    important: true,
+  };
+  render(<Note note={note} />);
+
+  const element = screen.queryByText("do not want this thing to be rendered");
+  expect(element).toBeNull();
+});
