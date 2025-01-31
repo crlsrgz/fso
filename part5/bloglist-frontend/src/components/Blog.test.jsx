@@ -25,21 +25,11 @@ describe("<Blog />", () => {
     // screen.debug();
     expect(container).toHaveTextContent("gandalf");
   });
+
+  test("blog visibility", async () => {
+    const toggledSection = container.querySelector(".infoContainer");
+    screen.debug(toggledSection);
+    expect(toggledSection).toBeDefined();
+    expect(toggledSection).toHaveStyle("display:none");
+  });
 });
-
-// test("renders blogEntry", () => {
-//   const blog = {
-//     title: "entry",
-//     author: "gandalf",
-//     url: "site.com",
-//   };
-
-//   const mockHandler = vi.fn();
-
-//   const { container } = render(<Blog blog={blog} onDelete={mockHandler} />);
-//   screen.debug();
-//   const div = container.querySelector(".blog");
-
-//   expect(div).toBeDefined();
-
-// });
