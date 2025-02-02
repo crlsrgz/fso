@@ -57,7 +57,7 @@ const Blog = ({ blog, onDelete }) => {
             <span>likes: {updateLikes}</span>
             <span>
               <form onSubmit={handleLikeEntry}>
-                <button>like</button>
+                <button className='likeButton'>like</button>
               </form>
             </span>{" "}
           </div>

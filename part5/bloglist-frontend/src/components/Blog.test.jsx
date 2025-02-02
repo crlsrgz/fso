@@ -28,8 +28,38 @@ describe("<Blog />", () => {
 
   test("blog visibility", async () => {
     const toggledSection = container.querySelector(".infoContainer");
-    screen.debug(toggledSection);
+    // screen.debug(toggledSection);
     expect(toggledSection).toBeDefined();
     expect(toggledSection).toHaveStyle("display:none");
+  });
+
+  test("toggle likes", async () => {
+    /**
+     * Select container, check if exists, check displays
+     */
+    const toggledSectionBefore = container.querySelector(".infoContainer");
+    expect(toggledSectionBefore).toBeDefined();
+    expect(toggledSectionBefore).toHaveStyle("display:none");
+
+    /**
+     * Prepare interactivity, select button, click button
+     */
+    const mockHandler = vi.fn();
+    const user = userEvent.setup();
+    const button = container.querySelector(".buttonToggle");
+    await user.click(button);
+
+    /**
+     * Select container again, check displays
+     */
+    const toggledSectionAfter = container.querySelector(".infoContainer");
+    // screen.debug(toggledSectionAfter);
+    expect(toggledSectionBefore).toHaveStyle("display:block");
+  });
+
+  test("click twice", async () => {
+    const likeButton = container.querySelector("likeButton");
+    screen.debug(likeButton);
+    expect(likeButton).toBeDefined();
   });
 });
