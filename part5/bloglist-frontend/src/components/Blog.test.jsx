@@ -9,10 +9,13 @@ describe("<Blog />", () => {
     title: "blog entry",
     author: "gandalf",
     url: "site.com",
+    user: {},
   };
 
+  const mockHandler = vi.fn();
+
   beforeEach(() => {
-    container = render(<Blog blog={blog} />).container;
+    container = render(<Blog blog={blog} onDelete={mockHandler} />).container;
   });
 
   test("blog create", async () => {
@@ -44,7 +47,6 @@ describe("<Blog />", () => {
     /**
      * Prepare interactivity, select button, click button
      */
-    const mockHandler = vi.fn();
     const user = userEvent.setup();
     const button = container.querySelector(".buttonToggle");
     await user.click(button);
@@ -58,8 +60,34 @@ describe("<Blog />", () => {
   });
 
   test("click twice", async () => {
-    const likeButton = container.querySelector("likeButton");
-    screen.debug(likeButton);
-    expect(likeButton).toBeDefined();
+    /**
+     * Prepare content for like twice test
+     */
+
+    /**
+     * Select container, check if exists, check displays
+     */
+    const toggledSectionBefore = container.querySelector(".infoContainer");
+    // expect(toggledSectionBefore).toBeDefined();
+    // expect(toggledSectionBefore).toHaveStyle("display:none");
+
+    /**
+     * Prepare interactivity, select button, click button
+     */
+    const user = userEvent.setup();
+    const button = container.querySelector(".buttonToggle");
+    await user.click(button);
+
+    /**
+     * Click like button
+     */
+    const likeButton = container.querySelector(".likeButton");
+    const userLike = userEvent.setup();
+    await userLike.click(likeButton);
+    await userLike.click(likeButton);
+
+    const likes = container.querySelector(".entryLikes");
+    screen.debug(likes);
+    expect(likes).toHaveTextContent("likes: 2");
   });
 });
