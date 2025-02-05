@@ -25,5 +25,7 @@ test("<NewEntryForm /> new blog created", async () => {
 
   await user.click(button);
   expect(mockCreateBlogEntry).toHaveBeenCalledTimes(1);
-  expect(mockCreateBlogEntry.mock.calls[0][0]).toBe("gondor");
+  expect(mockCreateBlogEntry.mock.calls[0][0].title).toBe("gondor");
+  expect(mockCreateBlogEntry.mock.calls[0][0].author).toBe("gandalf");
+  expect(mockCreateBlogEntry.mock.calls[0][0].url).toBe("gondor.com");
 });
