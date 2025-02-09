@@ -17,8 +17,11 @@ describe("Note app", () => {
 
     await page.getByRole("button", {name:"Log in"}).click()
 
-    await page.getByRole("textbox").first().fill("Jon")
-    await page.getByRole("textbox").last().fill("hello")
+    // await page.getByRole("textbox").first().fill("Jon")
+    // await page.getByRole("textbox").last().fill("hello")
+
+    await page.getByTestId("username").fill("Jon")
+    await page.getByTestId("password").fill("hello")
 
     await page.getByRole("button", {name: "log in"}).click()
     
