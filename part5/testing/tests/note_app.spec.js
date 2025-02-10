@@ -28,5 +28,24 @@ beforeEach(async ({page}) => {
     
     await expect(page.getByText("Jon Jones logged in")).toBeVisible()
   })
+
+  describe("when logged in",() => {
+
+    beforeEach(async({page}) => {
+      await page.getByRole("button", {name:"Log in"}).click()
+
+     await page.getByTestId("username").fill("Jon")
+     await page.getByTestId("password").fill("hello")
+
+     await page.getByRole("button", {name: "log in"}).click()
+
+    })
+    test("a new note can be created", async({page}) => {
+      await page.getByRole("button", {name: "Add a new note"}).click()
+      await page.getByRole("textbox").fill("a new note created by playwright")
+      await page.getByRole("button", {name:"save"}).click()
+      await expect(page.getByText("a new note created by playwright")).toBeVisible()
+    })
+  })
 })
 
