@@ -70,6 +70,19 @@ beforeEach(async ({page,request}) => {
         await expect(page.getByText("make important")).toBeVisible()
       })
     })
+
+    test("login fails with wrong password", async({page}) => {
+     await page.getByRole("button", {name:"Log in"}).click()
+
+     await page.getByTestId("username").fill("Jon")
+     await page.getByTestId("password").fill("bye")
+     
+     await page.getByRole("button", {name:"log in"}).click()
+
+
+     await expect(page.getByText("wrong credentials")).toBeVisible()
+
+    })
   })
 })
 
