@@ -56,6 +56,25 @@ beforeEach(async ({page,request}) => {
       await page.getByRole("button", {name:"save"}).click()
       await expect(page.getByText("a new note created by playwright")).toBeVisible()
     })
+
+
+    describe("and a note exist", () => {
+      beforeEach(async ({page}) => {
+        await page.getByRole("button", {name:"Add a new note"}).click()
+        await page.getByRole("textbox").fill("a new note created by playwright")
+        await page.getByRole("button", {name:"save"}).click()
+      })
+
+      test("importance can be changed", async({page}) => {
+        await page.getByRole("button", {name: "make not important"}).click()
+        await expect(page.getByText("make important")).toBeVisible()
+      })
+    })
   })
 })
+
+// npx playwright test --grep="exist"
+// npm test -- --ui
+// npm run start:test
+
 
