@@ -2,7 +2,16 @@ const {test, expect, describe, beforeEach} = require("@playwright/test")
 
 describe("Note app", () => {
 
-beforeEach(async ({page}) => {
+beforeEach(async ({page,request}) => {
+    await request.post("http://localhost:5173/api/testing/reset")
+    await request.post("http://localhost:5173/api/users", {
+      data:{
+        name: "Jon Jones",
+        username: "Jon",
+        password : "hello"
+      }
+    })
+    
     await page.goto("http://localhost:5173")
 })
 
@@ -10,8 +19,9 @@ beforeEach(async ({page}) => {
 
     const locator = await page.getByText("Notes")
     await expect(locator).toBeVisible()
-    await expect(page.getByText("CSS is easy")).toBeVisible()
-    await expect(page.getByText("Single page app token based auth")).toBeVisible()
+    await expect(page.getByText("HTML is easy")).toBeVisible()
+    await expect(page.getByText("Browser can execute only JavaScript")).toBeVisible()
+
   })
 
   test("login form can be opened", async({page}) => {
