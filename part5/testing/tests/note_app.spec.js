@@ -3,8 +3,8 @@ const { loginWith, createNote } = require("./helper");
 
 describe("Note app", () => {
   beforeEach(async ({ page, request }) => {
-    await request.post("http://localhost:5173/api/testing/reset");
-    await request.post("http://localhost:5173/api/users", {
+    await request.post("/api/testing/reset");
+    await request.post("/api/users", {
       data: {
         name: "Jon Jones",
         username: "Jon",
@@ -12,13 +12,13 @@ describe("Note app", () => {
       },
     });
 
-    await page.goto("http://localhost:5173");
+    await page.goto("/");
   });
 
   test("front page can be opened", async ({ page }) => {
     const locator = await page.getByText("Notes");
     await expect(locator).toBeVisible();
-    await expect(page.getByText("HTML is easy")).toBeVisible();
+    await expect(page.getByText("Note Content: HTML is easy")).toBeVisible();
     await expect(
       page.getByText("Browser can execute only JavaScript")
     ).toBeVisible();
