@@ -68,6 +68,7 @@ beforeEach(async ({page,request}) => {
       test("importance can be changed", async({page}) => {
         await page.getByRole("button", {name: "make not important"}).click()
         await expect(page.getByText("make important")).toBeVisible()
+
       })
     })
 
@@ -79,10 +80,12 @@ beforeEach(async ({page,request}) => {
      
      await page.getByRole("button", {name:"log in"}).click()
 
+    
+     const errorDiv = await page.locator(".error")
+     await expect(errorDiv).toContainText("wrong credentials")
+     await expect(errorDiv).toHaveCSS("border-style", "solid")
 
-     await expect(page.getByText("wrong credentials")).toBeVisible()
-
-    })
+   })
   })
 })
 
