@@ -55,12 +55,22 @@ describe("Note app", () => {
 
     describe("and a note exists", () => {
       beforeEach(async ({ page }) => {
-        await createNote(page, "a note created by playwright");
+        await createNote(page, "first note");
+        await createNote(page, "second note");
+        await createNote(page, "third note");
       });
 
       test("importance can be changed", async ({ page }) => {
-        await page.getByRole("button", { name: "make not important" }).click();
-        await expect(page.getByText("make important")).toBeVisible();
+        const otherNoteText = await page.getByText("second note");
+        // retrieve parent element
+        const otherNoteElement = await otherNoteText.locator("..");
+
+        await otherNoteElement
+          .getByRole("button", { name: "make not importan" })
+          .click();
+        await expect(
+          otherNoteElement.getByText("make important")
+        ).toBeVisible();
       });
     });
 
@@ -75,6 +85,25 @@ describe("Note app", () => {
       const errorDiv = await page.locator(".error");
       await expect(errorDiv).toContainText("wrong credentials");
       await expect(errorDiv).toHaveCSS("border-style", "solid");
+    });
+
+    describe("and several notes exist", () => {
+      beforeEach(async ({ page }) => {
+        await createNote(page, "first note");
+        await createNote(page, "second note");
+      });
+      test("one of those ca be made nonimportant", async ({ page }) => {
+        const otherNoteText = await page.getByText("first note");
+        // retrieve parent element
+        const otherNoteElement = await otherNoteText.locator("..");
+
+        await otherNoteElement
+          .getByRole("button", { name: "make not important" })
+          .click();
+        await expect(
+          otherNoteElement.getByText("make important")
+        ).toBeVisible();
+      });
     });
   });
 });
