@@ -17,10 +17,12 @@ describe("Note app", () => {
 
   test("front page can be opened", async ({ page }) => {
     const locator = await page.getByText("Notes");
+
     await expect(locator).toBeVisible();
-    await expect(page.getByText("Note Content: HTML is easy")).toBeVisible();
     await expect(
-      page.getByText("Browser can execute only JavaScript")
+      page.getByText(
+        "Note app, Department of Computer Science, University of Helsinki 2023"
+      )
     ).toBeVisible();
   });
 
@@ -61,6 +63,7 @@ describe("Note app", () => {
       });
 
       test("importance can be changed", async ({ page }) => {
+        await page.pause();
         const otherNoteText = await page.getByText("second note");
         // retrieve parent element
         const otherNoteElement = await otherNoteText.locator("..");
@@ -93,6 +96,7 @@ describe("Note app", () => {
         await createNote(page, "second note");
       });
       test("one of those ca be made nonimportant", async ({ page }) => {
+        await page.pause();
         const otherNoteText = await page.getByText("first note");
         // retrieve parent element
         const otherNoteElement = await otherNoteText.locator("..");
