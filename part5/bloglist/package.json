@@ -8,6 +8,7 @@
         "dev": "cross-env NODE_ENV=development nodemon --trace-warnings index.js",
         "test": "cross-env NODE_ENV=test node --test",
         "testonly": "cross-env NODE_ENV=test node --test --test-only ",
+        "start:test": "cross-env NODE_ENV=test  node index.js",
         "format": "prettier --write \"**/*.{js,jsx}\"",
         "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../bloglist-frontend && npm run build && @powershell Copy-Item build -Recurse ../bloglist",
         "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
