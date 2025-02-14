@@ -1,4 +1,5 @@
 import { test, expect,describe, beforeEach } from '@playwright/test';
+import { loginWith } from './helper';
 
 describe("Blog app",() => {
   beforeEach(async ({page}) => {
@@ -24,13 +25,14 @@ describe("Blog app",() => {
     })
 
     test("succeeds with correct credentiaals", async({page}) =>{
-      const loginButton = page.getByRole("button", {name: "login"})
-      const usernameInput = page.getByTestId("username")
-      const passwordInput = page.getByTestId("password")
+      // const loginButton = page.getByRole("button", {name: "login"})
+      // const usernameInput = page.getByTestId("username")
+      // const passwordInput = page.getByTestId("password")
 
-      await usernameInput.fill("legolas")
-      await  passwordInput.fill("ethelum")
-      await loginButton.click()
+      // await usernameInput.fill("legolas")
+      // await  passwordInput.fill("ethelum")
+      // await loginButton.click()
+      await loginWith(page, "legolas", "ethelum")
 
       await(expect(page.getByText("logged in as legolas"))).toBeVisible()
       
