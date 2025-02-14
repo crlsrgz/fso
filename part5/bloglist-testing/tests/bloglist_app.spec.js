@@ -9,7 +9,7 @@ describe("Blog app",() => {
     await expect(locator).toBeVisible()
   })
 
-  describe("Form testing", () => {
+  describe("Loging Form testing", () => {
 
     test("Login form is shown", async({page}) => {
 
@@ -23,7 +23,7 @@ describe("Blog app",() => {
       
     })
 
-    test("User can log in", async({page}) =>{
+    test("succeeds with correct credentiaals", async({page}) =>{
       const loginButton = page.getByRole("button", {name: "login"})
       const usernameInput = page.getByTestId("username")
       const passwordInput = page.getByTestId("password")
@@ -34,6 +34,19 @@ describe("Blog app",() => {
 
       await(expect(page.getByText("logged in as legolas"))).toBeVisible()
       
+    })
+
+    test("fails with wrong credentials", async({page}) => {
+      const loginButton = page.getByRole("button", {name: "login"})
+      const usernameInput = page.getByTestId("username")
+      const usernamePassword = page.getByTestId("password")
+
+      await usernameInput.fill("legolas")
+      await usernamePassword.fill("edro")
+      await loginButton.click()
+
+      await(expect(page.getByText("wrong username or password"))).toBeVisible()
+
     })
 
   })
