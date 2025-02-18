@@ -114,6 +114,20 @@ describe("Blog app",() => {
       
 
     })
+    test("delete blog", async({page}) => {
+      const viewEntryButton = page.getByRole("button", {name:"view"})
+      await viewEntryButton.click()
+
+
+      const deleteButton = page.getByRole("button", {name: "- remove -"})
+
+      await deleteButton.click({clickCount:1})
+      const entryNotFound = page.getByTestId("The Hobbit")
+      await expect(entryNotFound).toHaveCount(0)
+
+      
+
+    })
 
   })
 })
