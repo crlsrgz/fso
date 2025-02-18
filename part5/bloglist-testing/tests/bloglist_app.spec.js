@@ -2,8 +2,17 @@ import { test, expect,describe, beforeEach } from '@playwright/test';
 import { loginWith } from './helper';
 
 describe("Blog app",() => {
-  beforeEach(async ({page}) => {
-    await page.goto("http://localhost:5173")
+  beforeEach(async ({page, request}) => {
+    await request.post("api/testing/reset")
+    await request.post("api/users", {
+      data:{
+        name: "Aragorn son of Arathorn",
+        username: "aragorn",
+        password: "hello"
+      }
+    })
+    await page.goto("/")
+
   })
   test("Homepage is loaded", async({page})=>{
     const locator = await page.getByText("blogs list")
@@ -51,5 +60,32 @@ describe("Blog app",() => {
 
     })
 
+  })
+  describe( "when logged in", ()=> {
+    beforeEach(async ({page}) => {
+      await loginWith(page, "aragorn", "hello")
+    })
+
+    test("a new blog can be created", async({page}) => {
+      const addBlogButton = page.getByRole("button", {name: "Add new Blog"})
+      await addBlogButton.click()
+      
+      const addNewButton = page.getByRole("button", {name:"Add new"})
+      const inputBlogTitle = page.getByTestId("blogTitle")
+      const inputBlogAuthor = page.getByTestId("blogAuthor")
+      const inputBlogUrl = page.getByTestId("blogUrl")
+
+
+      await inputBlogTitle.fill("Adventures in the Middle Earth")
+      await inputBlogAuthor.fill("Gimli")
+      await inputBlogUrl.fill("google.com")
+
+      await addNewButton.click()
+
+      await expect(addNewButton).toBeVisible()
+      const locator = page.getByText("Adventures in the Middle Earth").first()
+      await expect(locator).toBeVisible()
+
+    })
   })
 })
