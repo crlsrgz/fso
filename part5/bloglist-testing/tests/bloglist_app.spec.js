@@ -143,4 +143,32 @@ describe("Blog app",() => {
 
    })
 
+   describe("order", () => {
+
+    beforeEach(async ({page}) => {
+      await loginWith(page, "aragorn", "hello")
+      await createDummyEntry(page, [{blogTitle: "The Hobbit", blogAuthor: "Bilbo", blogUrl: "theshire.com"}, {blogTitle: "The Shire", blogAuthor: "Sam", blogUrl: "theshire.com"}])
+    })
+
+    test("check blogs order", async({page}) => {
+      
+
+      let viewEntryButton = page.getByRole("button", {name:"view"}).first()
+      await viewEntryButton.click() 
+      await page.reload()
+
+      const likeButtons = page.locator('.entryLikes').all()
+
+      for (let button of likeButtons) {
+        button.click()
+      }
+      
+
+      const checkText = page.getByText("The Hobbit")
+      
+      await expect(checkText).toBeVisible()
+
+    })
+   })
+
 })
