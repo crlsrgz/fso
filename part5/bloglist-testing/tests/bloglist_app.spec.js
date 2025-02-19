@@ -1,5 +1,5 @@
 import { test, expect,describe, beforeEach } from '@playwright/test';
-import { loginWith } from './helper';
+import { createDummyEntry, loginWith } from './helper';
 
 describe("Blog app",() => {
   beforeEach(async ({page, request}) => {
@@ -11,6 +11,15 @@ describe("Blog app",() => {
         password: "hello"
       }
     })
+    
+    await request.post("api/users", {
+      data:{
+        name: "Legolas",
+        username: "legolas",
+        password: "ethelum"
+      }
+    })
+
     await page.goto("/")
 
   })
@@ -64,6 +73,7 @@ describe("Blog app",() => {
   describe( "when logged in", ()=> {
     beforeEach(async ({page}) => {
       await loginWith(page, "aragorn", "hello")
+      await createDummyEntry(page)
     })
 
     test("a new blog can be created", async({page}) => {
@@ -87,5 +97,37 @@ describe("Blog app",() => {
       await expect(locator).toBeVisible()
 
     })
+
+    test("like a blog", async({page}) => {
+      const viewEntryButton = page.getByRole("button", {name:"view"})
+      await viewEntryButton.click()
+
+      const likesSpan = page.getByTestId("entryLikes")
+
+      const likeButton = page.getByRole("button", {name: "like"})
+      await expect(likesSpan).toContainText("likes: 0")
+
+      await likeButton.click({clickCount:2})
+      const likesSpanAfter = page.getByTestId("entryLikes")
+      await expect(likesSpanAfter).toContainText("likes: 2")
+
+      
+
+    })
+    test("delete blog", async({page}) => {
+      const viewEntryButton = page.getByRole("button", {name:"view"})
+      await viewEntryButton.click()
+
+
+      const deleteButton = page.getByRole("button", {name: "- remove -"})
+
+      await deleteButton.click({clickCount:1})
+      const entryNotFound = page.getByTestId("The Hobbit")
+      await expect(entryNotFound).toHaveCount(0)
+
+      
+
+    })
+
   })
 })
