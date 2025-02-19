@@ -148,20 +148,43 @@ describe("Blog app", () => {
           blogAuthor: "Bilbo",
           blogUrl: "theshire.com",
         },
-        { blogTitle: "The Shire", blogAuthor: "Sam", blogUrl: "theshire.com" },
+      ]);
+
+      await page.reload();
+
+      await createDummyEntry(page, [
+        {
+          blogTitle: "Gondor",
+          blogAuthor: "Bilbo",
+          blogUrl: "gondor.com",
+        },
       ]);
     });
 
     test("check blogs order", async ({ page }) => {
-      let viewEntryButton = page.getByRole("button", { name: "view" }).first();
-      await viewEntryButton.click();
-      await page.reload();
+      // const viewButtons = page.getByRole("button", { name: "view" });
 
-      const likeButtons = page.locator(".entryLikes").all();
+      // await page.pause();
+      // for (const button of await viewButtons.all()) {
+      //   await button.click();
+      // }
 
-      for (let button of likeButtons) {
-        button.click();
+      // const buttons = page.getByRole("button", { name: "view" });
+      // await Promise.all((await buttons.all()).map((button) => button.click()));
+
+      const buttons = page.getByRole("button", { name: "view" });
+      await page.pause();
+      const count = await buttons.count();
+      await page.pause();
+      for (let i = 0; i < count; ++i) {
+        await page.pause();
+        await buttons.nth(i).click();
       }
+      // await viewButtons.first().click();
+      // await viewButtons.nth(1).click();
+
+      await page.pause();
+      // await page.reload();
 
       const checkText = page.getByText("The Hobbit");
 
