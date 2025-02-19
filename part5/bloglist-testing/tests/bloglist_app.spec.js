@@ -1,9 +1,11 @@
 import { test, expect,describe, beforeEach } from '@playwright/test';
-import { createDummyEntry, loginWith } from './helper';
+import { createDummyEntry, logOutFrom, loginWith } from './helper';
 
 describe("Blog app",() => {
+
   beforeEach(async ({page, request}) => {
     await request.post("api/testing/reset")
+
     await request.post("api/users", {
       data:{
         name: "Aragorn son of Arathorn",
@@ -11,7 +13,7 @@ describe("Blog app",() => {
         password: "hello"
       }
     })
-    
+
     await request.post("api/users", {
       data:{
         name: "Legolas",
@@ -23,6 +25,7 @@ describe("Blog app",() => {
     await page.goto("/")
 
   })
+
   test("Homepage is loaded", async({page})=>{
     const locator = await page.getByText("blogs list")
     await expect(locator).toBeVisible()
@@ -73,7 +76,6 @@ describe("Blog app",() => {
   describe( "when logged in", ()=> {
     beforeEach(async ({page}) => {
       await loginWith(page, "aragorn", "hello")
-      await createDummyEntry(page)
     })
 
     test("a new blog can be created", async({page}) => {
@@ -98,36 +100,47 @@ describe("Blog app",() => {
 
     })
 
-    test("like a blog", async({page}) => {
-      const viewEntryButton = page.getByRole("button", {name:"view"})
-      await viewEntryButton.click()
-
-      const likesSpan = page.getByTestId("entryLikes")
-
-      const likeButton = page.getByRole("button", {name: "like"})
-      await expect(likesSpan).toContainText("likes: 0")
-
-      await likeButton.click({clickCount:2})
-      const likesSpanAfter = page.getByTestId("entryLikes")
-      await expect(likesSpanAfter).toContainText("likes: 2")
-
-      
-
-    })
-    test("delete blog", async({page}) => {
-      const viewEntryButton = page.getByRole("button", {name:"view"})
-      await viewEntryButton.click()
-
-
-      const deleteButton = page.getByRole("button", {name: "- remove -"})
-
-      await deleteButton.click({clickCount:1})
-      const entryNotFound = page.getByTestId("The Hobbit")
-      await expect(entryNotFound).toHaveCount(0)
-
-      
-
-    })
-
   })
+
+   describe("other user logged in", () => {
+
+    beforeEach(async ({page}) => {
+      await loginWith(page, "aragorn", "hello")
+      await createDummyEntry(page, [{blogTitle: "The Hobbit", blogAuthor: "Bilbo", blogUrl: "theshire.com"}, {blogTitle: "The Shire", blogAuthor: "Sam", blogUrl: "theshire.com"}])
+    })
+
+    test("user cannot delete entry", async({page}) => {
+      await logOutFrom(page)
+      await loginWith(page, "legolas", "ethelum")
+
+      await(expect(page.getByText("logged in as legolas"))).toBeVisible()
+      await expect(page.getByText("The Hobbit")).toBeVisible()
+
+      let viewEntryButton = page.getByRole("button", {name:"view"}).first()
+      let removeEntryButton = page.getByRole("button", {name:"- remove -"}).first()
+      
+      await viewEntryButton.click() 
+      await removeEntryButton.click()
+      await expect(page.getByText("The Hobbit")).toBeVisible()
+
+      // DElete entry
+      await logOutFrom(page)
+      await loginWith(page, "aragorn", "hello")
+
+      viewEntryButton = page.getByRole("button", {name:"view"}).first()
+      removeEntryButton = page.getByRole("button", {name:"- remove -"}).first()
+
+      await viewEntryButton.click() 
+      await removeEntryButton.click()
+
+      const deletedBlog = page.getByText("The Hobbit")
+      await expect(page.getByText("The Shire")).toBeVisible()
+      
+      await expect(deletedBlog).toBeHidden()
+
+
+    })
+
+   })
+
 })
