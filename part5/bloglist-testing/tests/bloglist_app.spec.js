@@ -241,9 +241,9 @@ describe("Blog app", () => {
         );
         testArray.push(Number(entryLikesText.slice(7)));
         // await page.waitForTimeout(300);
-        // await expect(Number(entryLikesText.slice(7))).toBe(
-        //   arrayofLikesSorted[i]
-        // );
+        await expect(Number(entryLikesText.slice(7))).toEqual(
+          arrayofLikesSorted[i]
+        );
         // await page.waitForTimeout(300);
       }
       console.log(arrayofLikes);
@@ -252,6 +252,7 @@ describe("Blog app", () => {
 
       await page.pause();
 
+      await expect(testArray).toEqual(arrayofLikesSorted);
       const checkText = page.getByText("The Hobbit");
 
       await expect(checkText).toBeVisible();
