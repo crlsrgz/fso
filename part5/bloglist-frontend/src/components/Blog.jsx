@@ -46,7 +46,7 @@ const Blog = ({ blog, onDelete }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid='blogEntry'>
       <div>
         <span>{blog.title}</span>
       </div>

@@ -1,5 +1,11 @@
 import { test, expect, describe, beforeEach } from "@playwright/test";
-import { createDummyEntry, logOutFrom, loginWith } from "./helper";
+import {
+  createDummyEntry,
+  generateArrayofRandomNumbers,
+  generateRandomNumber,
+  logOutFrom,
+  loginWith,
+} from "./helper";
 
 describe("Blog app", () => {
   beforeEach(async ({ page, request }) => {
@@ -148,43 +154,103 @@ describe("Blog app", () => {
           blogAuthor: "Bilbo",
           blogUrl: "theshire.com",
         },
-      ]);
-
-      await page.reload();
-
-      await createDummyEntry(page, [
         {
           blogTitle: "Gondor",
           blogAuthor: "Bilbo",
           blogUrl: "gondor.com",
         },
+        {
+          blogTitle: "Rohan",
+          blogAuthor: "Theoden",
+          blogUrl: "horses.com",
+        },
+        {
+          blogTitle: "Mordor",
+          blogAuthor: "Sauron",
+          blogUrl: "vulcan.com",
+        },
       ]);
     });
 
     test("check blogs order", async ({ page }) => {
-      // const viewButtons = page.getByRole("button", { name: "view" });
+      // Close Add Blog button
+      const closeAddBlogButton = page
+        .getByRole("button", { name: "Cancel" })
+        .first();
+      await closeAddBlogButton.click();
 
-      // await page.pause();
-      // for (const button of await viewButtons.all()) {
-      //   await button.click();
-      // }
+      // Select the containers  of blog elementes
+      let containers = page.getByTestId("blogEntry");
+      const count = await containers.count();
+      // generate Arrays with likes
+      const arrayofLikes = generateArrayofRandomNumbers(count, 9, 2);
+      await page.waitForTimeout(300);
+      const arrayofLikesSorted = arrayofLikes.sort().reverse();
 
-      // const buttons = page.getByRole("button", { name: "view" });
-      // await Promise.all((await buttons.all()).map((button) => button.click()));
-
-      const buttons = page.getByRole("button", { name: "view" });
+      await page.waitForTimeout(300);
       await page.pause();
-      const count = await buttons.count();
-      await page.pause();
-      for (let i = 0; i < count; ++i) {
-        await page.pause();
-        await buttons.nth(i).click();
+      /**
+       * Iterate to like entries
+       */
+      for (let i = 0; i < count; i++) {
+        const viewButton = containers
+          .nth(i)
+          .getByRole("button", { name: "view" });
+        await viewButton.click();
+
+        const likeButton = containers
+          .nth(i)
+          .getByRole("button", { name: "like" });
+
+        await page.waitForTimeout(300);
+        await likeButton.click({ clickCount: arrayofLikes[i] });
+
+        await page.waitForTimeout(300);
       }
-      // await viewButtons.first().click();
-      // await viewButtons.nth(1).click();
+
+      await page.reload();
+      await page.pause();
+
+      // Select container after liked
+      let containersAfter = page.getByTestId("blogEntry");
+      console.log(arrayofLikes);
+      console.log(arrayofLikesSorted);
 
       await page.pause();
-      // await page.reload();
+      /**
+       * Iterate check the element likes and compare with ordered likes
+       */
+      let testArray = [];
+      for (let i = 0; i < count; i++) {
+        const viewButton = await containers
+          .nth(i)
+          .getByRole("button", { name: "view" });
+
+        await viewButton.click();
+
+        await page.waitForTimeout(300);
+        const entryLikes = await containersAfter
+          .nth(i)
+          .getByTestId("entryLikes");
+        const entryLikesText = await entryLikes.textContent();
+
+        console.log(
+          entryLikesText.slice(7),
+          arrayofLikesSorted[i],
+          Number(entryLikesText.slice(7)) === Number(arrayofLikesSorted[i])
+        );
+        testArray.push(Number(entryLikesText.slice(7)));
+        // await page.waitForTimeout(300);
+        // await expect(Number(entryLikesText.slice(7))).toBe(
+        //   arrayofLikesSorted[i]
+        // );
+        // await page.waitForTimeout(300);
+      }
+      console.log(arrayofLikes);
+      console.log(arrayofLikesSorted);
+      console.log(testArray);
+
+      await page.pause();
 
       const checkText = page.getByText("The Hobbit");
 
