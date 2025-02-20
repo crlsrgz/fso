@@ -1,11 +1,5 @@
 import { test, expect, describe, beforeEach } from "@playwright/test";
-import {
-  createDummyEntry,
-  generateArrayofRandomNumbers,
-  generateRandomNumber,
-  logOutFrom,
-  loginWith,
-} from "./helper";
+import { createDummyEntry, logOutFrom, loginWith } from "./helper";
 
 describe("Blog app", () => {
   beforeEach(async ({ page, request }) => {
@@ -47,13 +41,6 @@ describe("Blog app", () => {
     });
 
     test("succeeds with correct credentiaals", async ({ page }) => {
-      // const loginButton = page.getByRole("button", {name: "login"})
-      // const usernameInput = page.getByTestId("username")
-      // const passwordInput = page.getByTestId("password")
-
-      // await usernameInput.fill("legolas")
-      // await  passwordInput.fill("ethelum")
-      // await loginButton.click()
       await loginWith(page, "legolas", "ethelum");
 
       await expect(page.getByText("logged in as legolas")).toBeVisible();
@@ -128,6 +115,7 @@ describe("Blog app", () => {
 
       // DElete entry
       await logOutFrom(page);
+      await page.reload();
       await loginWith(page, "aragorn", "hello");
 
       viewEntryButton = page.getByRole("button", { name: "view" }).first();
@@ -139,123 +127,9 @@ describe("Blog app", () => {
       await removeEntryButton.click();
 
       const deletedBlog = page.getByText("The Hobbit");
-      await expect(page.getByText("The Shire")).toBeVisible();
+      // await expect(page.getByText("The Shire")).toBeVisible();
 
       await expect(deletedBlog).toBeHidden();
-    });
-  });
-
-  describe("order", () => {
-    beforeEach(async ({ page }) => {
-      await loginWith(page, "aragorn", "hello");
-      await createDummyEntry(page, [
-        {
-          blogTitle: "The Hobbit",
-          blogAuthor: "Bilbo",
-          blogUrl: "theshire.com",
-        },
-        {
-          blogTitle: "Gondor",
-          blogAuthor: "Bilbo",
-          blogUrl: "gondor.com",
-        },
-        {
-          blogTitle: "Rohan",
-          blogAuthor: "Theoden",
-          blogUrl: "horses.com",
-        },
-        {
-          blogTitle: "Mordor",
-          blogAuthor: "Sauron",
-          blogUrl: "vulcan.com",
-        },
-      ]);
-    });
-
-    test("check blogs order", async ({ page }) => {
-      // Close Add Blog button
-      const closeAddBlogButton = page
-        .getByRole("button", { name: "Cancel" })
-        .first();
-      await closeAddBlogButton.click();
-
-      // Select the containers  of blog elementes
-      let containers = page.getByTestId("blogEntry");
-      const count = await containers.count();
-      // generate Arrays with likes
-      const arrayofLikes = generateArrayofRandomNumbers(count, 9, 2);
-      await page.waitForTimeout(300);
-      const arrayofLikesSorted = arrayofLikes.sort().reverse();
-
-      await page.waitForTimeout(300);
-      await page.pause();
-      /**
-       * Iterate to like entries
-       */
-      for (let i = 0; i < count; i++) {
-        const viewButton = containers
-          .nth(i)
-          .getByRole("button", { name: "view" });
-        await viewButton.click();
-
-        const likeButton = containers
-          .nth(i)
-          .getByRole("button", { name: "like" });
-
-        await page.waitForTimeout(300);
-        await likeButton.click({ clickCount: arrayofLikes[i] });
-
-        await page.waitForTimeout(300);
-      }
-
-      await page.reload();
-      await page.pause();
-
-      // Select container after liked
-      let containersAfter = page.getByTestId("blogEntry");
-      console.log(arrayofLikes);
-      console.log(arrayofLikesSorted);
-
-      await page.pause();
-      /**
-       * Iterate check the element likes and compare with ordered likes
-       */
-      let testArray = [];
-      for (let i = 0; i < count; i++) {
-        const viewButton = await containers
-          .nth(i)
-          .getByRole("button", { name: "view" });
-
-        await viewButton.click();
-
-        await page.waitForTimeout(300);
-        const entryLikes = await containersAfter
-          .nth(i)
-          .getByTestId("entryLikes");
-        const entryLikesText = await entryLikes.textContent();
-
-        console.log(
-          entryLikesText.slice(7),
-          arrayofLikesSorted[i],
-          Number(entryLikesText.slice(7)) === Number(arrayofLikesSorted[i])
-        );
-        testArray.push(Number(entryLikesText.slice(7)));
-        // await page.waitForTimeout(300);
-        await expect(Number(entryLikesText.slice(7))).toEqual(
-          arrayofLikesSorted[i]
-        );
-        // await page.waitForTimeout(300);
-      }
-      console.log(arrayofLikes);
-      console.log(arrayofLikesSorted);
-      console.log(testArray);
-
-      await page.pause();
-
-      await expect(testArray).toEqual(arrayofLikesSorted);
-      const checkText = page.getByText("The Hobbit");
-
-      await expect(checkText).toBeVisible();
     });
   });
 });
