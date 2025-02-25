@@ -18,37 +18,37 @@ const counterReducer = (state = 0, action) => {
 
 const store = createStore(counterReducer);
 
-console.log(store.getState());
-store.dispatch({ type: "INCREMENT" });
-store.dispatch({ type: "INCREMENT" });
-store.dispatch({ type: "INCREMENT" });
-console.log(store.getState());
-store.dispatch({ type: "ZERO" });
-store.dispatch({ type: "DECREMENT" });
-console.log(store.getState());
+store.subscribe(() => {
+  const storeNow = store.getState();
+  console.log("store now", storeNow);
+});
+
+// store.dispatch({ type: "INCREMENT" });
+// store.dispatch({ type: "INCREMENT" });
+// store.dispatch({ type: "INCREMENT" });
+// store.dispatch({ type: "ZERO" });
+// store.dispatch({ type: "DECREMENT" });
+
+// console.log(store.getState());
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>{count}</div>
+      <div>Cont: {store.getState()}</div>
 
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>plus</button>
-        <button
-          onClick={() => {
-            if (count > 0) {
-              setCount(count - 1);
-            }
-          }}
-        >
+        <button onClick={(e) => store.dispatch({ type: "INCREMENT" })}>
+          plus
+        </button>
+        <button onClick={(e) => store.dispatch({ type: "DECREMENT" })}>
           minus
         </button>
-        <button onClick={() => setCount(0)}>zero</button>
+        <button onClick={(e) => store.dispatch({ type: "ZERO" })}>zero</button>
       </div>
     </>
   );
 }
+
+// store.subscribe();
 
 export default App;
