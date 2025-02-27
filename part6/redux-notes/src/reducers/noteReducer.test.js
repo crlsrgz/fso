@@ -12,7 +12,7 @@ describe("noteReducer", () => {
         id: 1,
       },
     };
-
+    // Define the reducer as immutable function.
     deepFreeze(state);
     const newState = noteReducer(state, action);
 
