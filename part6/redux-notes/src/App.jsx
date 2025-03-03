@@ -6,6 +6,7 @@ const generateId = () => {
 };
 
 const App = () => {
+  // useDispatch hook probivides acces to the compone dispatch function
   const dispatch = useDispatch();
   const notes = useSelector((state) => state);
 
