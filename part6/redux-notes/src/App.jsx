@@ -6,7 +6,8 @@ const generateId = () => {
 };
 
 const App = () => {
-  // useDispatch hook probivides acces to the compone dispatch function
+  // useDispatch hook probivides acces to the compone dispatch function,
+  // alling the components to make changes to the redux store
   const dispatch = useDispatch();
   const notes = useSelector((state) => state);
 
