@@ -1,40 +1,15 @@
-import { createNote, toggleImportanceOf } from "./reducers/noteReducer";
-import { useSelector, useDispatch } from "react-redux";
+import NewNote from "./components/NewNote.component";
+import Notes from "./components/Note.component";
 
 const generateId = () => {
   Number((Math.random() * 100000).toFixed(0));
 };
 
 const App = () => {
-  // useDispatch hook probivides acces to the compone dispatch function,
-  // alling the components to make changes to the redux store
-  const dispatch = useDispatch();
-  const notes = useSelector((state) => state);
-
-  const addNote = (event) => {
-    event.preventDefault();
-    const content = event.target.note.value;
-    event.target.note.value = "";
-    dispatch(createNote(content));
-  };
-
-  const toggleImportance = (id) => {
-    dispatch(toggleImportanceOf(id));
-  };
-
   return (
     <div>
-      <form onSubmit={addNote}>
-        <input name="note" />
-        <button type="submit">add</button>
-      </form>
-      <ul>
-        {notes.map((note) => (
-          <li key={note.id} onClick={() => toggleImportance(note.id)}>
-            {note.content} <strong>{note.important ? "important" : ""}</strong>
-          </li>
-        ))}
-      </ul>
+      <NewNote />
+      <Notes />
     </div>
   );
 };

@@ -1,12 +1,10 @@
 const noteReducer = (state = [], action) => {
   switch (action.type) {
     case "NEW_NOTE":
-      return [...state, action.payload];
+      return [...state, action.data];
     case "TOGGLE_IMPORTANCE":
-      const id = action.payload.id;
-      console.log(action.payload.id);
+      const id = action.data.id;
       const noteToChange = state.find((n) => n.id === id);
-      console.log(noteToChange);
       const changedNote = {
         ...noteToChange,
         important: !noteToChange.important,
@@ -22,7 +20,7 @@ const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 export const createNote = (content) => {
   return {
     type: "NEW_NOTE",
-    payload: {
+    data: {
       content,
       important: false,
       id: generateId(),
@@ -33,7 +31,7 @@ export const createNote = (content) => {
 export const toggleImportanceOf = (id) => {
   return {
     type: "TOGGLE_IMPORTANCE",
-    payload: { id },
+    data: { id },
   };
 };
 
