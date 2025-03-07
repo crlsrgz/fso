@@ -8,6 +8,11 @@ const App = () => {
     console.log("vote", id);
   };
 
+  const addNew = (event) => {
+    event.preventDefault();
+    console.log("form");
+  };
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -21,7 +26,7 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={addNew}>
         <div>
           <input />
         </div>

@@ -22,8 +22,19 @@ const initialState = anecdotesAtStart.map(asObject);
 const reducer = (state = initialState, action) => {
   console.log("state now: ", state);
   console.log("action", action);
+  switch (action.type) {
+    case "NEW":
+      return [...state, action.data];
+    default:
+      return state;
+  }
+};
 
-  return state;
+export const createNote = (content) => {
+  return {
+    type: "NEW",
+    data: { content, id: getId(), votes: 0 },
+  };
 };
 
 export default reducer;
