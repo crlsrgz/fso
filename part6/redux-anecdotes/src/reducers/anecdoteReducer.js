@@ -17,24 +17,51 @@ const asObject = (anecdote) => {
   };
 };
 
-const initialState = anecdotesAtStart.map(asObject);
+const initialState = anecdotesAtStart.map((anecdote) => asObject(anecdote));
 
 const reducer = (state = initialState, action) => {
   console.log("state now: ", state);
   console.log("action", action);
+  const testArr = state.sort((a, b) => b.votes - a.votes);
+  console.log("test array", testArr);
   switch (action.type) {
     case "NEW":
       return [...state, action.data];
-    default:
+    case "VOTE": {
+      const id = action.data.id;
+      const anecdoteUpvote = state.find((a) => a.id === id);
+      const changedAnecdote = {
+        ...anecdoteUpvote,
+        votes: anecdoteUpvote.votes + 1,
+      };
+
+      return state.map((anecdote) =>
+        anecdote.id !== id ? anecdote : changedAnecdote
+      );
+    }
+    default: {
+      const checkState = [...state];
+      checkState.sort((a, b) => a.votes - b.votes);
+      console.log(checkState);
       return state;
+      // return checkState;
+    }
   }
 };
 
-export const createNote = (content) => {
+export const createAnecdote = (content) => {
   return {
     type: "NEW",
     data: { content, id: getId(), votes: 0 },
   };
 };
 
+export const voteAnecdote = (id) => {
+  return {
+    type: "VOTE",
+    data: {
+      id: id,
+    },
+  };
+};
 export default reducer;
