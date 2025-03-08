@@ -20,45 +20,43 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map((anecdote) => asObject(anecdote));
 
 const reducer = (state = initialState, action) => {
-  console.log("state now: ", state);
-  console.log("action", action);
-  const testArr = state.sort((a, b) => b.votes - a.votes);
-  console.log("test array", testArr);
+  // console.log("state now: ", state);
+  // console.log("action", action);
+
   switch (action.type) {
-    case "NEW":
+    case "NEW_ANECDOTE":
       return [...state, action.data];
-    case "VOTE": {
+    case "VOTE_ANECDOTE": {
       const id = action.data.id;
       const anecdoteUpvote = state.find((a) => a.id === id);
       const changedAnecdote = {
         ...anecdoteUpvote,
         votes: anecdoteUpvote.votes + 1,
       };
-
-      return state.map((anecdote) =>
+      const remapState = state.map((anecdote) =>
         anecdote.id !== id ? anecdote : changedAnecdote
       );
+      return remapState.sort((a, b) => b.votes - a.votes);
     }
     default: {
       const checkState = [...state];
       checkState.sort((a, b) => a.votes - b.votes);
-      console.log(checkState);
-      return state;
-      // return checkState;
+      // console.log(checkState);
+      return checkState;
     }
   }
 };
 
 export const createAnecdote = (content) => {
   return {
-    type: "NEW",
+    type: "NEW_ANECDOTE",
     data: { content, id: getId(), votes: 0 },
   };
 };
 
 export const voteAnecdote = (id) => {
   return {
-    type: "VOTE",
+    type: "VOTE_ANECDOTE",
     data: {
       id: id,
     },
